@@ -1,0 +1,43 @@
+<resources>
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
+    </style>
+
+
+    <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/anim_slide_up</item>
+        <item name="android:activityOpenExitAnimation">@anim/anim_slide_down</item>
+    </style>
+
+    <style name="POMO_TextView_Friend_List" parent="@android:style/Widget.TextView">
+        <item name="android:background">@null</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:text">0</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="POMO_TextView_Friend_Result" parent="@android:style/Widget.TextView">
+        <item name="android:background">@null</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="POMO_TextView_Friend_Confirm" parent="@android:style/Widget.TextView">
+        <item name="android:background">@null</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:lines">1</item>
+        <item name="android:text">0</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

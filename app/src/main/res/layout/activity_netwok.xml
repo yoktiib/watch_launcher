@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/waffle_background_color"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/boxHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_content"
+            app:srcCompat="@drawable/network_icon" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_network"
+                android:textColor="@color/waffle_blue_03_color"
+                android:textSize="@dimen/text_size_small_large"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvStatusNetwork"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_network"
+                android:textColor="@color/waffle_grey_03_color"
+                android:textSize="@dimen/text_size_small_s" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/boxNetworkData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/margin_content"
+        android:layout_marginStart="@dimen/margin_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvHeaderNetworkData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Header_data_network"
+                android:textColor="@color/waffle_grey_11_color"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvHDescNetworkData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/desc_enable_data_access_over_mobile_network"
+                android:textColor="@color/waffle_grey_04_color"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivOnOffDataNetwork"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/margin_content_s"
+            app:srcCompat="@drawable/network_off" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/boxDataRoaming"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/margin_content"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/ivOnOffDataRoaming"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvHeaderDataRoaming"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_data_roaming"
+                android:textColor="@color/waffle_grey_11_color"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvHDescDataRoaming"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/desc_connect_to_data_services_when_roaming"
+                android:textColor="@color/waffle_grey_04_color"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivOnOffDataRoaming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/margin_content_s"
+            app:srcCompat="@drawable/network_on" />
+    </RelativeLayout>
+</LinearLayout>

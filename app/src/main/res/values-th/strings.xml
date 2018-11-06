@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <string name="app_name">Pomo Launcher</string>
+    <string name="font_style">fonts/superspace_bold.otf</string>
+    <string name="pair_text">เชื่อมต่อแล้ว</string>
+    <string name="un_pair_text">ยกเลิกการเชื่อมต่อแล้ว</string>
+    <string name="pause">หยุด</string>
+    <string name="resume">ประวัติ</string>
+    <string name="reset">รีเซ็ต</string>
+    <string name="today">วันนี้</string>
+    <string name="text_brightness">ความสว่าง</string>
+    <string name="text_volume">ระดับเสียง</string>
+    <string name="text_setting">การตั้งค่า</string>
+    <string name="text_volume_high">ระดับสูง</string>
+    <string name="text_volume_low">ระดับต่ำ</string>
+    <string name="text_pomo_waffle">POMO WAFFLE</string>
+    <string name="text_volume_medium">ระดับกลาง</string>
+    <string name="text_volume_mute">ปิดเสียง</string>
+    <string name="text_volume_silent">เงียบ</string>
+    <string name="text_value_go_to_settings">ไปยังตั้งค่า</string>
+    <string name="anti_mosquito">ป้องกันยุง</string>
+    <string name="settings">การตั้งค่า</string>
+    <string name="text_pairing_code">รหัสเชื่อมต่อ</string>
+    <string name="text_title_reset_factory">สนใจ!</string>
+
+    <string name="text_are_you_sure">คุณแน่ใจแล้วหรือ?</string>
+    <string name="text_desc_confirm_reset_factory">All of data will restore\n the factory settings.</string>
+    <string name="text_warning">ระวัง!</string>
+
+    <string name="text_steps">นับก้าว</string>
+    <string name="title_network">เครือข่าย</string>
+    <string name="text_data_roaming">ข้อมูลอินเตอร์เนต</string>
+    <string name="desc_connect_to_data_services_when_roaming">Connect to data\n services when roaming</string>
+    <string name="Header_data_network">เครือข่ายข้อมูล</string>
+    <string name="desc_enable_data_access_over_mobile_network">Enable data access \n over Mobile network</string>
+    <string name="desc_tap_scan_qr_code_for_paring">Tap \n “สแกน QR code” \n เพื่อจับคู่</string>
+    <string name="desc_install_waffle_application">ติดตั้ง Waffle \n Application</string>
+    <string name="desc_insert_sim_card">ใส่ \n ซิมการ์ด</string>
+    <string name="desc_back_to_main_screen">กลับสู่\n เมนูหลัก</string>
+
+    <string name="watch_text">นาฬิกา : </string>
+    <string name="firmware_text">เฟิร์มแวร์ : </string>
+    <string name="imei_text">IMEI : </string>
+    <string name="network_on">เปิด</string>
+    <string name="network_off">ปิด</string>
+    <string name="network_no_sim">ไม่มีซิมการ์ด</string>
+    <string name="battery_format">%d%%</string>
+
+    <string name="text_title_power_off">คุณต้องการปิดเครื่อง \n ใช่หรือไม่</string>
+    <string name="text_title_restart">คุณต้องการรีสตาร์ท \n ใช่หรือไม่</string>
+    <string name="text_desc_reset_factory">Resetting your phone will \n erase all your personal \n content, and will restore \n the factory settings. \n Do you want to continue?</string>
+
+    <string name="text_pin">- - - -</string>
+    <string name="no_contact">ไม่มีรายชื่อ</string>
+    <string name="text_setup_success">ตั้งค่า สำเร็จ</string>
+
+    <string name="action_reset">รีเซ็ต</string>
+    <string name="action_get_code">ขอรหัส</string>
+    <string name="action_cancel">ยกเลิก</string>
+    <string name="action_close">ปิด</string>
+    <string name="action_ok">ตกลง</string>
+
+    <string name="text_am">AM</string>
+    <string name="text_pm">PM</string>
+</resources>

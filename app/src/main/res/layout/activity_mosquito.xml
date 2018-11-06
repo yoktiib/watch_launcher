@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/waffle_background_color"
+    android:padding="@dimen/margin_content"
+    tools:context=".activity.mosquito.MosquitoActivity">
+
+    <TextView
+        android:id="@+id/mosquito"
+        style="@style/POMO_TextView_Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/anti_mosquito"
+        android:textColor="@color/waffle_grey_08_color" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mosquito">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivOnOffMosquito"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:srcCompat="@drawable/mosquito_off" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dayOfWeekNameArr">
+        <item>อา.</item>
+        <item>จ.</item>
+        <item>อ.</item>
+        <item>พ.</item>
+        <item>พฤ.</item>
+        <item>ศ.</item>
+        <item>ส.</item>
+    </string-array>
+    <string-array name="monthOfYearNameArr">
+        <item>ม.ค.</item>
+        <item>ก.พ.</item>
+        <item>มี.ค.</item>
+        <item>เม.ย.</item>
+        <item>พ.ค.</item>
+        <item>มิ.ย.</item>
+        <item>ก.ค.</item>
+        <item>ส.ค.</item>
+        <item>ก.ย.</item>
+        <item>ต.ค.</item>
+        <item>พ.ย.</item>
+        <item>ธ.ค.</item>
+    </string-array>
+    <string-array name="scheduleNameArr">
+        <item>ตื่นนอน</item>
+        <item>แปรงฟัน</item>
+        <item>อาบน้ำ</item>
+        <item>อาหาร</item>
+        <item>โรงเรียน</item>
+        <item>เวลาว่าง</item>
+        <item>งานบ้าน</item>
+        <item>การบ้าน</item>
+        <item>เข้านอน</item>
+        <item>นอนหลับ</item>
+    </string-array>
+    <string-array name="mainMenuNameArr">
+        <!--<item>เพิ่มเพื่อน</item>-->
+        <item>ข้อความ</item>
+        <item>กลุ่มสนทนา</item>
+        <item>แปลภาษา</item>
+        <item>พากลับบ้าน</item>
+        <item>WHERE AM I</item>
+        <!--<item>MUSIC</item>-->
+        <item>ฟิตเนส</item>
+        <!--<item>กันยุง</item>-->
+        <item>การตั้งค่า</item>
+        <!--<item>เริ่มต้น</item>-->
+    </string-array>
+    <string-array name="settingMenuNameArr">
+        <item>เชื่อมต่อนาฬิกา</item>
+        <item>ความสว่าง</item>
+        <item>ระดับเสียง</item>
+        <item>นาฬิกาของฉัน</item>
+       <!-- <item>บลูธูท</item>
+        <item>ข้อมูลเครือข่าย</item>-->
+        <item>Wifi</item>
+        <item>รีสตาร์ทเครื่อง</item>
+        <item>ปิดเครื่อง</item>
+        <!-- <item>รีเซ็ตเครื่องใหม่</item>-->
+        <item>Firmware</item>
+    </string-array>
+</resources>

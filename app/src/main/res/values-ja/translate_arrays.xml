@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="dayOfWeekNameArr">
+        <item>にち</item>
+        <item>げつ</item>
+        <item>か</item>
+        <item>すい</item>
+        <item>もく</item>
+        <item>きん</item>
+        <item>ど</item>
+    </string-array>
+
+    <string-array name="monthOfYearNameArr">
+        <item>１がつ</item>
+        <item>２がつ</item>
+        <item>３がつ</item>
+        <item>４がつ</item>
+        <item>５がつ</item>
+        <item>６がつ</item>
+        <item>７がつ</item>
+        <item>８がつ</item>
+        <item>９がつ</item>
+        <item>１０がつ</item>
+        <item>１１がつ</item>
+        <item>１２がつ</item>
+    </string-array>
+
+    <string-array name="scheduleNameArr">
+        <item>おきる</item>
+        <item>はみがき</item>
+        <item>おふろ</item>
+        <item>しょくじ</item>
+        <item>がっこう</item>
+        <item>やすみじかん</item>
+        <item>かじ</item>
+        <item>しゅくだい</item>
+        <item>ねるじゅんび</item>
+        <item>すいみん</item>
+    </string-array>
+
+    <string-array name="mainMenuNameArr">
+        <!--<item>しんゆう</item>-->
+        <item>メッセージ</item>
+        <item>グループチャット</item>
+        <item>TRANSLATE</item>
+        <item>おうちへかえろう</item>
+        <item>WHERE AM I</item>
+        <!--<item>MUSIC</item>-->
+        <item>うんどう</item>
+        <!--<item>MOSQUITO（か）</item>-->
+        <item>せってい</item>
+        <!--<item>はじめよう</item>-->
+    </string-array>
+
+    <string-array name="settingMenuNameArr">
+        <item>ペアウォッチ</item>
+        <item>あかるさ</item>
+        <item>おんりょう</item>
+        <item>My ウォッチ</item>
+       <!-- <item>Bluetooth</item>
+        <item>ネットワークデータ</item>-->
+        <item>Wifi</item>
+        <item>さいすたーと</item>
+        <item>でんげんをきる</item>
+        <!-- <item>ぜんリセット</item>-->
+        <item>Firmware</item>
+    </string-array>
+
+</resources>

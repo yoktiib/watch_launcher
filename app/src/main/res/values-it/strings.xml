@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+
+    <string name="font_style">fonts/quicksand_bold.otf</string>
+    <string name="app_name">Pomo Launcher</string>
+    <string name="pair_text">è accoppiato</string>
+    <string name="un_pair_text">è disaccoppiato</string>
+    <string name="pause">Pausa</string>
+    <string name="resume">Riprendi</string>
+    <string name="reset">Reset</string>
+    <string name="today">Oggi</string>
+    <string name="text_brightness">LUMINOSITA’</string>
+    <string name="text_volume">VOLUME</string>
+    <string name="text_setting">IMPOSTAZIONI</string>
+    <string name="text_volume_high">Alto</string>
+    <string name="text_volume_low">Basso</string>
+    <string name="text_pomo_waffle">POMO WAFFLE</string>
+    <string name="text_volume_medium">Medio</string>
+    <string name="text_volume_mute">Muto</string>
+    <string name="text_volume_silent">Silenzioso</string>
+    <string name="text_value_go_to_settings">Vai alle impostazioni</string>
+    <string name="anti_mosquito">Anti-zanzare</string>
+    <string name="settings">Impostazioni</string>
+    <string name="text_pairing_code">Codice</string>
+    <string name="text_title_reset_factory">Attenzione!</string>
+    <string name="text_desc_reset_factory">Il reset cancellerà tutti i tuoi dati, e ripristinerà le impostazioni di fabbrica. Continuare?</string>
+    <string name="text_are_you_sure">Sei sicuro?</string>
+    <string name="text_desc_confirm_reset_factory">Tutti i dati saranno eliminati</string>
+    <string name="text_warning">ATTENZIONE!</string>
+    <string name="text_steps">PASSI</string>
+    <string name="title_network">Rete</string>
+    <string name="text_data_roaming">Roaming Dati</string>
+    <string name="desc_connect_to_data_services_when_roaming">Usa VOIP \n quando in roaming</string>
+    <string name="Header_data_network">Rete Dati</string>
+    <string name="desc_enable_data_access_over_mobile_network">Consenti accesso dati</string>
+    <string name="desc_tap_scan_qr_code_for_paring">Tocca \n Scansione codice QR \n per Accoppiare</string>
+    <string name="desc_install_waffle_application">Installa \n Applicazione</string>
+    <string name="desc_insert_sim_card">Inserire \n SIM Card</string>
+    <string name="desc_back_to_main_screen">Indietro \n Schermata principale</string>
+
+    <string name="watch_text">Versione : </string>
+    <string name="firmware_text">Firmware : </string>
+    <string name="imei_text">IMEI : </string>
+    <string name="network_on">On</string>
+    <string name="network_off">Off</string>
+    <string name="network_no_sim">Nessuna carta SIM</string>
+
+    <string name="battery_format">%d%%</string>
+    <string name="text_title_power_off">Spegnere?</string>
+    <string name="text_title_restart">Riavviare?</string>
+
+
+    <string name="text_pin">- - - -</string>
+    <string name="no_contact">Nessun contatto</string>
+    <string name="text_setup_success">Configurazione di successo</string>
+
+    <string name="action_cancel">NO</string>
+    <string name="action_close">Chiudi</string>
+    <string name="action_ok">SI</string>
+    <string name="action_get_code">Ottieni</string>
+    <string name="action_reset">Reset</string>
+
+    <string name="text_am">AM</string>
+    <string name="text_pm">PM</string>
+</resources>

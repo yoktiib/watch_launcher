@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.android.support.test:testing-support-lib-0.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/testing-support-lib-0.1.aar/b748a238e3f01876254308b7f4c83f5e/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/testing-support-lib-0.1.aar/b748a238e3f01876254308b7f4c83f5e/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/test/testing-support-lib/0.1/testing-support-lib-0.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/test/testing-support-lib/0.1/testing-support-lib-0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

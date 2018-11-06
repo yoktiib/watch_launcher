@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Common -->
+    <string name="app_name">Pomo Launcher</string>
+    <string name="font_style">fonts/quicksand_bold.otf</string>
+
+    <string name="pair_text">подкл. в паре!</string>
+    <string name="un_pair_text">не подкл. в паре!</string>
+    <string name="pause">Пауза</string>
+    <string name="resume">Продолжить</string>
+    <string name="reset">Сброс</string>
+    <string name="today">Сегодня</string>
+    <string name="text_brightness">ЯРКОСТЬ</string>
+    <string name="text_volume">ГРОМКОСТЬ</string>
+    <string name="text_setting">УСТАНОВКИ</string>
+    <string name="text_volume_high">Максимум</string>
+    <string name="text_volume_low">Минимум</string>
+    <string name="text_pomo_waffle">POMO WAFFLE</string>
+    <string name="text_volume_medium">Средний</string>
+    <string name="text_volume_mute">Отк. Звук</string>
+    <string name="text_volume_silent">Тихий</string>
+    <string name="text_value_go_to_settings">Параметры Настройки</string>
+    <string name="battery_format">%d%%</string>
+
+    <string name="anti_mosquito">Анти-Комары</string>
+    <string name="settings">Установки</string>
+    <string name="text_pairing_code">Код Пары</string>
+    <string name="text_title_reset_factory">Внимание!</string>
+    <string name="text_desc_reset_factory">Сброс всех настроек телефона \n все Ваши личные \n настройки будут сброшены и \n востановлены заводские настройки. \n Вы хотите продолжить?</string>
+    <string name="text_are_you_sure">Вы уверены?</string>
+    <string name="text_desc_confirm_reset_factory">Все данные восстановят xxx заводские настройки</string>
+    <string name="text_warning">ПРЕДУПРЕЖДЕНИЕ!</string>
+    <string name="action_get_code">Получите Код</string>
+
+    <string name="action_reset">Сброс</string>
+    <string name="text_steps">ШАГИ</string>
+    <string name="title_network">Сеть</string>
+    <string name="text_data_roaming">Роуминг данных</string>
+    <string name="desc_connect_to_data_services_when_roaming">Подключение \n в роуминге</string>
+    <string name="Header_data_network"> сеть передачи данных</string>
+    <string name="desc_enable_data_access_over_mobile_network">Доступ к данным \n по Мобильной Сети включен</string>
+    <string name="desc_tap_scan_qr_code_for_paring">Поднесите \n для сканирования QR-кода \n чтобы создать паруng</string>
+    <string name="desc_install_waffle_application">Установка Waffle \n Приложение</string>
+    <string name="desc_insert_sim_card">Вставте \n СИМ карту</string>
+    <string name="desc_back_to_main_screen">Назад к \n Главное меню</string>
+
+    <string name="watch_text">Часы : </string>
+    <string name="firmware_text">Прошивка </string>
+    <string name="imei_text">IMEI : </string>
+
+    <string name="network_on">Вкл.</string>
+    <string name="network_off">Выкл.</string>
+    <string name="network_no_sim">Нет CИМ карты</string>
+
+    <string name="text_title_power_off">Вы хотите \n неисправность</string>
+    <string name="text_title_restart">Вы хотите \n перезапуск</string>
+
+    <string name="text_pin">- - - -</string>
+    <string name="action_cancel">CANCELA</string>
+    <string name="action_close">CLOSE</string>
+    <string name="action_ok">OK</string>
+    <string name="no_contact">No Contact</string>
+    <string name="text_setup_success">Setup Success</string>
+
+    <string name="text_am">AM</string>
+    <string name="text_pm">PM</string>
+</resources>

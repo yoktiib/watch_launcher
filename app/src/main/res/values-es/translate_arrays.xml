@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Spanish-->
+    <string-array name="dayOfWeekNameArr">
+        <item>DOM</item>
+        <item>LUN</item>
+        <item>MAR</item>
+        <item>MIÉ</item>
+        <item>JUE</item>
+        <item>VIE</item>
+        <item>SÁB</item>
+    </string-array>
+
+    <string-array name="monthOfYearNameArr">
+        <item>ENE</item>
+        <item>FEB</item>
+        <item>MAR</item>
+        <item>ABR</item>
+        <item>MAY</item>
+        <item>JUN</item>
+        <item>JUL</item>
+        <item>AGO</item>
+        <item>SEP</item>
+        <item>OCT</item>
+        <item>NOV</item>
+        <item>DIC</item>
+    </string-array>
+
+    <string-array name="scheduleNameArr">
+        <item>Wake up</item>
+        <item>Brush teeth</item>
+        <item>Shower</item>
+        <item>Meal</item>
+        <item>School</item>
+        <item>Free Time</item>
+        <item>Chores</item>
+        <item>Home Work</item>
+        <item>Ready for bed</item>
+        <item>Sleep</item>
+    </string-array>
+
+    <string-array name="mainMenuNameArr">
+        <!--<item>AMIGOS</item>-->
+        <item>MENSAJE</item>
+        <item>GRUPO CHAT</item>
+        <item>TRADUCTOR</item>
+        <item>LLEVAME A CASA</item>
+        <item>DÓNDE ESTOY</item>
+        <item>PODÓMETRO</item>
+        <!--<item>MOSQUITOS</item>-->
+        <item>AJUSTES</item>
+    </string-array>
+
+    <string-array name="settingMenuNameArr">
+        <item>ENLAZAR RELOJ</item>
+
+        <item>BRILLO</item>
+        <item>VOLUMEN</item>
+        <item>MI RELOJ</item>
+        <!-- <item>BLUETOOTH</item>
+         <item>DATOS DE RED</item>-->
+        <item>WIFI</item>
+        <item>REINICIAR</item>
+        <item>APAGAR</item>
+        <!-- <item>RESETEO DE FABRICA</item>-->
+        <item>FIRMWARE</item>
+    </string-array>
+
+</resources>

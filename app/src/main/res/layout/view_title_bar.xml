@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="48dp">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/ivSignal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/signal_no_service" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/ivInternetType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@+id/ivSignal"
+        android:visibility="gone"
+        app:srcCompat="@drawable/signal_3g_network" />
+
+    <TextView
+        android:id="@+id/tvBattery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="4dp"
+        android:layout_toStartOf="@+id/ivBattery"
+        android:textColor="@color/waffle_white_color"
+        android:textSize="18sp" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/ivBattery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/battery_lower" />
+</RelativeLayout>

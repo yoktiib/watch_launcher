@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="dayOfWeekNameArr">
+        <item>Вс</item>
+        <item>Пн</item>
+        <item>Вт</item>
+        <item>Ср</item>
+        <item>Чт</item>
+        <item>Пт</item>
+        <item>Сб</item>
+    </string-array>
+
+    <string-array name="monthOfYearNameArr">
+        <item>Янв.</item>
+        <item>Фев.</item>
+        <item>Мрт.</item>
+        <item>Апр.</item>
+        <item>Май</item>
+        <item>Июн.</item>
+        <item>Июл.</item>
+        <item>Авг.</item>
+        <item>Сен.</item>
+        <item>Окт.</item>
+        <item>Ноя.</item>
+        <item>Дек.</item>
+    </string-array>
+
+    <string-array name="scheduleNameArr">
+        <item>Просыпайся</item>
+        <item>Чистка Зубов</item>
+        <item>Душ</item>
+        <item>Питание</item>
+        <item>Школа</item>
+        <item>Свободное время</item>
+        <item>Работа по дому</item>
+        <item>Домашнее задание</item>
+        <item>Пора в кровать</item>
+        <item>Сон</item>
+    </string-array>
+
+    <string-array name="mainMenuNameArr">
+        <!--<item>ДРУЗЬЯ НАВСЕГДА</item>-->
+        <item>СООБЩЕНИЕ</item>
+        <item>ГРУППОВОЙ ЧАТ</item>
+        <item>ПУТЬ ДОМОЙ</item>
+        <item>Переведите</item>
+        <item>WHERE AM I</item>
+        <!--<item>MUSIC</item>-->
+        <item>ФИТНЕС</item>
+        <!--<item>АНТИ КОМАР</item>-->
+        <item>УСТАНВКИ</item>
+        <!--<item>НА СТАРТ</item>-->
+    </string-array>
+
+    <string-array name="settingMenuNameArr">
+        <item>Парные Часы</item>
+        <item>Яркость</item>
+        <item>Громкость</item>
+        <item>Мои Часы</item>
+        <!--<item>Bluetooth</item>-->
+        <!--<item>Сетевые Данные</item>-->
+        <item>Wifi</item>
+        <item>Перезапуск</item>
+        <item>Выключить</item>
+        <!-- <item>Заводские Настройки</item>-->
+        <item>Обновление Программы</item>
+    </string-array>
+
+</resources>

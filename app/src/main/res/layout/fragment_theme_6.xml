@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/waffle_white_color">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:adjustViewBounds="true" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/boxCenter"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="40dp"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivCallNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/notification_miss_call" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivMessageNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/notification_message" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/ivStatusDNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            app:srcCompat="@drawable/notification_mute" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/boxDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/boxCenter"
+        android:layout_marginStart="40dp"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvDay"
+            style="@style/POMO_TextView_Date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TUE"
+            android:textColor="@color/waffle_yellow_03_color" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvDate"
+            style="@style/POMO_TextView_Date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3 OCT"
+            android:textColor="@color/waffle_orange_01_color" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/boxCenter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal" />
+
+
+</RelativeLayout>

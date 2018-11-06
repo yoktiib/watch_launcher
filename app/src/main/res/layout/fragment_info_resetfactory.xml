@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/waffle_background_color"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/PageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_title_reset_factory" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_content"
+        android:text="@string/text_desc_reset_factory"
+        android:textColor="@color/waffle_grey_03_color"
+        android:textSize="@dimen/text_size_small"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnReset"
+        style="@style/POMO_Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_content_l"
+        android:text="@string/action_reset" />
+</LinearLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itContent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:id="@+id/card_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/boxContent"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="35dp">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ivAvatarHidden"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:visibility="invisible" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ivBg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/popup_name_mini" />
+
+            <TextView
+                android:id="@+id/tvName"
+                style="@style/POMO_TextView_Friend_List"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_toEndOf="@+id/ivAvatarHidden"
+                android:lines="1"
+                android:maxLines="1" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/boxContent"
+            android:layout_marginStart="16dp">
+
+            <RelativeLayout
+                android:id="@+id/boxAvatarUrl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/circle_profile"
+                android:padding="6dp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/ivContactAvatar"
+                    android:layout_width="66dp"
+                    android:layout_height="66dp"
+                    android:layout_centerVertical="true" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ivContactAvatarIcon"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                app:srcCompat="@drawable/avatar_boy" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</LinearLayout>

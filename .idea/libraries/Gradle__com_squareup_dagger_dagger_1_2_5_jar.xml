@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.squareup.dagger:dagger:1.2.5@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.dagger/dagger/1.2.5/965d3e29792e7c4193a2906ccadd5ec2fbb6d441/dagger-1.2.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.dagger/dagger/1.2.5/f9afd8de1a359afbe9163129d61089e21c139845/dagger-1.2.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

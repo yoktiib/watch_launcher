@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "615297195792",
+    "firebase_url": "https://launchernotification-9b75e.firebaseio.com",
+    "project_id": "launchernotification-9b75e",
+    "storage_bucket": "launchernotification-9b75e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:615297195792:android:f2b6c33963bcbcd3",
+        "android_client_info": {
+          "package_name": "com.pomohouse.launcher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "615297195792-jfg9sf38mj64qmp57jlmm2us429480s5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pomohouse.launcher",
+            "certificate_hash": "551e407ce401c05a2d797b92f85d5d3ed5bf8a94"
+          }
+        },
+        {
+          "client_id": "615297195792-vd52oc6gor5s0j193fnl8maat6a4nrmp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pomohouse.launcher",
+            "certificate_hash": "2a3ba310b79bdf1019bef1b79c30e1e122a4d2f0"
+          }
+        },
+        {
+          "client_id": "615297195792-vf4h4ic2jknpfa2sdn7lrd762fl7injr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSkr3Rwt3EFl3y5UhhTTs911bjteI9OhI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "615297195792-vf4h4ic2jknpfa2sdn7lrd762fl7injr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

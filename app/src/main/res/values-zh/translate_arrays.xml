@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="dayOfWeekNameArr">
+        <item>星期日</item>
+        <item>星期一</item>
+        <item>星期二</item>
+        <item>星期三</item>
+        <item>星期四</item>
+        <item>星期五</item>
+        <item>星期六</item>
+    </string-array>
+
+    <string-array name="monthOfYearNameArr">
+        <item>一月</item>
+        <item>二月</item>
+        <item>三月</item>
+        <item>四月</item>
+        <item>五月</item>
+        <item>六月</item>
+        <item>七月</item>
+        <item>八月</item>
+        <item>九月</item>
+        <item>十月</item>
+        <item>十一月</item>
+        <item>十二月</item>
+    </string-array>
+
+    <string-array name="scheduleNameArr">
+        <item>睡醒</item>
+        <item>刷牙</item>
+        <item>洗澡</item>
+        <item>吃飯</item>
+        <item>學校</item>
+        <item>空閒時間</item>
+        <item>家務</item>
+        <item>做功課</item>
+        <item>準備睡覺</item>
+        <item>睡覺</item>
+    </string-array>
+
+    <string-array name="mainMenuNameArr">
+        <!--<item>添加朋友</item>-->
+        <item>訊息</item>
+        <item>多人聊天</item>
+        <item>翻譯</item>
+        <item>帶我回家</item>
+        <item>WHERE AM I</item>
+        <item>運動</item>
+        <!--<item>蚊子</item>-->
+        <item>設置</item>
+        <!--<item>開始</item>-->
+    </string-array>
+
+    <string-array name="settingMenuNameArr">
+        <item>配對手錶</item>
+
+        <item>亮度</item>
+        <item>音量</item>
+        <item>我的手錶</item>
+        <!--<item>藍牙</item>
+        <item>網絡數據</item>-->
+        <item>無線上網</item>
+        <item>重新開始</item>
+        <item>關機</item>
+        <!-- <item>出廠重置</item>-->
+        <item>系統更新</item>
+    </string-array>
+
+</resources>

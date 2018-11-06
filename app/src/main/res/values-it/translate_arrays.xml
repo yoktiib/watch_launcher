@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dayOfWeekNameArr">
+        <item>Dom</item>
+        <item>Lun</item>
+        <item>Mar</item>
+        <item>Mer</item>
+        <item>Gio</item>
+        <item>Ven</item>
+        <item>Sab</item>
+    </string-array>
+    <string-array name="monthOfYearNameArr">
+        <item>Gen</item>
+        <item>Feb</item>
+        <item>Mar</item>
+        <item>Apr</item>
+        <item>Mag</item>
+        <item>Giu</item>
+        <item>Lug</item>
+        <item>Ago</item>
+        <item>Set</item>
+        <item>Ott</item>
+        <item>Nov</item>
+        <item>Dic</item>
+    </string-array>
+    <string-array name="scheduleNameArr">
+        <item>Sveglia</item>
+        <item>Lavarsi i denti</item>
+        <item>Doccia</item>
+        <item>Mangiare</item>
+        <item>Scuola</item>
+        <item>Tempo libero</item>
+        <item>Faccende domestiche</item>
+        <item>Compiti a casa</item>
+        <item>Andare a letto</item>
+        <item>Dormire</item>
+    </string-array>
+    <string-array name="mainMenuNameArr">
+        <!--<item>BFF</item>-->
+        <item>MESSAGGI</item>
+        <item>CHAT DI GRUPPO</item>
+        <item>TRANSLATE</item>
+        <item>TORNA A CASA</item>
+        <item>WHERE AM I</item>
+        <!--<item>MUSIC</item>-->
+        <item>CONTAPASSI</item>
+        <!--<item>ZANZARE</item>-->
+        <item>IMPOSTAZIONI</item>
+        <!--<item>CONFIGURA</item>-->
+    </string-array>
+    <string-array name="settingMenuNameArr">
+        <item>Associa</item>
+
+        <item>Luminosità</item>
+        <item>Volume</item>
+        <item>Il mio Waffle</item>
+       <!-- <item>Bluetooth</item>
+        <item>Rete dati</item>-->
+        <item>Wifi</item>
+        <item>Riavvia</item>
+        <item>Spegni</item>
+        <!-- <item>Reset</item>-->
+        <item>Aggiorna</item>
+    </string-array>
+</resources>

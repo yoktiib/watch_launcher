@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/waffle_blue_02_color">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/ivCallNotification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="invisible"
+                    app:srcCompat="@drawable/notification_miss_call" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/ivMessageNotification"
+                    android:layout_width="wrap_content"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/notification_message" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/ivStatusDNotification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/notification_mute" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="24dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tvHour"
+                        style="@style/POMO_TextView_Time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/waffle_yellow_01_color" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tvMinute"
+                        style="@style/POMO_TextView_Time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/waffle_blue_01_color" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tvHour2"
+                        style="@style/POMO_TextView_Time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:textColor="@color/waffle_yellow_01_color" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tvMinute2"
+                        style="@style/POMO_TextView_Time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:textColor="@color/waffle_blue_01_color" />
+                </LinearLayout>
+                <!--yangyu add-->
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tvAmPm"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="123dp"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/waffle_am_pm_text_color"
+                    android:textSize="25sp"
+                    android:visibility="invisible"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvDay"
+                style="@style/POMO_TextView_Date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/waffle_yellow_03_color" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvDate"
+                style="@style/POMO_TextView_Date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/waffle_orange_01_color" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/waffle_white_color">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--yangyu add-->
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvAmPm"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="80dp"
+            android:textColor="@color/waffle_am_pm_text_color"
+            android:textSize="25sp"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/boxTime"
+            android:layout_alignEnd="@+id/boxTime"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ivCallNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/notification_miss_call" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ivMessageNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/notification_message" />
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/ivStatusDNotification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/notification_mute" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/boxTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginStart="12dp"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tvHour"
+                    fontPath="fonts/pixel_lcd_7.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/waffle_orange_01_color"
+                    android:textSize="@dimen/text_size_super_large_big" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tvHour2"
+                    fontPath="fonts/pixel_lcd_7.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="0"
+                    android:textColor="@color/waffle_orange_01_color"
+                    android:textSize="@dimen/text_size_super_large_big" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvPoral"
+                fontPath="fonts/pixel_lcd_7.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:gravity="center"
+                android:text=":"
+                android:textColor="#666666"
+                android:textSize="@dimen/text_size_super_large_big" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_marginEnd="12dp"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tvMinute"
+                    fontPath="fonts/pixel_lcd_7.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/waffle_orange_01_color"
+                    android:textSize="@dimen/text_size_super_large_big" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/tvMinute2"
+                    fontPath="fonts/pixel_lcd_7.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="0"
+                    android:textColor="@color/waffle_orange_01_color"
+                    android:textSize="@dimen/text_size_super_large_big" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/boxTime"
+            android:layout_alignStart="@+id/boxTime"
+            android:layout_below="@+id/boxTime"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvDay"
+                fontPath="fonts/pixel_lcd_7.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/waffle_yellow_03_color"
+                android:textSize="@dimen/text_size_small_large" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/tvDate"
+                fontPath="fonts/pixel_lcd_7.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/waffle_orange_01_color"
+                android:textSize="@dimen/text_size_small_large" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

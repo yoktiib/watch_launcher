@@ -1,0 +1,217 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar.FullScreen">
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
+    </style>
+
+
+    <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/anim_slide_up</item>
+        <item name="android:activityOpenExitAnimation">@anim/anim_slide_down</item>
+    </style>
+    <!-- Text styles -->
+    <style name="PageTitle">
+        <item name="android:textSize">@dimen/text_size_big</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ValueControl">
+        <item name="android:textSize">@dimen/text_size_big</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="OverlayDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="POMO_TextView_Time_2" parent="@android:style/Widget.TextView">
+        <item name="android:layout_marginBottom">-15dp</item>
+        <item name="android:layout_marginTop">-15dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:text">0</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">@dimen/text_size_super_large_big_3</item>
+        <item name="android:textStyle">bold</item>
+        <!--<item name="android:textStyle">bold</item>-->
+    </style>
+
+    <style name="POMO_TextView_Time" parent="@android:style/Widget.TextView">
+        <item name="android:layout_marginBottom">-15dp</item>
+        <item name="android:layout_marginTop">-15dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:text">0</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">@dimen/text_size_super_large_big_2</item>
+        <item name="android:textStyle">bold</item>
+        <!--<item name="android:textStyle">bold</item>-->
+    </style>
+
+    <style name="POMO_TextView_Menu" parent="@android:style/Widget.TextView">
+        <item name="android:layout_marginBottom">-15dp</item>
+        <item name="android:layout_marginTop">-15dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:text">0</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/waffle_grey_11_color</item>
+        <item name="android:textSize">@dimen/text_size_medium_large</item>
+        <item name="android:textStyle">bold</item>
+        <!--<item name="android:textStyle">bold</item>-->
+    </style>
+
+    <style name="POMO_TextView_Time_Origin" parent="@android:style/Widget.TextView">
+        <item name="android:background">@null</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:text">0</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">@dimen/text_size_super_large_big</item>
+        <item name="android:textStyle">bold</item>
+        <!--<item name="android:textStyle">bold</item>-->
+    </style>
+    <style name="POMO_TextView_Time_Origin_large" parent="@android:style/Widget.TextView">
+        <item name="android:background">@null</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:text">0</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">@dimen/text_size_large_big_2</item>
+        <item name="android:textStyle">bold</item>
+        <!--<item name="android:textStyle">bold</item>-->
+    </style>
+
+
+    <style name="POMO_TextView_Time_LockScreen" parent="@android:style/Widget.TextView">
+        <item name="android:background">@null</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:text">0</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">@dimen/text_size_super_large_big_2</item>
+        <item name="android:textStyle">bold</item>
+        <!--<item name="android:textStyle">bold</item>-->
+    </style>
+
+    <style name="POMO_TextView_Time_Format" parent="@android:style/Widget.TextView">
+        <item name="android:background">@null</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:text">0</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">@dimen/text_size_big</item>
+        <item name="android:textStyle">bold</item>
+        <!--<item name="android:textStyle">bold</item>-->
+    </style>
+
+    <style name="POMO_TextView_Date_LockScreen" parent="@android:style/Widget.TextView">
+        <item name="android:background">@null</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:text">0</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">@dimen/text_size_small_large</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="POMO_TextView_Title" parent="@android:style/Widget.TextView">
+        <item name="android:background">@null</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:text">0</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">@dimen/text_size_big</item>
+        <item name="android:textStyle">bold</item>
+        <!--<item name="android:textStyle">bold</item>-->
+    </style>
+
+    <style name="POMO_TextView_Date" parent="@android:style/Widget.TextView">
+        <item name="android:background">@null</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:text">0</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">@dimen/text_size_small_large</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTheme.Widget" />
+
+    <style name="AppTheme.Widget.TextView" parent="@android:style/Widget.TextView">
+        <item name="fontPath">@string/font_style</item>
+    </style>
+
+    <style name="TextAppearance.FontPath" parent="android:TextAppearance">
+        <!-- Custom Attr-->
+        <item name="fontPath">@string/font_style</item>
+    </style>
+
+    <style name="TextViewCustomFont">
+        <item name="fontPath">@string/font_style</item>
+    </style>
+
+
+    <style name="POMO_TextView_Confirm" parent="@android:style/Widget.TextView">
+        <item name="android:background">@null</item>
+        <item name="android:text">0</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
+    <style name="POMO_Button" parent="@android:style/Widget.TextView">
+        <item name="android:layout_marginEnd">@dimen/margin_container_s</item>
+        <item name="android:layout_marginStart">@dimen/margin_container_s</item>
+        <item name="android:background">@drawable/shape_pin_code</item>
+        <item name="android:paddingBottom">@dimen/margin_content_s</item>
+        <item name="android:paddingTop">@dimen/margin_content_s</item>
+        <item name="android:paddingEnd">@dimen/margin_content_l</item>
+        <item name="android:paddingStart">@dimen/margin_content_l</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/waffle_white_color</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="POMO_Button_Red" parent="@android:style/Widget.TextView">
+        <item name="android:background">@drawable/shape_button_red</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/waffle_white_color</item>
+        <item name="android:textSize">@dimen/text_size_small_large</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="POMO_Button_Lemon" parent="@android:style/Widget.TextView">
+        <item name="android:background">@drawable/shape_button_lemon</item>
+        <item name="android:paddingBottom">@dimen/margin_content_s</item>
+        <item name="android:paddingTop">@dimen/margin_content_s</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/waffle_white_color</item>
+        <item name="android:textSize">@dimen/text_size_small_large</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>

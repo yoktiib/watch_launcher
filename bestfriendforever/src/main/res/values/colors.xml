@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="bg_bff">#3F51B5</color>
+    <color name="waffle_bff">#7d70e6</color>
+    <color name="waffle_white_color">#FFF</color>
+
+    <color name="waffle_yellow_01_color">#ffe357</color>
+</resources>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Common -->
+    <string name="app_name">Pomo Launcher</string>
+    <string name="font_style">fonts/quicksand_bold.otf</string>
+
+    <string name="pair_text">ペアされました</string>
+    <string name="un_pair_text">アンペアされました</string>
+    <string name="pause">一時停止</string>
+    <string name="resume">再開</string>
+    <string name="reset">リセット</string>
+    <string name="today">今日</string>
+    <string name="text_brightness">明るさ</string>
+    <string name="text_volume">音量</string>
+    <string name="text_setting">設定</string>
+    <string name="text_volume_high">高</string>
+    <string name="text_volume_low">低</string>
+    <string name="text_pomo_waffle">POMO WAFFLE</string>
+    <string name="text_volume_medium">ミディアム</string>
+    <string name="text_volume_mute">消音</string>
+    <string name="text_volume_silent">サイレント</string>
+    <string name="text_value_go_to_settings">設定へ行く</string>
+    <string name="anti_mosquito">蚊除け</string>
+    <string name="settings">設定</string>
+    <string name="text_pairing_code">ペアリング</string>
+    <string name="text_title_reset_factory">注目！</string>
+    <string name="text_desc_reset_factory">電話機をリセットすると、xxxは個人のxxxコンテンツをすべて消去し、工場出荷時の設定に戻します。 Xxx続行しますか？</string>
+    <string name="text_are_you_sure">本当にいいですか？</string>
+    <string name="text_desc_confirm_reset_factory">すべてのデータが工場出荷時の設定に戻ります</string>
+    <string name="text_warning">警告！</string>
+    <string name="text_steps">ステップ</string>
+    <string name="title_network">ネットワーク</string>
+    <string name="text_data_roaming">データローミング</string>
+    <string name="desc_connect_to_data_services_when_roaming">ローミング時にデータxxxサービスに接続する</string>
+    <string name="Header_data_network">データネットワーク</string>
+    <string name="desc_enable_data_access_over_mobile_network">モバイルネットワーク上でデータアクセスxxxを有効にする</string>
+    <string name="desc_tap_scan_qr_code_for_paring">ペアリングのためにxxxをタップしてQRコードxxxをスキャン</string>
+    <string name="desc_install_waffle_application">Waffle xxxアプリケーションをインストールする</string>
+    <string name="desc_insert_sim_card">xxx SIMカードを挿入</string>
+    <string name="desc_back_to_main_screen">xxxメイン画面に戻る</string>
+    <string name="watch_text">ウォッチ</string>
+    <string name="firmware_text">ファームウェア</string>
+    <string name="imei_text">IMEI</string>
+    <string name="network_on">オン</string>
+    <string name="network_off">オフ</string>
+    <string name="network_no_sim">SIMカードなし"</string>
+    <string name="battery_format">%d%%</string>
+
+    <string name="text_title_power_off">シャットダウン \nしますか？</string>
+    <string name="text_title_restart">さいきどう \nしますか？</string>
+
+    <string name="text_pin">- - - -</string>
+    <!--<string name="action_cancel">キャンセル</string>-->
+    <string name="action_cancel">CANCEL</string>
+    <string name="action_close">CLOSE</string>
+    <string name="action_ok">OK</string>
+    <string name="action_get_code">Get Code</string>
+    <string name="action_reset">RESET</string>
+
+    <string name="no_contact">れんらくなし</string>
+    <string name="text_setup_success">セットアップのせいこう</string>
+
+    <string name="text_am">AM</string>
+    <string name="text_pm">PM</string>
+</resources>

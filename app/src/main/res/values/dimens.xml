@@ -1,0 +1,58 @@
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="contact_divider">32dp</dimen>
+    <dimen name="mini_setting_size">200dp</dimen>
+    <dimen name="battery_width_size">48dp</dimen>
+    <dimen name="battery_height_size">24dp</dimen>
+    <dimen name="viewpager_margin_fix">32dp</dimen>
+
+    <dimen name="calling_text_size">25sp</dimen>
+    <dimen name="client_name_text_size">30sp</dimen>
+    <dimen name="time_text_size">18sp</dimen>
+    <dimen name="contact_image_width">90dp</dimen>
+
+    <!-- Text sizes -->
+    <dimen name="text_size_super_large_big_3">100sp</dimen>
+    <dimen name="text_size_super_large_big_2">88sp</dimen>
+    <dimen name="text_size_super_large_big">80sp</dimen>
+
+    <dimen name="text_size_large_big_2">64sp</dimen>
+    <dimen name="text_size_large_big">56sp</dimen>
+    <dimen name="text_size_big_large">48sp</dimen>
+    <dimen name="text_size_big">40sp</dimen>
+    <dimen name="text_size_medium_large">36sp</dimen>
+    <dimen name="text_size_medium">32sp</dimen>
+    <dimen name="text_size_small_large">28sp</dimen>
+    <dimen name="text_size_small">24sp</dimen>
+    <dimen name="text_size_small_s">20sp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="margin_container_l">48dp</dimen>
+    <dimen name="margin_container">40dp</dimen>
+    <dimen name="margin_container_s">32dp</dimen>
+    <dimen name="margin_content">16dp</dimen>
+    <dimen name="margin_content_l">24dp</dimen>
+    <dimen name="margin_content_s">8dp</dimen>
+    <dimen name="circle_stoke">4dp</dimen>
+
+    <dimen name="large_half">240px</dimen>
+
+    <dimen name="value">45sp</dimen>
+    <dimen name="small_value">30sp</dimen>
+    <dimen name="step_count">30sp</dimen>
+    <dimen name="units">11sp</dimen>
+    <dimen name="desired_pace">36sp</dimen>
+    <dimen name="desired_pace_width">128sp</dimen>
+
+    <dimen name="button">48sp</dimen>
+    <dimen name="button_sign">24sp</dimen>
+
+    <dimen name="margin">10px</dimen>
+    <dimen name="padding">5px</dimen>
+    <dimen name="row_spacing">10px</dimen>
+
+    <dimen name="page_content_width">190dp</dimen>
+    <dimen name="page_content_height">120dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+</resources>

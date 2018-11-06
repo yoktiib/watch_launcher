@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/waffle_background_color"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/margin_container_s">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_pairing_code"
+            android:textColor="@color/waffle_black_color"
+            android:textSize="@dimen/text_size_big"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvPinCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_content"
+            android:text="@string/text_pin"
+            android:textColor="@color/waffle_blue_02_color"
+            android:textSize="@dimen/text_size_super_large_big"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnClose"
+            style="@style/POMO_Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_content"
+            android:text="@string/action_close"
+            android:textSize="@dimen/text_size_medium_large" />
+    </LinearLayout>
+</LinearLayout>

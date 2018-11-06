@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/waffle_background_color"
+    tools:context=".activity.settings.about.AboutActivity">
+
+    <RelativeLayout
+        android:id="@+id/containerHaveSim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+        <com.pomohouse.component.viewpagerindicator.CirclePageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:padding="10dp"
+            app:fillColor="@color/waffle_blue_02_color"
+            app:pageColor="@color/waffle_background_color"
+            app:radius="10dp"
+            app:strokeColor="@color/waffle_yellow_01_color"
+            app:strokeWidth="4dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/containerNoSim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/insert_sim" />
+
+        <TextView
+            android:id="@+id/tvNoSim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="100dp"
+            android:gravity="center"
+            android:textColor="@color/waffle_grey_11_color"
+            android:text="@string/desc_insert_sim_card"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</RelativeLayout>

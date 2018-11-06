@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- SETTING COLOR -->
+    <color name="waffle_background_color">#f1f2f2</color>
+    <color name="waffle_white_color">#FFF</color>
+    <color name="waffle_black_color">#000</color>
+
+    <color name="waffle_pink_01_color">#f37c7a</color>
+    <color name="waffle_pink_02_color">#f1675e</color>
+    <color name="waffle_yellow_01_color">#ffe357</color>
+    <color name="waffle_yellow_03_color">#d7df23</color>
+    <color name="waffle_yellow_04_color">#ffdb3d</color>
+    <color name="waffle_orange_01_color">#f7941e</color>
+
+
+    <color name="waffle_grey_01_color">#f1f2f2</color>
+    <color name="waffle_grey_02_color">#e5e5e5</color>
+    <color name="waffle_grey_03_color">#939598</color>
+    <color name="waffle_grey_04_color">#808285</color>
+    <color name="waffle_grey_08_color">#58595b</color>
+    <color name="waffle_grey_11_color">#414042</color>
+    <color name="waffle_grey_09_color">#2E2E2E</color>
+    <color name="waffle_grey_10_color">#231f20</color>
+    <color name="waffle_grey_12_color">#cccccc</color>
+    <color name="waffle_grey_13_color">#666666</color>
+
+
+
+    <color name="waffle_blue_01_color">#11d1d1</color>
+    <color name="waffle_blue_02_color">#27aae1</color>
+    <color name="waffle_blue_03_color">#1c75bc</color>
+    <color name="waffle_blue_04_color">#2b3990</color>
+    <color name="waffle_purple_01_color">#7d65ac</color>
+
+    <color name="waffle_bff_bg_color">#7d70e6</color>
+    <color name="waffle_message_bg_color">#ffe33d</color>
+    <color name="waffle_group_chat_bg_color">#a967aa</color>
+    <color name="waffle_take_me_home_bg_color">#ef70a9</color>
+    <color name="waffle_translate_bg_color">#18A5C2</color>
+    <color name="waffle_am_pm_text_color">#2b3990</color>
+
+
+
+    <!-- SETTING COLOR -->
+</resources>

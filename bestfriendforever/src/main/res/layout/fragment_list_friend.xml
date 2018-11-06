@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_bff">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcvFriend"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.github.silvestrpredko.dotprogressbar.DotProgressBar
+        android:id="@+id/dot_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        custom:amount="4"
+        android:visibility="gone"
+        custom:animationDirection="left"
+        custom:duration="@android:integer/config_mediumAnimTime"
+        custom:endColor="@color/waffle_bff"
+        custom:startColor="@color/waffle_bff" />
+
+    <ImageView
+        android:id="@+id/ivLoading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true" />
+</RelativeLayout>

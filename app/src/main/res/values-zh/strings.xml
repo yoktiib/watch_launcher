@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Common -->
+
+    <string name="pair_text">配對</string>
+    <string name="un_pair_text">取消配對</string>
+    <string name="pause">暫停</string>
+    <string name="resume">恢復</string>
+    <string name="reset">重啟</string>
+    <string name="today">今天</string>
+    <string name="text_brightness">亮度</string>
+    <string name="text_volume">音量</string>
+    <string name="text_setting">設置</string>
+    <string name="text_volume_high">高</string>
+    <string name="text_volume_low">低</string>
+    <string name="text_pomo_waffle">POMO WAFFLE</string>
+    <string name="text_volume_medium">中</string>
+    <string name="text_volume_mute">靜音</string>
+    <string name="text_volume_silent">無聲</string>
+    <string name="text_value_go_to_settings">前往設置</string>
+
+    <string name="anti_mosquito">防蚊蟲</string>
+    <string name="settings">設置</string>
+    <string name="text_pairing_code">配對代碼</string>
+    <string name="text_title_reset_factory">注意</string>
+
+    <string name="text_title_power_off">關機</string>
+    <string name="text_title_restart">重新啟動？</string>
+
+    <string name="text_desc_reset_factory">重置你的手機將\n清除你所有的個人\n內容，並將\n恢復出廠設置。\n你想繼續嗎？</string>
+    <string name="text_are_you_sure">你確定嗎？</string>
+    <string name="text_desc_confirm_reset_factory">所有個人資料將\n恢復出廠設置。</string>
+    <string name="text_warning">警告！</string>
+    <string name="action_get_code">獲取代碼</string>
+
+    <string name="action_reset">重啟</string>
+    <string name="text_steps">步數</string>
+    <string name="title_network">網絡</string>
+    <string name="text_data_roaming">數據漫遊</string>
+    <string name="desc_connect_to_data_services_when_roaming">漫遊時連接到數據\n服務</string>
+    <string name="Header_data_network">數據網絡</string>
+    <string name="desc_enable_data_access_over_mobile_network">啟用網絡數據\n通過行動網絡</string>
+    <string name="desc_tap_scan_qr_code_for_paring">點擊\n掃描二維碼\n進行配對</string>
+    <string name="desc_install_waffle_application">安裝waffle\n應用程序</string>
+    <string name="desc_insert_sim_card">插入\n SIM卡</string>
+    <string name="desc_back_to_main_screen">返回\n主屏幕</string>
+    <string name="watch_text">手錶 : </string>
+    <string name="firmware_text">固件 </string>
+    <string name="imei_text">IMEI : </string>
+    <string name="network_on">打開</string>
+    <string name="network_off">關閉</string>
+    <string name="network_no_sim">沒有SIM卡</string>
+
+    <string name="battery_format">%d%%</string>
+
+    <string name="no_contact">沒有聯絡人</string>
+    <string name="text_setup_success">設置成功</string>
+
+
+    <string name="action_cancel">取消</string>
+    <string name="action_close">關閉</string>
+    <string name="action_ok">好</string>
+    <string name="text_am">AM</string>
+    <string name="text_pm">PM</string>
+
+
+</resources>

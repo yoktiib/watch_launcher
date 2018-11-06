@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Common -->
+    <string name="app_name">Pomo Launcher</string>
+    <string name="font_style">fonts/quicksand_bold.otf</string>
+    <string name="pair_text">gekoppelt!</string>
+    <string name="un_pair_text">ungekoppelt!</string>
+    <string name="pause">Pause</string>
+    <string name="resume">Fortsetzen</string>
+    <string name="reset">Zurücksetzen</string>
+    <string name="today">Heute</string>
+    <string name="text_brightness">HELLIGKEIT</string>
+    <string name="text_volume">LAUTSTÄRKE</string>
+    <string name="text_setting">EINSTELLUNGEN</string>
+    <string name="text_volume_high">Laut</string>
+    <string name="text_volume_low">Leise</string>
+    <string name="text_pomo_waffle">POMO WAFFLE</string>
+    <string name="text_volume_medium">Mittel</string>
+    <string name="text_volume_mute">Stummschalten</string>
+    <string name="text_volume_silent">Lautlos</string>
+    <string name="text_value_go_to_settings">Zu Einstellungen</string>
+
+    <string name="anti_mosquito">Anti-Moskito</string>
+    <string name="settings">Einstellungen</string>
+    <string name="text_pairing_code">Paarung Code</string>
+    <string name="text_title_reset_factory">Achtung!</string>
+    <string name="text_desc_reset_factory">Wenn du dein Handy zurücksetzt, werden alle deine persönlichen Daten gelöscht und auf die Werkseinstellungen zurückgesetzt</string>
+    <string name="text_are_you_sure">Bist du sicher?</string>
+    <string name="text_desc_confirm_reset_factory">Alle Daten werden zu den Werkseinstellungen zurückgesetzt</string>
+    <string name="text_warning">ACHTUNG!</string>
+    <string name="text_steps">SCHRITTE</string>
+    <string name="title_network">Netzwerke</string>
+    <string name="text_data_roaming">Mobile Daten</string>
+    <string name="desc_connect_to_data_services_when_roaming">Datenverbindung beim Roaming herstellen</string>
+    <string name="Header_data_network">Datennetzwerk</string>
+    <string name="desc_enable_data_access_over_mobile_network">Datenzugriff über Mobile Netzwerke erlauben</string>
+    <string name="desc_tap_scan_qr_code_for_paring">Tipp Scann QR Code zum Koppeln</string>
+    <string name="desc_install_waffle_application">Waffle Anwendung Installieren</string>
+    <string name="desc_insert_sim_card">SIM Karte einlegen</string>
+    <string name="desc_back_to_main_screen">Züruck zum Hauptfenster</string>
+
+    <string name="battery_format">%d%%</string>
+
+    <string name="watch_text">Uhr : </string>
+    <string name="firmware_text">Firmware : </string>
+    <string name="imei_text">IMEI : </string>
+
+    <string name="network_on">An</string>
+    <string name="network_off">Aus</string>
+    <string name="network_no_sim">Keine SIM Karte</string>
+
+    <!--Still not translate-->
+    <string name="text_title_power_off">Wollen Sie \n shutdown</string>
+    <string name="text_title_restart">Möchten Sie \n neu starten</string>
+    <string name="text_pin">- - - -</string>
+
+    <string name="action_cancel">CANCEL</string>
+    <string name="action_close">CLOSE</string>
+    <string name="action_ok">OK</string>
+    <string name="action_get_code">Get Code</string>
+    <string name="action_reset">RESET</string>
+
+    <string name="no_contact">Kein Kontakt</string>
+    <string name="text_setup_success">Setup Erfolg</string>
+
+    <string name="text_am">AM</string>
+    <string name="text_pm">PM</string>
+</resources>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BestFriendForever</string>
+    <string name="waiting_format">Waiting %s \nto accept friend\n request</string>
+    <string name="yuy_friend_title">YAY!</string>
+    <string name="yuy_friend_desc">Let’s keep in touch</string>
+    <string name="sorry_friend_title">Sorry!</string>
+    <string name="sorry_friend_desc">Let’s keep in touch</string>
+</resources>

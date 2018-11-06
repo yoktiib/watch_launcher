@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="clock_minute_stroke_width">8dp</dimen>
+    <dimen name="clock_circle_stroke_width">6dp</dimen>
+    <dimen name="clock_hours_stroke_width">8dp</dimen>
+    <dimen name="clock_circle_top_width">4dp</dimen>
+</resources>

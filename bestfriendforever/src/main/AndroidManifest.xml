@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pomohouse.bff">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <permission android:name="com.pomohouse.bff.permission.READ" />
+
+    <application
+        android:name=".BestFriendForeverApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:testOnly="false"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".LocationBroadcast">
+            <intent-filter>
+                <action android:name="com.pomohouse.service.LOCATION_PROVIDER" />
+            </intent-filter>
+        </receiver>
+
+        <!--<service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="true"
+            android:process="com.pomohouse.bff.remote" />-->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="0b9b99303c5879e9b3b7887410a46a60384e8d18" />
+    </application>
+
+</manifest>

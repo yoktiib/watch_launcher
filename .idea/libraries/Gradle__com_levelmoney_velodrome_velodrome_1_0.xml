@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.levelmoney.velodrome:velodrome-1.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/velodrome-1.0.aar/eb4ae355d8e5e4dfb59e82e8c4b8b5cb/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/velodrome-1.0.aar/eb4ae355d8e5e4dfb59e82e8c4b8b5cb/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.levelmoney.velodrome/velodrome/1.0/547fffb3ac0c340bcbb5a4478ac7a7c599c1baa0/velodrome-1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
