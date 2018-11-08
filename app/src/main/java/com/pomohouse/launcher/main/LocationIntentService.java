@@ -1,3 +1,4 @@
+/*
 package com.pomohouse.launcher.main;
 
 import android.app.IntentService;
@@ -20,9 +21,11 @@ import static com.pomohouse.launcher.main.presenter.LauncherPresenterImpl.EVENT_
 import static com.pomohouse.launcher.utils.EventConstant.EventLocal.EVENT_REFRESH_LOCATION_CODE;
 import static com.pomohouse.launcher.utils.EventConstant.EventLocal.EVENT_UPDATE_LOCATION_CODE;
 
+*/
 /**
  * Created by Admin on 6/3/2017 AD.
- */
+ *//*
+
 
 public class LocationIntentService extends IntentService {
     public static boolean isRefreshLocation = false;
@@ -32,18 +35,22 @@ public class LocationIntentService extends IntentService {
         super("LocationIntentService");
     }
 
-    /**
+    */
+/**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      *
      * @param name Used to name the worker thread, important only for debugging.
-     */
+     *//*
+
     public LocationIntentService(String name) {
         super(name);
     }
 
-    /**
+    */
+/**
      * Called when a new location update is available.
-     */
+     *//*
+
     @Override
     protected void onHandleIntent(Intent intent) {
         try {
@@ -60,7 +67,8 @@ public class LocationIntentService extends IntentService {
                 Timber.i("location getDistance="+getDistance(lastLocation ,mloc));
                 lastLocation = mloc;
 
-                /*LocationCacheManager.getInstance().setCurLocationExtras(location);
+                */
+/*LocationCacheManager.getInstance().setCurLocationExtras(location);
                 Bundle extras = location.getExtras();
                 Timber.i("location extras="+extras);
                 if (extras != null && extras.containsKey("networkLocationType")) {
@@ -72,7 +80,8 @@ public class LocationIntentService extends IntentService {
                         // Wi-Fi is used.
                         Timber.i("location type=wifi");
                     }
-                }*/
+                }*//*
+
                 //yangyu add end
                 if (location != null) {
                     //Timber.e("Updated location: " + location.toString() + " : Provider " + location.getProvider());
@@ -97,12 +106,14 @@ public class LocationIntentService extends IntentService {
 
 
     private static LatLng lastLocation = null;
-    /**
+    */
+/**
      * 计算两点之间距离
      * @param start
      * @param end
      * @return 米
-     */
+     *//*
+
     public static double getDistance(LatLng start,LatLng end){
         if(start == null || end == null){
             return -1;
@@ -137,3 +148,4 @@ public class LocationIntentService extends IntentService {
     }
 
 }
+*/

@@ -14,7 +14,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
@@ -28,10 +27,10 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.pomohouse.launcher.POMOWatchApplication;
 import com.pomohouse.launcher.api.requests.ImeiRequest;
 import com.pomohouse.launcher.api.requests.InitDeviceRequest;
 import com.pomohouse.launcher.api.requests.LocationUpdateRequest;
-import com.pomohouse.launcher.api.requests.RefreshLocationRequest;
 import com.pomohouse.launcher.api.requests.TimezoneUpdateRequest;
 import com.pomohouse.launcher.api.requests.UpdateFirebaseRequest;
 import com.pomohouse.launcher.broadcast.alarm.model.AlarmDatabase;
@@ -39,11 +38,8 @@ import com.pomohouse.launcher.broadcast.alarm.model.AlarmItem;
 import com.pomohouse.launcher.content_provider.POMOContentProvider;
 import com.pomohouse.launcher.content_provider.POMOContract;
 import com.pomohouse.launcher.main.ILauncherView;
-import com.pomohouse.launcher.main.LocationIntentService;
+import com.pomohouse.launcher.main.OnTCPCallbackListener;
 import com.pomohouse.launcher.main.interactor.ILauncherInteractor;
-import com.pomohouse.launcher.main.interactor.listener.OnEventListener;
-import com.pomohouse.launcher.main.interactor.listener.OnInitialDeviceListener;
-import com.pomohouse.launcher.main.interactor.listener.OnSOSListener;
 import com.pomohouse.launcher.manager.event.IEventPrefManager;
 import com.pomohouse.launcher.manager.fitness.FitnessPrefModel;
 import com.pomohouse.launcher.manager.fitness.IFitnessPrefManager;
@@ -67,14 +63,14 @@ import com.pomohouse.launcher.models.contacts.ContactCollection;
 import com.pomohouse.launcher.models.contacts.ContactModel;
 import com.pomohouse.launcher.models.events.BatteryChargerEvent;
 import com.pomohouse.launcher.models.events.NotificationMainIconDao;
-import com.pomohouse.launcher.models.locations.RefreshLocationDao;
-import com.pomohouse.launcher.models.settings.AutoAnswerDao;
 import com.pomohouse.launcher.models.settings.BrightnessTimeOutDao;
 import com.pomohouse.launcher.models.settings.LanguageDao;
 import com.pomohouse.launcher.models.settings.LocationTimerDao;
 import com.pomohouse.launcher.models.settings.SilentDao;
 import com.pomohouse.launcher.models.settings.TimeZoneDao;
 import com.pomohouse.launcher.models.settings.WearerStatusDao;
+import com.pomohouse.launcher.tcp.CMDCode;
+import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 import com.pomohouse.launcher.utils.CombineObjectConstance;
 import com.pomohouse.library.WearerInfoUtils;
 import com.pomohouse.library.base.BaseRetrofitPresenter;
@@ -108,7 +104,6 @@ import static com.pomohouse.launcher.utils.EventConstant.EventContact.EVENT_BFF_
 import static com.pomohouse.launcher.utils.EventConstant.EventContact.EVENT_SYNC_CONTACT;
 import static com.pomohouse.launcher.utils.EventConstant.EventContact.EVENT_UPDATE_LOCAL_CONTACT;
 import static com.pomohouse.launcher.utils.EventConstant.EventDeviceInfo.EVENT_APP_TIMEZONE_CODE;
-import static com.pomohouse.launcher.utils.EventConstant.EventDeviceInfo.EVENT_AUTO_ANSWER_CODE;
 import static com.pomohouse.launcher.utils.EventConstant.EventDeviceInfo.EVENT_BRIGHTNESS_TIME_OUT_CODE;
 import static com.pomohouse.launcher.utils.EventConstant.EventDeviceInfo.EVENT_LANGUAGE_CODE;
 import static com.pomohouse.launcher.utils.EventConstant.EventDeviceInfo.EVENT_LOCATION_REQUEST_CODE;
@@ -136,7 +131,7 @@ import static com.pomohouse.launcher.utils.EventConstant.EventSetting.EVENT_NOTI
 /**
  * Created by Admin on 8/18/16 AD.
  */
-public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILauncherPresenter, OnInitialDeviceListener, OnSOSListener, OnEventListener {
+public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILauncherPresenter, OnTCPCallbackListener/*, OnSOSListener, OnEventListener*/ {
     private ILauncherView view;
     private ILauncherInteractor interactor;
     private IThemePrefManager themeManager;
@@ -153,7 +148,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     private ISleepTimeManager iSleepTimeManager;
     private InClassModePrefModel inClassModePrefModel;
     private SleepTimePrefModel sleepTimePrefModel;
-
+    private POMOWatchApplication signalApplication;
     public static final String THEME_SETTING = "theme_open_close_setting";
     public static final String RILAKKUMA_THEME_STATUS = "rilakkuma_theme_status";
 
@@ -181,8 +176,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
 
     @Override
     public void onStart() {
-        if (lockBy != LockScreenEnum.NONE)
-            view.setUpConfigurationWhenLockScreen();
+        if (lockBy != LockScreenEnum.NONE) view.setUpConfigurationWhenLockScreen();
     }
 
     @Override
@@ -250,8 +244,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
             deviceRequest.setFirmwareVersion(Build.DISPLAY);
             if (iSettingManager != null && iSettingManager.getSetting() != null) {
                 String token = iSettingManager.getSetting().getFCMToken();
-                if (token != null && !token.isEmpty())
-                    deviceRequest.setFireBaseWatchToken(token);
+                if (token != null && !token.isEmpty()) deviceRequest.setFireBaseWatchToken(token);
             }
 
             deviceRequest.setLauncherVersion(WearerInfoUtils.getInstance().getPomoVersion());
@@ -266,7 +259,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                 Timber.i("Timezone :: " + tz.getDisplayName(false, TimeZone.SHORT) + " Timezone id :: " + tz.getID());
                 deviceRequest.setTimeZone(tz.getID());
             }
-            interactor.callInitialDevice(deviceRequest, this);
+            TCPSocketServiceProvider.getInstance().sendMessageFromLauncher(this, CMDCode.CMD_INIT_DEVICE, new Gson().toJson(deviceRequest));
         } catch (Exception ignore) {
 
         }
@@ -275,7 +268,9 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     private int getPowerLevel() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             BatteryManager bm = (BatteryManager) ActivityContextor.getInstance().getContext().getSystemService(BATTERY_SERVICE);
-            return bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+            if (bm != null) {
+                return bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+            }
         }
         return 0;
     }
@@ -286,8 +281,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
             sendEventIntent(event, metaData);
             insertEventContentProvider(event);
         }
-        if (iEventPrefManager != null)
-            iEventPrefManager.removeEvent();
+        if (iEventPrefManager != null) iEventPrefManager.removeEvent();
     }
 
     @Override
@@ -322,18 +316,18 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     }
 
     private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) ActivityContextor.getInstance().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        ConnectivityManager connectivityManager = (ConnectivityManager) ActivityContextor.getInstance().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = null;
+        if (connectivityManager != null) {
+            activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        }
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     private void updateFitnessService() {
         mSensorManager = (SensorManager) ActivityContextor.getInstance().getContext().getSystemService(SENSOR_SERVICE);
         if (mSensorManager != null) {
-            mSensorManager.registerListener(sensorEventListener,
-                    mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER),
-                    SensorManager.SENSOR_DELAY_FASTEST);
+            mSensorManager.registerListener(sensorEventListener, mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER), SensorManager.SENSOR_DELAY_FASTEST);
         }
     }
 
@@ -349,8 +343,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                 fitnessPrefModel.calculateStepSync(curr, null);
                 fitnessPrefModel.getSyncStep();
                 iFitnessPrefManager.addFitness(fitnessPrefModel);
-                if (mSensorManager != null)
-                    mSensorManager.unregisterListener(sensorEventListener);
+                if (mSensorManager != null) mSensorManager.unregisterListener(sensorEventListener);
             }
         }
 
@@ -367,8 +360,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     private void setUpDevice() {
         this.validateInClassMode();
         this.validateSleepMode();
-        if (!isSleepMode)
-            view.startLocation();
+        if (!isSleepMode) view.startLocation();
     }
 
     /**
@@ -386,15 +378,13 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                 this.checkSleepTimeIsOn();
                 return;
             }
-            if (!isSleepMode)
-                this.onSleepModeEnable();
+            if (!isSleepMode) this.onSleepModeEnable();
         } catch (Exception ignore) {
         }
     }
 
     private void checkSleepTimeIsOn() {
-        if (isSleepMode)
-            onSleepModeDisable();
+        if (isSleepMode) onSleepModeDisable();
     }
 
     private void onSleepModeDisable() {
@@ -423,22 +413,20 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                 this.checkInClassIsOn();
                 return;
             }
-            if (!isInClassModeEnable)
-                this.onTimeInClassModeEnable();
+            if (!isInClassModeEnable) this.onTimeInClassModeEnable();
         } catch (Exception ignore) {
         }
     }
 
     private void checkInClassIsOn() {
-        if (isInClassModeEnable)
-            onTimeInClassModeDisable();
+        if (isInClassModeEnable) onTimeInClassModeDisable();
     }
 
     private void onTimeInClassModeDisable() {
         Timber.e("InClass End");
         view.onWakeScreen();
         isInClassModeEnable = false;
-        CombineObjectConstance.getInstance().setInClassTime(isInClassModeEnable);
+        CombineObjectConstance.getInstance().setInClassTime(false);
         view.setUpInClassModeDisable();
         lockBy = LockScreenEnum.LOCK_SCREEN_DEFAULT;
         view.onSendFilterBroadcast(SEND_EVENT_UNLOCK_IN_CLASS_INTENT);
@@ -448,7 +436,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
         Timber.e("InClass Start");
         view.onWakeScreen();
         isInClassModeEnable = true;
-        CombineObjectConstance.getInstance().setInClassTime(isInClassModeEnable);
+        CombineObjectConstance.getInstance().setInClassTime(true);
         view.setUpInClassModeEnable();
         lockBy = LockScreenEnum.LOCK_SCREEN_WITH_IN_CLASS_MODE;
         view.onSendFilterBroadcast(SEND_EVENT_LOCK_IN_CLASS_INTENT);
@@ -456,8 +444,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
 
     @Override
     public void lockScreenDevice() {
-        if (isInClassModeEnable)
-            return;
+        if (isInClassModeEnable) return;
         lockBy = LockScreenEnum.LOCK_SCREEN_DEFAULT;
         view.onSendFilterBroadcast(SEND_EVENT_LOCK_DEFAULT_INTENT);
     }
@@ -466,14 +453,13 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     public void eventReceiver(EventDataInfo _eventData) {
         try {
             switch (_eventData.getEventCode()) {
-                case EVENT_UPDATE_FCM_TOKEN_CODE:
+                /*case EVENT_UPDATE_FCM_TOKEN_CODE:
                     UpdateFirebaseRequest requestParam = new Gson().fromJson(_eventData.getContent(), UpdateFirebaseRequest.class);
                     interactor.callUpdateFCMToken(requestParam);
-                    break;
+                    break;*/
                 case EVENT_GET_PAIR_CODE:
                     PinCodeModel pinCodeModel = new Gson().fromJson(_eventData.getContent(), PinCodeModel.class);
-                    if (pinCodeModel != null)
-                        view.openPinCodeView(pinCodeModel.getCode());
+                    if (pinCodeModel != null) view.openPinCodeView(pinCodeModel.getCode());
                     break;
                 case EVENT_ALARM_SET_UP_CODE:
                     try {
@@ -541,17 +527,18 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                     view.setupSuccess();
                     break;
                 case EVENT_LOCATION_REQUEST_CODE:
-                    RefreshLocationDao refreshLocation = new Gson().fromJson(_eventData.getContent(), RefreshLocationDao.class);
+                    // TODO REQUEST LOCATION
+                 /*   RefreshLocationDao refreshLocation = new Gson().fromJson(_eventData.getContent(), RefreshLocationDao.class);
                     if (refreshLocation != null) {
                         Timber.e("RefreshLocationDao : " + refreshLocation.getEndpoint());
                         LocationIntentService.locationRefreshEndpoint = refreshLocation.getEndpoint();
                         LocationIntentService.isRefreshLocation = true;
-                    }
+                    }*/
                     view.requestGPSLocation();
                     break;
                 case EVENT_LANGUAGE_CODE:
                     LanguageDao language = new Gson().fromJson(_eventData.getContent(), LanguageDao.class);
-                    Log.d("LchrPreImpl","EVENT_LANGUAGE_CODE _eventData.getContent() "+_eventData.getContent());
+                    Log.d("LchrPreImpl", "EVENT_LANGUAGE_CODE _eventData.getContent() " + _eventData.getContent());
                     if (language != null)
                         view.onChangeLanguage(new Locale(language.getLanguage(), language.getCountry()));
                     view.setupSuccess();
@@ -593,11 +580,10 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                         Timber.e(String.valueOf("Timezone : " + timeZoneDao.getAutoTimezone()));
                         if (timeZoneDao.getAutoTimezone().equalsIgnoreCase("Y"))
                             view.setAutoTimezone();
-                        else
-                            view.setUpTimeZone(timeZoneDao.getTimeZone());
+                        else view.setUpTimeZone(timeZoneDao.getTimeZone());
                     }
                     break;
-                case EVENT_AUTO_ANSWER_CODE:
+            /*    case EVENT_AUTO_ANSWER_CODE:
                     AutoAnswerDao autoAnswer = new Gson().fromJson(_eventData.getContent(), AutoAnswerDao.class);
                     if (autoAnswer != null) {
                         if (autoAnswer.getAutoAnswer().equalsIgnoreCase("Y"))
@@ -605,20 +591,20 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                         else
                             view.disableAutoAnswer();
                     }
-                    break;
+                    break;*/
                 case EVENT_WEARER_STATUS_CODE:
                     WearerStatusDao watchStatus = new Gson().fromJson(_eventData.getContent(), WearerStatusDao.class);
                     if (watchStatus != null) {
                         Timber.e("watchStatus : " + watchStatus.getWatchOff());
                         if (watchStatus.getWatchOff().equalsIgnoreCase("Y"))
                             CombineObjectConstance.getInstance().setWatchAlarm(true);
-                        else
-                            CombineObjectConstance.getInstance().setWatchAlarm(false);
+                        else CombineObjectConstance.getInstance().setWatchAlarm(false);
                         view.onUpdateWearerStatus();
                     }
                     break;
                 case EVENT_REFRESH_LOCATION_CODE:
-                    LocationIntentService.isRefreshLocation = false;
+                    // TODO REQUEST NEW LOCATION
+                    /*LocationIntentService.isRefreshLocation = false;
                     Location currLocation = new Gson().fromJson(_eventData.getContent(), Location.class);
                     if (currLocation != null) {
                         view.updateLocation(currLocation);
@@ -628,10 +614,10 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                         locationUpdate.setPower(getPowerLevel());
                         interactor.callSendNewLocationService(locationUpdate);
                     }
-                    LocationIntentService.locationRefreshEndpoint = "";
+                    LocationIntentService.locationRefreshEndpoint = "";*/
                     break;
                 case EVENT_UPDATE_LOCATION_CODE:
-                    LocationIntentService.isRefreshLocation = false;
+                   /* LocationIntentService.isRefreshLocation = false;
                     LocationIntentService.locationRefreshEndpoint = "";
                     Location location = new Gson().fromJson(_eventData.getContent(), Location.class);
                     if (location != null) {
@@ -642,7 +628,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                         if (iEventPrefManager != null)
                             locationUpdateRequest.setEventList(new Gson().toJson(iEventPrefManager.getEvent().getListEvent()));
                         requestEventInterval(locationUpdateRequest);
-                    }
+                    }*/
                     break;
             }
         } catch (Exception ignore) {
@@ -659,11 +645,9 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
      * @param locationInfo
      */
     private void requestEventInterval(LocationUpdateRequest locationInfo) {
-        if (!isNetworkAvailable())
-            return;
+        if (!isNetworkAvailable()) return;
         final long now = SystemClock.elapsedRealtime();// + (30 * 1000);
-        if (iSettingManager == null)
-            return;
+        if (iSettingManager == null) return;
         Timber.e((now - mLastLocationTime) + " : " + (iSettingManager.getSetting().getPositionTiming() - 60) * 1000);
         if (now - mLastLocationTime < ((iSettingManager.getSetting().getPositionTiming() - 60) * 1000) && mLastLocationTime != 0)
             return;
@@ -672,7 +656,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
             if (locationInfo != null) {
                 locationInfo.setPower(getPowerLevel());
                 locationInfo.setImei(WearerInfoUtils.getInstance().getImei());
-                interactor.callUpdateInfoAndGetEventService(LauncherPresenterImpl.this, locationInfo);
+                TCPSocketServiceProvider.getInstance().sendMessageFromLauncher(this, CMDCode.CMD_LOCATION_UPDATE, new Gson().toJson(locationInfo));
                 mLastLocationTime = now;
             }
         } else {
@@ -683,11 +667,13 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                     locationInfo.setPower(getPowerLevel());
                     locationInfo.setImei(WearerInfoUtils.getInstance().getImei());
                     locationInfo.setStep(iFitnessPrefManager.getFitness().getStepForSync());
-                    interactor.callUpdateInfoAndGetEventService(LauncherPresenterImpl.this, locationInfo);
+
+                    TCPSocketServiceProvider.getInstance().sendMessageFromLauncher(this, CMDCode.CMD_LOCATION_UPDATE, new Gson().toJson(locationInfo));
+                    //interactor.callUpdateInfoAndGetEventService(LauncherPresenterImpl.this, locationInfo);
                     mLastStepTime = now;
                     mLastLocationTime = now;
                 }
-            }, 2000);
+            }, 3000);
         }
     }
 
@@ -702,36 +688,30 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
         view.sendIntentToBroadcast(new Intent(ACTION_REGISTER_TWILIO_TOKEN));
         if (inClassModePrefModel != null)
             inClassModePrefModel = inClassModeManager.getInClassMode();
-        if (sleepTimePrefModel != null)
-            sleepTimePrefModel = iSleepTimeManager.getSleepTime();
+        if (sleepTimePrefModel != null) sleepTimePrefModel = iSleepTimeManager.getSleepTime();
         if (iSettingManager != null) {
             SettingPrefModel settingPrefModel = iSettingManager.getSetting();
-            if (settingPrefModel == null)
-                return;
+            if (settingPrefModel == null) return;
             CombineObjectConstance.getInstance().setSilentMode(settingPrefModel.isSilentMode());
             CombineObjectConstance.getInstance().setAutoAnswer(settingPrefModel.isAutoAnswer());
             CombineObjectConstance.getInstance().setWatchAlarm(settingPrefModel.isWearerStatus());
             /**
              * Auto Timezone Setup
              */
-            if (settingPrefModel.isAutoTimezone())
-                view.setAutoTimezone();
-            else
-                view.setUpTimeZone(settingPrefModel.getTimeZone());
+            if (settingPrefModel.isAutoTimezone()) view.setAutoTimezone();
+            else view.setUpTimeZone(settingPrefModel.getTimeZone());
             /**
              * Auto Answer
              */
-            if (settingPrefModel.isAutoAnswer())
+            /*if (settingPrefModel.isAutoAnswer())
                 view.enableAutoAnswer();
             else
-                view.disableAutoAnswer();
+                view.disableAutoAnswer();*/
             /**
              * Silent Mode
              */
-            if (settingPrefModel.isSilentMode())
-                view.onEnableSilentMode();
-            else
-                view.onDisableSilentMode();
+            if (settingPrefModel.isSilentMode()) view.onEnableSilentMode();
+            else view.onDisableSilentMode();
             /**
              * Screen Timer Off
              */
@@ -793,7 +773,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
 
     @Override
     public void requestSOS(String imei) {
-        interactor.callSOS(this, new ImeiRequest(imei));
+        TCPSocketServiceProvider.getInstance().sendMessageFromLauncher(this, CMDCode.CMD_LOCATION_UPDATE, "");
         EventDataInfo eventContent = new EventDataInfo();
         eventContent.setEventCode(EVENT_SOS_CODE);
         view.onSendEventToBroadcast(eventContent);
@@ -801,8 +781,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
 
     @Override
     public void alarmTime(AlarmModel alarm) {
-        if (isInClassModeEnable)
-            return;
+        if (isInClassModeEnable) return;
         try {
             view.onWakeScreen();
             EventDataInfo eventContent = new EventDataInfo();
@@ -813,7 +792,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
         }
     }
 
-    private void setUpAlarm(EventDataInfo _event) throws Exception {
+    private void setUpAlarm(EventDataInfo _event) {
         if (_event.getContent() != null && !_event.getContent().isEmpty()) {
             ArrayList<AlarmModel> alarmList = new Gson().fromJson(_event.getContent(), new TypeToken<ArrayList<AlarmModel>>() {
             }.getType());
@@ -824,8 +803,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     @Override
     public void updateScheduler(ArrayList<AlarmModel> alarmList) {
         try {
-            if (alarmList == null)
-                return;
+            if (alarmList == null) return;
             AlarmDatabase mDbAdapter = new AlarmDatabase(ActivityContextor.getInstance().getContext());
             mDbAdapter.open();
             mDbAdapter.deleteAlarmByType(AlarmItem.TYPE_ALARM);
@@ -855,9 +833,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
         mActivity.getLoaderManager().initLoader(2, null, new LoaderManager.LoaderCallbacks<Cursor>() {
             @Override
             public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-                return new CursorLoader(mActivity,
-                        POMOContract.EventEntry.CONTENT_URI, null, POMOContract.EventEntry.EVENT_CODE + " = ? or " + POMOContract.EventEntry.EVENT_CODE + " = ?", new String[]{String.valueOf(EVENT_MESSAGE_CODE), String.valueOf(EVENT_GROUP_CHAT_CODE)},
-                        null);
+                return new CursorLoader(mActivity, POMOContract.EventEntry.CONTENT_URI, null, POMOContract.EventEntry.EVENT_CODE + " = ? or " + POMOContract.EventEntry.EVENT_CODE + " = ?", new String[]{String.valueOf(EVENT_MESSAGE_CODE), String.valueOf(EVENT_GROUP_CHAT_CODE)}, null);
             }
 
             @Override
@@ -889,8 +865,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
 
     private void setUpSleepTimeMode(EventDataInfo _event) {
         if (_event.getContent() != null && !_event.getContent().isEmpty()) {
-            if (iSleepTimeManager == null)
-                return;
+            if (iSleepTimeManager == null) return;
             iSleepTimeManager.addSleepTime(new Gson().fromJson(_event.getContent(), SleepTimePrefModel.class));
             sleepTimePrefModel = iSleepTimeManager.getSleepTime();
             validateSleepMode();
@@ -900,8 +875,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
 
     private void setUpInClassMode(EventDataInfo _event) {
         if (_event.getContent() != null && !_event.getContent().isEmpty()) {
-            if (inClassModeManager == null)
-                return;
+            if (inClassModeManager == null) return;
             inClassModeManager.addInClassMode(new Gson().fromJson(_event.getContent(), InClassModePrefModel.class));
             inClassModePrefModel = inClassModeManager.getInClassMode();
             validateInClassMode();
@@ -912,7 +886,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     /**
      * Contact Content Provider
      *
-     * @param acc
+     * @param acc isContact all
      */
     @Override
     public void initContactListContentProvider(Activity acc) {
@@ -920,9 +894,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
             acc.getLoaderManager().initLoader(POMOContentProvider.CONTACT, null, new LoaderManager.LoaderCallbacks<Cursor>() {
                 @Override
                 public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-                    return new CursorLoader(acc,
-                            POMOContract.ContactEntry.CONTENT_URI, null, null, null,
-                            null);
+                    return new CursorLoader(acc, POMOContract.ContactEntry.CONTENT_URI, null, null, null, null);
                 }
 
                 @Override
@@ -967,9 +939,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
             acc.getLoaderManager().initLoader(POMOContentProvider.CALL, null, new LoaderManager.LoaderCallbacks<Cursor>() {
                 @Override
                 public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-                    return new CursorLoader(acc,
-                            POMOContract.CallEntry.CONTENT_URI, null, POMOContract.CallEntry.IS_READ + " = 0", null,
-                            POMOContract.CallEntry.DATE + " DESC");
+                    return new CursorLoader(acc, POMOContract.CallEntry.CONTENT_URI, null, POMOContract.CallEntry.IS_READ + " = 0", null, POMOContract.CallEntry.DATE + " DESC");
                 }
 
                 @Override
@@ -1025,8 +995,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                             CombineObjectConstance.getInstance().getCallEntity().setInComingCalls(inComingCalls);
                             CombineObjectConstance.getInstance().getCallEntity().setCallDao(lstCallDao);
                             CombineObjectConstance.getInstance().setHaveMissCall(missCalls > 0);
-                            if (iNotificationManager == null)
-                                return;
+                            if (iNotificationManager == null) return;
                             NotificationPrefModel notification = iNotificationManager.getNotification();
                             notification.setHaveMissCall(missCalls > 0);
                             iNotificationManager.addNotification(notification);

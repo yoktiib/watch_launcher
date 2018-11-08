@@ -1,40 +1,30 @@
 package com.pomohouse.launcher.main;
 
-import android.app.Activity;
-import android.app.PendingIntent;
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.content.SharedPreferences;
+import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.location.Location;
-import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationAvailability;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.pomohouse.component.pager.HorizontalViewPager;
 import com.pomohouse.launcher.POMOWatchApplication;
@@ -68,8 +58,8 @@ import com.pomohouse.launcher.manager.theme.ThemePrefModel;
 import com.pomohouse.launcher.models.DeviceInfoModel;
 import com.pomohouse.launcher.models.DeviceSetUpDao;
 import com.pomohouse.launcher.models.EventDataInfo;
-import com.pomohouse.launcher.models.settings.AutoAnswerDao;
 import com.pomohouse.launcher.models.settings.InClassDao;
+import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 import com.pomohouse.launcher.utils.CombineObjectConstance;
 import com.pomohouse.library.WearerInfoUtils;
 import com.pomohouse.library.manager.ActivityContextor;
@@ -84,10 +74,10 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+
 import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_AUTO_ANSWER_CALL_INTENT;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_KILL_APP;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_UPDATE_INTENT;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_IN_CLASS_INTENT;
@@ -97,7 +87,7 @@ import static com.pomohouse.launcher.main.presenter.LauncherPresenterImpl.EVENT_
 /**
  * Manages start screen of the application.
  */
-public class LauncherActivity extends BaseLauncherActivity implements ILauncherView, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class LauncherActivity extends BaseLauncherActivity implements ILauncherView/*, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener*/ {
     private static final int DEVICE_ACTION = 1;
     @BindView(R.id.viewpager)
     HorizontalViewPager viewPager;
@@ -119,9 +109,8 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     ISettingManager settingManager;
     @Inject
     ISleepTimeManager sleepTimeManager;
-    private PendingIntent mLocationPendingIntent;
+
     private LauncherHorizontalPagerAdapter pagerAdapter;
-    private GoogleApiClient googleApiClient;
     private boolean isLocationStart = false, isAlarmTime = false;
 
     @Override
@@ -139,42 +128,28 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     }
 
     @Override
-    public void onConnected(Bundle bundle) {
-        // Do something when connected with Google API Client
-        this.checkLocationAvailable();
-    }
-
-    @Override
     public void startLocation() {
-        if (!isLocationStart && googleApiClient != null) {
+        //TODO Location Start
+        /*if (!isLocationStart && googleApiClient != null) {
             Timber.e("Start googleApiClient");
             if (!googleApiClient.isConnected())
                 googleApiClient.connect();
             else
                 this.checkLocationAvailable();
-        }
+        }*/
     }
 
     @Override
     public void stopLocation() {
-        try {
-            isLocationStart = false;
-            if (googleApiClient != null && googleApiClient.isConnected()) {
-                Timber.e("stopLocation");
-                if (mLocationPendingIntent != null)
-                    LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, mLocationPendingIntent);
-                googleApiClient.disconnect();
-            }
-        } catch (Exception ignore) {
-        }
+        //TODO Location End
+
     }
 
     @Override
     protected void onDestroy() {
         presenter.onDestroy();
         super.onDestroy();
-        if (googleApiClient != null && googleApiClient.isConnected())
-            googleApiClient.disconnect();
+        //Disconnect Socket
     }
 
     @Override
@@ -196,122 +171,28 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     @Override
     public void requestGPSLocation() {
         Timber.e("requestGPSLocation");
-        LocationRequest locationRequest = new LocationRequest()
-                .setNumUpdates(1)
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        LocationAvailability locationAvailability = LocationServices.FusedLocationApi.getLocationAvailability(googleApiClient);
-        if (locationAvailability == null)
-            LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, initIntentPadding(1));
+        //TODO Reuqest GPS
     }
 
-    public void checkLocationAvailable() {
-        if (!isNetworkAvailable())
-            return;
-        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifiManager.startScan();
-        new Handler().postDelayed(() -> {
-            LocationRequest locationRequest = new LocationRequest()
-                    .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-                    // .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                    .setInterval(settingManager.getSetting().getPositionTiming() * 1000);
-            if (googleApiClient != null && googleApiClient.isConnected()) {
-                isLocationStart = true;
-                LocationAvailability locationAvailability = LocationServices.FusedLocationApi.getLocationAvailability(googleApiClient);
-                if (locationAvailability == null) {
-                    LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, initIntentPadding(0));
-                    return;
-                }
-                if (locationAvailability.isLocationAvailable()) {
-                    LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, initIntentPadding(0));
-                } else {
-                    try {
-                        Timber.e("Start initLocationService " + locationAvailability.isLocationAvailable());
-                        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-                                .addLocationRequest(locationRequest);
-                        builder.setNeedBle(true);
-                        PendingResult<LocationSettingsResult> result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
-                        result.setResultCallback(resultData -> {
-                            final Status status = resultData.getStatus();
-                            switch (status.getStatusCode()) {
-                                case LocationSettingsStatusCodes.SUCCESS:
-                                    Timber.e("LocationSettingsStatusCodes.SUCCESS");
-                                    LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, initIntentPadding(0));
-                                    // All location settings are satisfied. The client can initialize location
-                                    // requests here.
-                                    break;
-                                case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                                    // Location settings are not satisfied. But could be fixed by showing the user
-                                    // a dialog.
-                                    try {
-                                        Timber.e("LocationSettingsStatusCodes.RESOLUTION_REQUIRED");
-                                        // Show the dialog by calling startResolutionForResult(),
-                                        // and check the result in onActivityResult().
-                                        status.startResolutionForResult(LauncherActivity.this, REQUEST_CHECK_SETTINGS);
-                                    } catch (IntentSender.SendIntentException e) {
-                                        // Ignore the error.
-                                    }
-                                    break;
-                                case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                                    // Location settings are not satisfied. However, we have no way to fix the
-                                    // settings so we won't show the dialog.
-                                    break;
-                            }
-                        });
-                    } catch (Exception ignore) {
-                    }
-                }
-            }
-        }, 10000);
-    }
-
-   /* @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_CHECK_SETTINGS:
-                switch (resultCode) {
-                    case Activity.RESULT_OK:
-                        if (!isLocationStart && googleApiClient != null) {
-                            Timber.e("Start googleApiClient");
-                            if (!googleApiClient.isConnected())
-                                googleApiClient.connect();
-                            else
-                                LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, initIntentPadding(0));
-                        }
-                        break;
-                    case Activity.RESULT_CANCELED:
-                        //checkLocationAvailable();//keep asking if imp or do whatever
-                        break;
-                }
-                break;
-        }
-    }*/
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        // Do something when Google API Client connection was suspended
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        // Do something when Google API Client connection failed
-    }
-
-    public PendingIntent initIntentPadding(int id) {
-        if (mLocationPendingIntent == null)
-            return mLocationPendingIntent = PendingIntent.getService(this, id, new Intent(this, LocationIntentService.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        else return mLocationPendingIntent;
-    }
+    private final int MY_PERMISSIONS = 1010;
+    String[] PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_SETTINGS, Manifest.permission.MODIFY_AUDIO_SETTINGS, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CALL_PHONE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.PROCESS_OUTGOING_CALLS, Manifest.permission.WRITE_CONTACTS, Manifest.permission.WAKE_LOCK, Manifest.permission.SET_TIME_ZONE};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         super.onSetNotificationManager(notificationManager);
         super.onSetSettingManager(settingManager);
         setContentView(R.layout.activity_main);
-        this.startDefaultSetting();
-        String fcmToken = FirebaseInstanceId.getInstance().getToken();
-        Timber.e("Token  : " + fcmToken);
+        POMOWatchApplication signalApplication = (POMOWatchApplication) getApplication();
+        if (signalApplication.getSocket() != null) {
+            Log.e("Socket", " is null");
+            startService(new Intent(getBaseContext(), TCPSocketServiceProvider.class));
+        }
 
+        doBindService();
+
+        this.startDefaultSetting();
         presenter.provideThemeManager(themeManager);
         presenter.provideEventManager(iEventPrefManager);
         presenter.provideSettingManager(settingManager);
@@ -323,18 +204,40 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         presenter.initContactCallsProvider(this);
         presenter.initContactListContentProvider(this);
         presenter.initMessageContentProvider(this);
-
-        presenter.updateFCMTokenManager(fcmToken);
+        //String fcmToken = FirebaseInstanceId.getInstance().getToken();
+        //Timber.e("Token  : " + fcmToken);
+        /*presenter.updateFCMTokenManager(fcmToken);
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-        Intent i = new Intent();
-        startService(i.setComponent(new ComponentName("com.pomohouse.contact", "com.pomohouse.contact.VoIPService")));
-
+        Intent i = new Intent();*/
+        //startService(i.setComponent(new ComponentName("com.pomohouse.contact", "com.pomohouse.contact.VoIPService")));
+/*
         SharedPreferences testPrefs = getSharedPreferences
-                ("test_prefs", Context.MODE_WORLD_READABLE);
+                ("test_prefs", Context.MODE_WORLD_READABLE);*/
+
+    }
+
+    private boolean mIsBound;
+    protected ServiceConnection socketConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            POMOWatchApplication.mBoundService = ((TCPSocketServiceProvider.LocalBinder) service).getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            POMOWatchApplication.mBoundService = null;
+        }
+    };
+
+    private void doBindService() {
+        if (POMOWatchApplication.mBoundService != null) {
+            bindService(new Intent(this, TCPSocketServiceProvider.class), socketConnection, Context.BIND_AUTO_CREATE);
+            mIsBound = true;
+        }
     }
 
     @Override
@@ -342,11 +245,13 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         super.onPostCreate(savedInstanceState);
         viewPager.setAdapter(pagerAdapter = new LauncherHorizontalPagerAdapter(getSupportFragmentManager()));
         viewPager.setCurrentItem(1);
-        contactPresenter.onInitial(this);
+
         DeviceActionReceiver.getInstance().setLauncherTimeTickChangedListener(timeTickChangedListener);
         AlarmReceiver.getInstance().initAlarmListener(alarmListener);
         EventReceiver.getInstance().initEventLauncherListener(this::onEventReceived);
+
         presenter.onInitial(this);
+        contactPresenter.onInitial(this);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -364,7 +269,54 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
             public void onPageScrollStateChanged(int state) {
             }
         });
-        presenter.initDevice();
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (!hasPermissions(this, PERMISSIONS)) {
+                ActivityCompat.requestPermissions(this, PERMISSIONS, MY_PERMISSIONS);
+            } else {
+                presenter.initDevice();
+            }
+        } else {
+            presenter.initDevice();
+        }
+    }
+
+    public boolean hasPermissions(Context context, String... permissions) {
+        if (context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean isAllAllowed = false;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        /*Log.d("", "Permission callback called-------");
+        switch (requestCode) {
+            case MY_PERMISSIONS: {
+                Manifest.permission., Manifest.permission., Manifest.permission.WAKE_LOCK, Manifest.permission.SET_TIME_ZONE;
+                Map<String, Integer> perms = new HashMap<>();
+                for (String perm : permissions)
+                    perms.put(perm, PackageManager.PERMISSION_GRANTED);
+
+                // Fill with actual results from user
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < permissions.length; i++)
+                        perms.put(permissions[i], grantResults[i]);
+                    // Check for both permissions
+                    if (perms.get(i) == PackageManager.PERMISSION_GRANTED && perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+                    } else {
+
+                    }
+                }
+            }
+        }*/
     }
 
     /**
@@ -544,8 +496,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         switch (msg.what) {
             case DEVICE_ACTION:
                 Intent intent = (Intent) msg.obj;
-                if (intent == null)
-                    return true;
+                if (intent == null) return true;
                 switch (intent.getAction()) {
                     case Intent.ACTION_BOOT_COMPLETED:
                         contactPresenter.requestContact(WearerInfoUtils.getInstance(this).getImei());
@@ -556,8 +507,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
                     case Intent.ACTION_SCREEN_OFF:
                         presenter.lockScreenDevice();
                         sendBroadcast(new Intent(SEND_EVENT_KILL_APP));
-                        if (viewPager.getCurrentItem() != 1)
-                            viewPager.setCurrentItem(1);
+                        if (viewPager.getCurrentItem() != 1) viewPager.setCurrentItem(1);
                         break;
                     case Intent.ACTION_POWER_DISCONNECTED:
                         presenter.batteryUnCharging();
@@ -612,8 +562,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         flag = false;
         flag2 = true;
         new Handler().postDelayed(() -> {
-            if (flag2)
-                presenter.requestSOS(WearerInfoUtils.getInstance().getImei());
+            if (flag2) presenter.requestSOS(WearerInfoUtils.getInstance().getImei());
         }, 1500);
         return true;
     }
@@ -628,16 +577,14 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
     @Override
     public void onWakeScreen() {
-        PowerManager.WakeLock screenLock = ((PowerManager) getSystemService(POWER_SERVICE)).newWakeLock(
-                PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "Alarm");
+        PowerManager.WakeLock screenLock = ((PowerManager) getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, "Alarm");
         screenLock.acquire();
         screenLock.release();
     }
 
     @Override
     public void setUpInClassModeEnable() {
-        if (soundPoolManager != null)
-            soundPoolManager.silentMode(this);
+        if (soundPoolManager != null) soundPoolManager.silentMode(this);
         Intent intent = new Intent(SEND_IN_CLASS_INTENT);
         intent.putExtra(EVENT_EXTRA, new Gson().toJson(new InClassDao().setInClass("Y")));
         sendBroadcast(intent);
@@ -647,8 +594,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         float backLightValue = 0.1f;
         {
             int brightnessInt = (int) (backLightValue * 255);
-            if (brightnessInt < 1)
-                brightnessInt = 1;
+            if (brightnessInt < 1) brightnessInt = 1;
             ContentResolver cResolver = getContentResolver();
             Settings.System.putInt(cResolver, Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
             Settings.System.putInt(cResolver, Settings.System.SCREEN_BRIGHTNESS, brightnessInt);
@@ -670,21 +616,16 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
     @Override
     public void onResetFactoryEventReceived(EventDataInfo eventData) {
-        if (inClassModeManager != null)
-            inClassModeManager.removeInClassMode();
+        if (inClassModeManager != null) inClassModeManager.removeInClassMode();
         {
             AlarmDatabase mDbAdapter = new AlarmDatabase(this);
             mDbAdapter.open();
             mDbAdapter.deleteAlarmByType(AlarmItem.TYPE_ALARM);
         }
-        if (themeManager != null)
-            themeManager.removeCurrentTheme();
-        if (fitnessPrefManager != null)
-            fitnessPrefManager.removeFitness();
-        if (settingManager != null)
-            settingManager.removeMiniSetting();
-        if (contactPresenter != null)
-            contactPresenter.onDeleteAllContact();
+        if (themeManager != null) themeManager.removeCurrentTheme();
+        if (fitnessPrefManager != null) fitnessPrefManager.removeFitness();
+        if (settingManager != null) settingManager.removeMiniSetting();
+        if (contactPresenter != null) contactPresenter.onDeleteAllContact();
 
         /**
          * Send Broadcast to setup Sound after reset factory
@@ -754,13 +695,13 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     public void onChangeLanguage(Locale locale) {
         setLanguage(locale.getLanguage());
         WearerInfoUtils.getInstance().setLanguage(locale.getLanguage());
-        Log.d("Launcher","onChangeLanguage "+ WearerInfoUtils.getInstance().getLanguage());
+        Log.d("Launcher", "onChangeLanguage " + WearerInfoUtils.getInstance().getLanguage());
     }
 
     /**
      * Auto answer : watch must answer call auto
      */
-    @Override
+ /*   @Override
     public void enableAutoAnswer() {
         CombineObjectConstance.getInstance().setAutoAnswer(true);
         Settings.System.putInt(this.getContentResolver(), "AUTO_ANSWER_ON", 1);
@@ -770,6 +711,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         modifyVolumeChanged(settingManager.getSetting());
     }
 
+
     @Override
     public void disableAutoAnswer() {
         CombineObjectConstance.getInstance().setAutoAnswer(false);
@@ -778,7 +720,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         intent.putExtra(EVENT_EXTRA, new Gson().toJson(new AutoAnswerDao().setAutoAnswer("N")));
         sendBroadcast(intent);
         modifyVolumeChanged(settingManager.getSetting());
-    }
+    }*/
 
     /**
      * Update Watch off alarm : modify mode when have event put/off
@@ -822,14 +764,12 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
     @Override
     public void onSendFilterBroadcast(String filter) {
-        if (filter != null)
-            sendBroadcast(new Intent(filter));
+        if (filter != null) sendBroadcast(new Intent(filter));
     }
 
     @Override
     public void sendIntentToBroadcast(Intent intent) {
-        if (intent != null)
-            sendBroadcast(intent);
+        if (intent != null) sendBroadcast(intent);
     }
 
     @Override

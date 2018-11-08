@@ -23,6 +23,7 @@
 package com.pomohouse.library.languages;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.Locale;
@@ -46,6 +47,7 @@ public class LocalizationActivity extends AppCompatActivity implements OnLocaleC
         super.onResume();
         localizationDelegate.onResume();
     }
+
 
     public final void setLanguage(String language) {
         localizationDelegate.setLanguage(language);

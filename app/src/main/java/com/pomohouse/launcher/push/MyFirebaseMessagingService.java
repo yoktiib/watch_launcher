@@ -12,7 +12,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *//*
+
 
 package com.pomohouse.launcher.push;
 
@@ -39,11 +40,13 @@ import static com.pomohouse.launcher.main.presenter.LauncherPresenterImpl.EVENT_
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     IEventPrefManager iEventPrefManager;
 
-    /**
+    */
+/**
      * Called when message is received.
      *
      * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
-     */
+     *//*
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // TODO(developer): Handle FCM messages here.
@@ -95,3 +98,4 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 }
+*/

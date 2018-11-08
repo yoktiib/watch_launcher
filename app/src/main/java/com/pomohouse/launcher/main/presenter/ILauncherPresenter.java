@@ -3,6 +3,7 @@ package com.pomohouse.launcher.main.presenter;
 import android.app.Activity;
 import android.content.Context;
 
+import com.pomohouse.launcher.POMOWatchApplication;
 import com.pomohouse.launcher.api.requests.UpdateFirebaseRequest;
 import com.pomohouse.launcher.manager.event.IEventPrefManager;
 import com.pomohouse.launcher.manager.fitness.IFitnessPrefManager;
@@ -12,6 +13,7 @@ import com.pomohouse.launcher.manager.settings.ISettingManager;
 import com.pomohouse.launcher.manager.sleep_time.ISleepTimeManager;
 import com.pomohouse.launcher.manager.theme.IThemePrefManager;
 import com.pomohouse.launcher.models.AlarmModel;
+import com.pomohouse.launcher.models.DeviceInfoModel;
 import com.pomohouse.launcher.models.EventDataInfo;
 import com.pomohouse.library.base.interfaces.presenter.IBaseRequestStatePresenter;
 
@@ -76,4 +78,5 @@ public interface ILauncherPresenter extends IBaseRequestStatePresenter {
     void onStop();
 
     void addNewWatchFaceToSetting(Context mContext, boolean open);
+
 }

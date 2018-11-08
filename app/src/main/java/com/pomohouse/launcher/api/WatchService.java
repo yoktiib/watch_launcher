@@ -27,14 +27,14 @@ import rx.Observable;
  */
 public interface WatchService {
 
-    @POST("initDevice")
-    Observable<ResultGenerator<DeviceInfoModel>> callInitialDevice(@Body InitDeviceRequest param);
+    /*@POST("initDevice")
+    Observable<ResultGenerator<DeviceInfoModel>> callInitialDevice(@Body InitDeviceRequest param);*/
 
     @POST("pair/pinCode")
     Observable<ResultGenerator<PinCodeModel>> callPinCode(@Body ImeiRequest param);
 
-    @POST("contact/requestAllContacts")
-    Observable<ContactCollection> callReadyRequestFriend(@Body ImeiRequest param);
+    /*@POST("contact/requestAllContacts")
+    Observable<ContactCollection> callReadyRequestFriend(@Body ImeiRequest param);*/
 
     @POST("requestEventAndUpdateInfo")
     Observable<EventDataListModel> callUpdateInfoAndGetEventService(@Body LocationUpdateRequest request);

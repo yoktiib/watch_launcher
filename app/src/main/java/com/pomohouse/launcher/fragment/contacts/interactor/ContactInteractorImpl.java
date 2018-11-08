@@ -29,7 +29,7 @@ public class ContactInteractorImpl extends BaseInteractor implements IContactInt
     public void callContactService(OnContactListener listener, ImeiRequest imeiRequest) {
         if (listener == null)
             return;
-        Observable<ContactCollection> service = contactService.callReadyRequestFriend(imeiRequest)
+       /* Observable<ContactCollection> service = contactService.callReadyRequestFriend(imeiRequest)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
 
@@ -52,7 +52,7 @@ public class ContactInteractorImpl extends BaseInteractor implements IContactInt
                 else
                     listener.onContactFailure(metaData);
             }
-        }));
+        }));*/
     }
 
     @Override

@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CALL_STATE" />
+
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
@@ -23,7 +23,7 @@
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!--<uses-permission android:name="android.permission.RECORD_AUDIO" />-->
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -68,7 +68,7 @@
         <activity android:name=".activity.settings.SettingActivity" />
         <activity android:name=".activity.settings.options.OptionSettingActivity" />
         <activity android:name=".activity.settings.about.AboutActivity" />
-        <activity android:name=".activity.mosquito.MosquitoActivity" />
+        <!--<activity android:name=".activity.mosquito.MosquitoActivity" />-->
         <activity android:name=".activity.pair.EventAlertActivity" />
         <activity android:name=".activity.pincode.PinCodeActivity" />
         <activity android:name=".activity.settings.reset_factory.ResetFactoryInfoActivity" />
@@ -95,7 +95,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".push.MyFirebaseMessagingService">
+        <!--<service android:name=".push.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -104,19 +104,19 @@
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
-        </service>
+        </service>-->
 
         <provider
             android:name=".content_provider.POMOContentProvider"
             android:authorities="com.pomohouse"
-            android:exported="true" />
+            android:exported="false" />
 
         <service android:name=".lock_screen.LockScreenService" />
         <service android:name=".broadcast.alarm.receiver.AalService" />
-        <service android:name=".activity.mosquito.MosquitoService" />
+        <service android:name=".tcp.TCPSocketServiceProvider" />
         <service android:name=".broadcast.sensor.SensorService" />
 
-        <service android:name=".main.LocationIntentService" />
+        <!--<service android:name=".main.LocationIntentService" />-->
     </application>
 
 </manifest>

@@ -1,21 +1,27 @@
 package com.pomohouse.launcher.fragment.main;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.pwittchen.networkevents.library.BusWrapper;
 import com.github.pwittchen.networkevents.library.NetworkEvents;
 import com.github.pwittchen.networkevents.library.event.ConnectivityChanged;
+import com.pomohouse.launcher.POMOWatchApplication;
 import com.pomohouse.launcher.R;
 import com.pomohouse.launcher.activity.getstarted.GetStartActivity;
 import com.pomohouse.launcher.activity.theme.ThemeActivity;
@@ -29,10 +35,12 @@ import com.pomohouse.launcher.di.module.MainFragmentPresenterModule;
 import com.pomohouse.launcher.fragment.main.presenter.IMainFragmentPresenter;
 import com.pomohouse.launcher.fragment.theme.ThemeAnalogFragment;
 import com.pomohouse.launcher.fragment.theme.ThemeDigitalFragment;
+import com.pomohouse.launcher.main.LauncherActivity;
 import com.pomohouse.launcher.manager.settings.ISettingManager;
 import com.pomohouse.launcher.manager.theme.IThemePrefManager;
 import com.pomohouse.launcher.manager.theme.ThemePrefModel;
 import com.pomohouse.launcher.models.EventDataInfo;
+import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 import com.pomohouse.launcher.utils.SoundPoolManager;
 import com.pomohouse.launcher.utils.TelephoneState;
 import com.pomohouse.launcher.utils.VibrateManager;
@@ -41,14 +49,25 @@ import com.pomohouse.library.WearerInfoUtils;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import butterknife.OnLongClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import moe.codeest.rxsocketclient.RxSocketClient;
+import moe.codeest.rxsocketclient.SocketSubscriber;
+import moe.codeest.rxsocketclient.meta.SocketConfig;
+import moe.codeest.rxsocketclient.meta.SocketOption;
+import moe.codeest.rxsocketclient.meta.ThreadStrategy;
 import timber.log.Timber;
 
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_INTERNET_AVAILABLE;
@@ -113,13 +132,18 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
         super.onSaveInstanceState(outState);
     }
 
+    @SuppressLint("CheckResult")
+    @OnClick(R.id.btnConnect)
+    public void clickConnect() {
+        TCPSocketServiceProvider.getInstance().sendMessage(120, "<PMHStart><184><K8><><1.0.7><101><{\"BTName\":\"G6\",\"firmwareVersion\":\"OPR1.170623.032\",\"launcherVersion\":\"1.0.7\",\"macAddress\":\"02:00:00:00:00:00\",\"simOperator\":\"\",\"simOperatorName\":\"\",\"timeZone\":\"Asia/Bangkok\",\"imei\":\"\"}><146><PMHEnd>");
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter.onInitial(getContext());
+        presenter.onInitial(getActivity());
         try {
-            if (telephoneState == null)
-                telephoneState = new TelephoneState(getContext());
+            if (telephoneState == null) telephoneState = new TelephoneState(getContext());
             telephoneState.init(signalListener);
             if (themePrefModelArrayList == null)
                 themePrefModelArrayList = themeManager.getDataTheme();
@@ -159,8 +183,7 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
             if (settingManager != null && settingManager.getSetting().isMobileData()) {
                 Intent dataOnIntent = new Intent("com.pomohouse.waffle.REQUEST_MOBILE_DATA");
                 dataOnIntent.putExtra("status", "on");
-                if (getActivity() != null)
-                    getActivity().sendBroadcast(dataOnIntent);
+                if (getActivity() != null) getActivity().sendBroadcast(dataOnIntent);
             }
             //onCheckGetStart();
         }
@@ -227,7 +250,7 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
         super.onResume();
         checkThemeChange();
         presenter.onBatteryLevelInfo(getContext());
-        context.registerReceiver(simStateReceiver,new IntentFilter(ACTION_SIM_STATE_CHANGED));
+        context.registerReceiver(simStateReceiver, new IntentFilter(ACTION_SIM_STATE_CHANGED));
     }
 
     @Override
@@ -240,8 +263,7 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
         @Override
         public void onReceive(Context context, Intent intent) {
             try {
-                if (telephoneState == null)
-                    telephoneState = new TelephoneState(getContext());
+                if (telephoneState == null) telephoneState = new TelephoneState(getContext());
                 telephoneState.init(signalListener);
             } catch (Exception ignore) {
             }
@@ -253,8 +275,7 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
             themeManager.addCurrentTheme(themePrefModelArrayList.get(0));
         if (themeManager.getCurrentTheme().getThemeType() == ThemeType.DIGITAL)
             replaceFragment(ThemeDigitalFragment.newInstance(themeManager.getCurrentTheme()));
-        else
-            replaceFragment(ThemeAnalogFragment.newInstance(themeManager.getCurrentTheme()));
+        else replaceFragment(ThemeAnalogFragment.newInstance(themeManager.getCurrentTheme()));
     }
 
     public void checkThemeChange() {
@@ -269,9 +290,7 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
     protected void replaceFragment(BaseThemeFragment fragment) {
         if (fragment != null) {
             currentTheme = fragment;
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content, fragment)
-                    .commit();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
         }
     }
 
@@ -314,8 +333,7 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
     @Override
     public void powerConnected() {
         try {
-            if (getActivity() != null)
-                ivBattery.setImageResource(R.drawable.battery_charging);
+            if (getActivity() != null) ivBattery.setImageResource(R.drawable.battery_charging);
         } catch (Exception ignored) {
         }
     }
@@ -346,8 +364,7 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
     @Override
     public void onGroupChatEventReceived(EventDataInfo eventData) {
         this.onPlayMessagePlayer();
-        if (currentTheme != null && eventData != null)
-            currentTheme.eventReceived(eventData);
+        if (currentTheme != null && eventData != null) currentTheme.eventReceived(eventData);
     }
 
     @Override
@@ -358,10 +375,8 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
     }
 
     public void onPlayMessagePlayer() {
-        if (vibrateManager != null)
-            vibrateManager.notificationVibration();
-        if (soundPoolManager != null)
-            soundPoolManager.playNotification();
+        if (vibrateManager != null) vibrateManager.notificationVibration();
+        if (soundPoolManager != null) soundPoolManager.playNotification();
     }
 
     @Override
@@ -406,19 +421,15 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
 
     private void sendInternetAvailable(boolean inAvailable) {
         Intent intent;
-        if (inAvailable)
-            intent = new Intent(SEND_EVENT_INTERNET_AVAILABLE);
-        else
-            intent = new Intent(SEND_EVENT_INTERNET_UN_AVAILABLE);
+        if (inAvailable) intent = new Intent(SEND_EVENT_INTERNET_AVAILABLE);
+        else intent = new Intent(SEND_EVENT_INTERNET_UN_AVAILABLE);
         getContext().sendBroadcast(intent);
     }
 
     @Override
     public void onDestroyView() {
-        if (busWrapper != null)
-            busWrapper.unregister(this);
-        if (networkEvents != null)
-            networkEvents.unregister();
+        if (busWrapper != null) busWrapper.unregister(this);
+        if (networkEvents != null) networkEvents.unregister();
         busWrapper = null;
         networkEvents = null;
         super.onDestroyView();

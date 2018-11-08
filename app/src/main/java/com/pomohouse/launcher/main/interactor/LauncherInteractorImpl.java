@@ -39,7 +39,7 @@ public class LauncherInteractorImpl extends BaseInteractor implements ILauncherI
     public void callInitialDevice(InitDeviceRequest initialDeviceRequest, OnInitialDeviceListener listener) {
         if (listener == null)
             return;
-        Observable<ResultGenerator<DeviceInfoModel>> service = watchService.callInitialDevice(initialDeviceRequest)
+        /*Observable<ResultGenerator<DeviceInfoModel>> service = watchService.callInitialDevice(initialDeviceRequest)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
         listener.subscriptionRetrofit(service.subscribe(new Observer<ResultGenerator<DeviceInfoModel>>() {
@@ -63,7 +63,7 @@ public class LauncherInteractorImpl extends BaseInteractor implements ILauncherI
                     listener.onInitialDeviceFailure(metaData);
                 }
             }
-        }));
+        }));*/
     }
 
     @Override

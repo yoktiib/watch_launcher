@@ -10,9 +10,9 @@ import android.telephony.TelephonyManager;
 public class WearerInfoUtils {
     private static WearerInfoUtils ourInstance = new WearerInfoUtils();
     private String imei = "";
-    private String pomoVersion = "1.0.2";
+    private String pomoVersion = "1.1";
     private String language = "en";
-    private String platform = "POMOWatch";
+    private String platform = "K8";
     private boolean haveSimCard = false;
 
     public static WearerInfoUtils getInstance() {
@@ -34,8 +34,10 @@ public class WearerInfoUtils {
     public WearerInfoUtils initWearerInfoUtils(Context mContext) {
         try {
             TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-            imei = telephonyManager.getDeviceId();
-            haveSimCard = telephonyManager.getSimState() == TelephonyManager.SIM_STATE_READY;
+            if (telephonyManager != null) {
+                haveSimCard = telephonyManager.getSimState() == TelephonyManager.SIM_STATE_READY;
+                imei = telephonyManager.getDeviceId();
+            }
         } catch (Exception ignore) {
         }
         return this;
@@ -51,7 +53,7 @@ public class WearerInfoUtils {
 
     public String getPlatform() {
         if (platform == null)
-            return "POMOWatch";
+            return "K8";
         return platform;
     }
 
@@ -71,7 +73,7 @@ public class WearerInfoUtils {
 
     public String getPomoVersion() {
         if (pomoVersion == null)
-            return "1.0.2";
+            return "1.1";
         return pomoVersion;
     }
 

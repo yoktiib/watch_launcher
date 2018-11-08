@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         minSdkVersion 22
-        targetSdkVersion 27
+        targetSdkVersion 22
     }
     buildTypes {
         release {
@@ -37,8 +37,8 @@ dependencies {
     //Rx Android
     implementation 'com.jakewharton.timber:timber:4.6.0'
     implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
-    implementation 'io.reactivex:rxandroid:1.2.1'
-    implementation 'io.reactivex:rxjava:1.2.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation "io.reactivex.rxjava2:rxjava:2.2.0"
     //Dagger
     implementation "com.squareup.dagger:dagger:$daggerVer"
     annotationProcessor "com.squareup.dagger:dagger-compiler:$daggerVer"

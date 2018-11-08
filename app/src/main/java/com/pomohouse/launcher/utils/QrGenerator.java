@@ -56,7 +56,6 @@ public final class QrGenerator {
     private Bitmap createQRCode()
             throws WriterException {
         Hashtable<EncodeHintType, Object> hints = new Hashtable<>();
-
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
         hints.put(EncodeHintType.ERROR_CORRECTION, mEcl);
         hints.put(EncodeHintType.MARGIN, mMargin);

@@ -61,14 +61,12 @@ public class DeviceActionReceiver extends BaseBroadcast {
     }
 
     public static DeviceActionReceiver getInstance() {
-        if (receiver == null)
-            receiver = new DeviceActionReceiver();
+        if (receiver == null) receiver = new DeviceActionReceiver();
         return receiver;
     }
 
     public void startDeviceActionReceiver(Context mContext) {
-        if (mContext == null)
-            return;
+        if (mContext == null) return;
         final IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_BATTERY_LOW);
         filter.addAction(Intent.ACTION_BATTERY_CHANGED);
@@ -87,10 +85,8 @@ public class DeviceActionReceiver extends BaseBroadcast {
     }
 
     public boolean stopDeviceActionService(Context mContext) {
-        if (mContext == null)
-            return false;
-        if (receiver != null)
-            mContext.unregisterReceiver(receiver);
+        if (mContext == null) return false;
+        if (receiver != null) mContext.unregisterReceiver(receiver);
         return true;
     }
 
@@ -146,8 +142,7 @@ public class DeviceActionReceiver extends BaseBroadcast {
                 sendMainFaceListener(intent);
                 break;
             case Intent.ACTION_SCREEN_ON:
-                if (screenOnListener != null)
-                    screenOnListener.onScreenOn();
+                if (screenOnListener != null) screenOnListener.onScreenOn();
                 break;
             case Intent.ACTION_TIME_TICK:
                 Timber.e("Time Tick Size => " + (mLauncherTimeTickChangedListener != null) + ":" + (mThemeTimeTickChangedListener != null) + ":" + (mLockScreenTimeTickChangedListener != null));
@@ -162,13 +157,11 @@ public class DeviceActionReceiver extends BaseBroadcast {
     }
 
     public void sendMainFaceListener(Intent intent) {
-        if (mDeviceStatusListener != null)
-            mDeviceStatusListener.onDeviceAction(intent);
+        if (mDeviceStatusListener != null) mDeviceStatusListener.onDeviceAction(intent);
     }
 
     public void sendToLauncherListener(Intent intent) {
-        if (mDevicePowerListener != null)
-            mDevicePowerListener.onDeviceAction(intent);
+        if (mDevicePowerListener != null) mDevicePowerListener.onDeviceAction(intent);
     }
 
     public void destroyEventListener() {
