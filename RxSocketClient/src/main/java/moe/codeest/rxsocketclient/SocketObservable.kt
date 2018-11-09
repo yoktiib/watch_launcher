@@ -26,6 +26,7 @@ import java.net.Socket
 import moe.codeest.rxsocketclient.meta.SocketState
 import java.io.DataInputStream
 import java.io.IOException
+import java.net.SocketException
 
 
 /**
@@ -36,6 +37,7 @@ import java.io.IOException
 
 class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observable<DataWrapper>() {
 
+    var detectUserListener : OnDetectUserListener? = null
     val mReadThread: ReadThread = ReadThread()
     lateinit var observerWrapper: SocketObserver
     var mHeartBeatRef: Disposable? = null
@@ -46,6 +48,7 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
 
         Thread(Runnable {
             try {
+                mSocket.keepAlive = true
                 mSocket.connect(InetSocketAddress(mConfig.mIp, mConfig.mPort
                         ?: 1080), mConfig.mTimeout ?: 0)
                 observer?.onNext(DataWrapper(SocketState.OPEN, ByteArray(0)))
@@ -92,7 +95,7 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
     }
 
     private var timeSleep: Int = 3000
-    fun updateTImeSleep(timeSleep: Int) {
+    fun updateTimeSleep(timeSleep: Int) {
         if (timeSleep > 3000)
             this.timeSleep = timeSleep
     }
@@ -110,8 +113,8 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
                     }
                     Thread.sleep(timeSleep.toLong())
                 }
-            } catch (e: Exception) {
-
+            } catch (e: SocketException) {
+                observerWrapper.onNext(DataWrapper(SocketState.CLOSE, ByteArray(0)))
             }
         }
     }

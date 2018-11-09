@@ -23,14 +23,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.gson.Gson;
-import com.pomohouse.launcher.POMOWatchApplication;
 import com.pomohouse.launcher.api.requests.AllowCallingRequest;
-import com.pomohouse.launcher.api.requests.ImeiRequest;
 import com.pomohouse.launcher.content_provider.POMOContract;
 import com.pomohouse.launcher.fragment.avatar.AvatarCollection;
-import com.pomohouse.launcher.fragment.contacts.interactor.IContactInteractor;
-import com.pomohouse.launcher.fragment.contacts.interactor.OnCheckAllowCallingListener;
-import com.pomohouse.launcher.fragment.contacts.interactor.OnContactListener;
+
 import com.pomohouse.launcher.models.contacts.ContactCollection;
 import com.pomohouse.launcher.models.contacts.ContactModel;
 import com.pomohouse.launcher.models.events.CallContact;
@@ -59,13 +55,10 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
     public static final String ACTION_REGISTER_TWILIO_TOKEN = "ACTION_REGISTER_TWILIO_TOKEN";
     private static final int UPDATE_CONTACT = 2;
     private static final int DELETE_CONTACT = 3;
-    private IContactInteractor interactor;
     private Context mContext;
     private ContactCollection currentContactCollection;
 
-    public ContactPresenterImpl(IContactInteractor interactor) {
-        this.interactor = interactor;
-    }
+    public ContactPresenterImpl(){ }
 
     @Override
     public void onInitial(Object... param) {
@@ -94,7 +87,7 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
     @Override
     public void requestContact(String imei) {
         if (imei == null || imei.isEmpty()) return;
-        TCPSocketServiceProvider.getInstance().sendMessageFromContact(this, CMDCode.CMD_CONTACT, "");
+        TCPSocketServiceProvider.getInstance().sendMessageFromContact(this, CMDCode.CMD_CONTACT, "{}");
     }
 
     @Override
@@ -147,7 +140,8 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
 
     @Override
     public void requestCheckAllowCalling(AllowCallingRequest callingRequest) {
-        interactor.callCheckAllowCalling(callingRequest, this);
+        //TODO requestCheckAllowCalling WHEN CALL
+      //  interactor.callCheckAllowCalling(callingRequest, this);
     }
 
     /**

@@ -78,6 +78,7 @@ import butterknife.BindView;
 import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static com.pomohouse.launcher.POMOWatchApplication.mBoundService;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_KILL_APP;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_UPDATE_INTENT;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_IN_CLASS_INTENT;
@@ -154,6 +155,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
     @Override
     public void sleepTimeSetUpEventReceived(EventDataInfo eventData) {
+
     }
 
     @Override
@@ -179,7 +181,6 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         super.onSetNotificationManager(notificationManager);
         super.onSetSettingManager(settingManager);
@@ -224,19 +225,30 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     protected ServiceConnection socketConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            POMOWatchApplication.mBoundService = ((TCPSocketServiceProvider.LocalBinder) service).getService();
+            mBoundService = ((TCPSocketServiceProvider.LocalBinder) service).getService();
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            POMOWatchApplication.mBoundService = null;
+            mBoundService = null;
         }
     };
 
     private void doBindService() {
-        if (POMOWatchApplication.mBoundService != null) {
+        if (mBoundService != null) {
             bindService(new Intent(this, TCPSocketServiceProvider.class), socketConnection, Context.BIND_AUTO_CREATE);
             mIsBound = true;
+            /*POMOWatchApplication.mBoundService.IsBendable(new OnLauncherRequestListener() {
+                @Override
+                public void onInitial() {
+                    presenter.initDevice();
+                }
+
+                @Override
+                public void onContactRequest() {
+                    contactPresenter.requestContact(WearerInfoUtils.getInstance().getImei());
+                }
+            });*/
         }
     }
 

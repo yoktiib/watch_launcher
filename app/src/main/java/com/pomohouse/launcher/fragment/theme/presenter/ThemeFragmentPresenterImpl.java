@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.pomohouse.launcher.fragment.theme.IThemeFragmentView;
-import com.pomohouse.launcher.fragment.theme.interactor.IThemeFragmentInteractor;
 import com.pomohouse.launcher.manager.notifications.INotificationManager;
 import com.pomohouse.launcher.manager.notifications.NotificationPrefModel;
 import com.pomohouse.launcher.utils.EventConstant;
@@ -27,11 +26,9 @@ import static com.pomohouse.launcher.utils.EventConstant.EventDeviceInfo.EVENT_A
 public class ThemeFragmentPresenterImpl extends BaseRetrofitPresenter implements IThemeFragmentPresenter {
     private static final int EVENT_RECEIVED = 200;
     private IThemeFragmentView view;
-    private IThemeFragmentInteractor interactor;
 
-    public ThemeFragmentPresenterImpl(IThemeFragmentView view, IThemeFragmentInteractor interactor) {
+    public ThemeFragmentPresenterImpl(IThemeFragmentView view) {
         this.view = view;
-        this.interactor = interactor;
     }
 
     @Override

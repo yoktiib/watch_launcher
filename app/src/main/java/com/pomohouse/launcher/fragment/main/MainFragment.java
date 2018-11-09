@@ -40,6 +40,7 @@ import com.pomohouse.launcher.manager.settings.ISettingManager;
 import com.pomohouse.launcher.manager.theme.IThemePrefManager;
 import com.pomohouse.launcher.manager.theme.ThemePrefModel;
 import com.pomohouse.launcher.models.EventDataInfo;
+import com.pomohouse.launcher.tcp.CMDCode;
 import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 import com.pomohouse.launcher.utils.SoundPoolManager;
 import com.pomohouse.launcher.utils.TelephoneState;
@@ -55,6 +56,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -135,7 +137,8 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
     @SuppressLint("CheckResult")
     @OnClick(R.id.btnConnect)
     public void clickConnect() {
-        TCPSocketServiceProvider.getInstance().sendMessage(120, "<PMHStart><184><K8><><1.0.7><101><{\"BTName\":\"G6\",\"firmwareVersion\":\"OPR1.170623.032\",\"launcherVersion\":\"1.0.7\",\"macAddress\":\"02:00:00:00:00:00\",\"simOperator\":\"\",\"simOperatorName\":\"\",\"timeZone\":\"Asia/Bangkok\",\"imei\":\"\"}><146><PMHEnd>");
+        //((POMOWatchApplication) Objects.requireNonNull(getActivity()).getApplication()).createTCPSocket();
+        TCPSocketServiceProvider.getInstance().sendMessage(CMDCode.CMD_SHUTDOWN, "{}");
     }
 
     @Override

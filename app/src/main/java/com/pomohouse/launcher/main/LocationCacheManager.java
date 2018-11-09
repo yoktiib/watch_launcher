@@ -89,12 +89,6 @@ public class LocationCacheManager {
         locationCacheInfoList.add(cacheInfo);
     }
 
-
-
-
-
-
-
     public Location getLastCorrectLocation(Location latestLocationFromGoogle){
         addNewLocationToCache(latestLocationFromGoogle);
         compareCacheListAndReplaceWrongLocation();

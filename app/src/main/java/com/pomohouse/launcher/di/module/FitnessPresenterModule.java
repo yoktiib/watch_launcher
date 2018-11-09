@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.pomohouse.launcher.activity.fitness.FitnessActivity;
 import com.pomohouse.launcher.activity.fitness.IFitnessView;
-import com.pomohouse.launcher.activity.fitness.interactor.IFitnessInteractor;
 import com.pomohouse.launcher.activity.fitness.presenter.FitnessPresenterImpl;
 import com.pomohouse.launcher.activity.fitness.presenter.IFitnessPresenter;
 import com.pomohouse.launcher.di.ApplicationModule;
@@ -28,8 +27,8 @@ public class FitnessPresenterModule {
 
     @Singleton
     @Provides
-    IFitnessPresenter provideEventAlertPresenter(IFitnessView view, IFitnessInteractor interactor) {
-        return new FitnessPresenterImpl(view, interactor);
+    IFitnessPresenter provideEventAlertPresenter(IFitnessView view) {
+        return new FitnessPresenterImpl(view);
     }
 
     public FitnessPresenterModule(IFitnessView view) {

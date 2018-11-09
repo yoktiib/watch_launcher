@@ -22,6 +22,8 @@ import com.pomohouse.launcher.di.module.SettingPresenterModule;
 import com.pomohouse.launcher.dialog.ConfirmDialogFragment;
 import com.pomohouse.launcher.fragment.mini_setting.MiniSettingFragment;
 import com.pomohouse.launcher.fragment.settings.presenter.ISettingPresenter;
+import com.pomohouse.launcher.tcp.CMDCode;
+import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -157,6 +159,7 @@ public class SettingFragment extends BaseFragment implements ISettingView {
     final ConfirmDialogFragment.ConfirmDialogListener restart = new ConfirmDialogFragment.ConfirmDialogListener() {
         @Override
         public void onYesDialogClick() {
+            TCPSocketServiceProvider.getInstance().sendMessage(CMDCode.CMD_RESTART, "{}");
             final Intent restart = new Intent("com.pomohouse.waffle.REQUEST_RESTART");
             getContext().sendBroadcast(restart);
         }
@@ -169,6 +172,7 @@ public class SettingFragment extends BaseFragment implements ISettingView {
     final ConfirmDialogFragment.ConfirmDialogListener shutdown = new ConfirmDialogFragment.ConfirmDialogListener() {
         @Override
         public void onYesDialogClick() {
+            TCPSocketServiceProvider.getInstance().sendMessage(CMDCode.CMD_SHUTDOWN, "{}");
             final Intent shutdown = new Intent("com.pomohouse.waffle.REQUEST_SHUTDOWN");
             getContext().sendBroadcast(shutdown);
         }
@@ -183,8 +187,7 @@ public class SettingFragment extends BaseFragment implements ISettingView {
     public ArrayList<SettingMenuData> createSettingMenu() {
         Timber.e("createSettingMenu");
         String[] settingMenuNameArr = getResources().getStringArray(R.array.settingMenuNameArr);
-        TypedArray tArray = getResources().obtainTypedArray(
-                R.array.settingMenuDrawableArr);
+        TypedArray tArray = getResources().obtainTypedArray(R.array.settingMenuDrawableArr);
         int count = tArray.length();
         int[] settingMenuDrawableArr = new int[count];
         for (int i = 0; i < settingMenuDrawableArr.length; i++) {

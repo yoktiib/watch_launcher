@@ -27,8 +27,6 @@ public interface ILauncherPresenter extends IBaseRequestStatePresenter {
 
     void initDevice();
 
-    void updateFCMToken(UpdateFirebaseRequest requestParam);
-
     void initContactListContentProvider(Activity acc);
 
     void initMessageContentProvider(Activity launcherActivity);

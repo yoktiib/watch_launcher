@@ -31,8 +31,7 @@ import android.support.v4.app.NotificationCompat;
 import com.pomohouse.launcher.api.requests.ImeiRequest;
 import com.pomohouse.launcher.api.requests.WearerStatusRequest;
 import com.pomohouse.launcher.broadcast.BaseBroadcast;
-import com.pomohouse.launcher.broadcast.sensor.interactor.SensorInteractorImpl;
-import com.pomohouse.launcher.broadcast.sensor.interactor.listener.LightSensorListener;
+import com.pomohouse.launcher.broadcast.sensor.listener.LightSensorListener;
 import com.pomohouse.launcher.broadcast.sensor.presenter.ISensorPresenter;
 import com.pomohouse.launcher.broadcast.sensor.presenter.SensorPresenterImpl;
 import com.pomohouse.launcher.utils.CombineObjectConstance;
@@ -84,7 +83,7 @@ public class SensorService extends Service {
     public void onCreate() {
         super.onCreate();
         Timber.e("Start Sensor");
-        presenter = new SensorPresenterImpl(new SensorInteractorImpl());
+        presenter = new SensorPresenterImpl();
         // Start detecting
         mSensorDetector = new SensorDetector(this);
         mSensorDetector.setLightSensorListener(new LightSensorListener() {

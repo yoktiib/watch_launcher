@@ -12,7 +12,6 @@ import android.telephony.CellSignalStrength;
 import com.github.pwittchen.networkevents.library.event.ConnectivityChanged;
 import com.pomohouse.launcher.R;
 import com.pomohouse.launcher.fragment.main.IMainFragmentView;
-import com.pomohouse.launcher.fragment.main.interactor.IMainFragmentInteractor;
 import com.pomohouse.launcher.models.EventDataInfo;
 import com.pomohouse.launcher.utils.CombineObjectConstance;
 import com.pomohouse.library.base.BaseRetrofitPresenter;
@@ -44,7 +43,7 @@ public class MainFragmentPresenterImpl extends BaseRetrofitPresenter implements 
     //private IMainFragmentInteractor interactor;
     private Context mContext;
 
-    public MainFragmentPresenterImpl(IMainFragmentView view, IMainFragmentInteractor interactor) {
+    public MainFragmentPresenterImpl(IMainFragmentView view) {
         this.view = view;
         //this.interactor = interactor;
     }

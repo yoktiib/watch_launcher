@@ -30,8 +30,8 @@ public interface WatchService {
     /*@POST("initDevice")
     Observable<ResultGenerator<DeviceInfoModel>> callInitialDevice(@Body InitDeviceRequest param);*/
 
-    @POST("pair/pinCode")
-    Observable<ResultGenerator<PinCodeModel>> callPinCode(@Body ImeiRequest param);
+    /*@POST("pair/pinCode")
+    Observable<ResultGenerator<PinCodeModel>> callPinCode(@Body ImeiRequest param);*/
 
     /*@POST("contact/requestAllContacts")
     Observable<ContactCollection> callReadyRequestFriend(@Body ImeiRequest param);*/
@@ -39,10 +39,10 @@ public interface WatchService {
     @POST("requestEventAndUpdateInfo")
     Observable<EventDataListModel> callUpdateInfoAndGetEventService(@Body LocationUpdateRequest request);
 
-    @POST("requestUpdateWearerStatus")
-    Observable<ResponseDao> callSenderWearerStatusService(@Body WearerStatusRequest request);
+    /*@POST("requestUpdateWearerStatus")
+    Observable<ResponseDao> callSenderWearerStatusService(@Body WearerStatusRequest request);*/
 
-    @POST("requestAccident")
+    /*@POST("requestAccident")
     Observable<ResponseDao> callFallStatusService(@Body ImeiRequest request);
 
     @POST("requestSOS")
@@ -56,13 +56,13 @@ public interface WatchService {
 
     @POST("fitness/sendFitness")
     Observable<ResponseDao> callUpdateStep(@Body StepRequest param);
-
+*/
     @POST("location/updateLocation")
     Observable<ResponseDao> callUpdateLocation(@Body RefreshLocationRequest locationInfo);
 
-    @GET("contact/checkAllowCalling")
-    Observable<ResultGenerator<CallContact>> callCheckAllowCalling(@Query("to") String toContactId, @Query("from") String fromContactId);
-
+    /*@GET("contact/checkAllowCalling")
+    Observable<ResultGenerator<CallContact>> callCheckAllowCalling(@Query("to") String toContactId, @Query("from") String fromContactId);*/
+/*
     @POST("event/updateFCMToken")
-    Observable<ResponseDao> callUpdateFCMToken(@Body UpdateFirebaseRequest requestParam);
+    Observable<ResponseDao> callUpdateFCMToken(@Body UpdateFirebaseRequest requestParam);*/
 }

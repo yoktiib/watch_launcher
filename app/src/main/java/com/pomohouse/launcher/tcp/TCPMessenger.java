@@ -8,7 +8,7 @@ public class TCPMessenger implements Serializable {
     private String model;
     private String imei;
     private String launcherVersion;
-    private int CMD;
+    private String CMD;
     private String data;
     private int sum;
 
@@ -17,7 +17,7 @@ public class TCPMessenger implements Serializable {
         model = value[2];
         imei = value[3];
         launcherVersion = value[4];
-        CMD = Integer.parseInt(value[5]);
+        CMD = value[5];
         data = value[6];
         sum = Integer.parseInt(value[7]);
         return this;
@@ -68,11 +68,11 @@ public class TCPMessenger implements Serializable {
         this.launcherVersion = launcherVersion;
     }
 
-    public int getCMD() {
+    public String getCMD() {
         return CMD;
     }
 
-    public void setCMD(int CMD) {
+    public void setCMD(String CMD) {
         this.CMD = CMD;
     }
 

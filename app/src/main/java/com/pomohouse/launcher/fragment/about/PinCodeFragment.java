@@ -17,6 +17,7 @@ import com.pomohouse.launcher.base.BaseFragment;
 import com.pomohouse.launcher.models.PinCodeModel;
 import com.pomohouse.launcher.di.module.PinCodePresenterModule;
 import com.pomohouse.launcher.fragment.about.presenter.IPinCodePresenter;
+import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 
 import java.util.Collections;
 import java.util.List;
@@ -64,6 +65,7 @@ public class PinCodeFragment extends BaseFragment implements IPinCodeView {
 
     @OnClick(R.id.btnGetCode)
     void onClickGetCode() {
+        //TODO Change To GET CODE
         if (isNetworkAvailable())
             presenter.requestGetCode();
         else

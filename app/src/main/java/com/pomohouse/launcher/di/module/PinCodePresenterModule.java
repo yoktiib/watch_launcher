@@ -4,7 +4,6 @@ import com.pomohouse.launcher.activity.getstarted.fragment.GetStartedPinCodeFrag
 import com.pomohouse.launcher.di.ApplicationModule;
 import com.pomohouse.launcher.fragment.about.IPinCodeView;
 import com.pomohouse.launcher.fragment.about.PinCodeFragment;
-import com.pomohouse.launcher.fragment.about.interactor.IPinCodeInteractor;
 import com.pomohouse.launcher.fragment.about.presenter.IPinCodePresenter;
 import com.pomohouse.launcher.fragment.about.presenter.PinCodePresenterImpl;
 
@@ -25,8 +24,8 @@ public class PinCodePresenterModule {
 
     @Singleton
     @Provides
-    IPinCodePresenter providePinCodePresenter(IPinCodeView view, IPinCodeInteractor interactor) {
-        return new PinCodePresenterImpl(view, interactor);
+    IPinCodePresenter providePinCodePresenter(IPinCodeView view/*, IPinCodeInteractor interactor*/) {
+        return new PinCodePresenterImpl(view);
     }
 
     public PinCodePresenterModule(IPinCodeView view) {

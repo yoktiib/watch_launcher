@@ -1,8 +1,10 @@
 package com.pomohouse.launcher.activity.fitness.presenter;
 
+import com.google.gson.Gson;
 import com.pomohouse.launcher.activity.fitness.IFitnessView;
-import com.pomohouse.launcher.activity.fitness.interactor.IFitnessInteractor;
 import com.pomohouse.launcher.api.requests.StepRequest;
+import com.pomohouse.launcher.tcp.CMDCode;
+import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 
 import javax.inject.Inject;
 
@@ -12,16 +14,14 @@ import javax.inject.Inject;
 
 public class FitnessPresenterImpl implements IFitnessPresenter {
     IFitnessView view;
-    IFitnessInteractor interactor;
 
     @Inject
-    public FitnessPresenterImpl(IFitnessView view, IFitnessInteractor interactor) {
+    public FitnessPresenterImpl(IFitnessView view) {
         this.view = view;
-        this.interactor = interactor;
     }
 
     @Override
     public void sendStep(StepRequest step) {
-        interactor.callSendStep(step);
+        TCPSocketServiceProvider.getInstance().sendMessage(CMDCode.CMD_FITNESS, new Gson().toJson(step));
     }
 }

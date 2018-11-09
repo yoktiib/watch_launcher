@@ -24,22 +24,19 @@ import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.pomohouse.launcher.POMOWatchApplication;
-import com.pomohouse.launcher.api.requests.ImeiRequest;
 import com.pomohouse.launcher.api.requests.InitDeviceRequest;
 import com.pomohouse.launcher.api.requests.LocationUpdateRequest;
 import com.pomohouse.launcher.api.requests.TimezoneUpdateRequest;
-import com.pomohouse.launcher.api.requests.UpdateFirebaseRequest;
 import com.pomohouse.launcher.broadcast.alarm.model.AlarmDatabase;
 import com.pomohouse.launcher.broadcast.alarm.model.AlarmItem;
 import com.pomohouse.launcher.content_provider.POMOContentProvider;
 import com.pomohouse.launcher.content_provider.POMOContract;
 import com.pomohouse.launcher.main.ILauncherView;
-import com.pomohouse.launcher.main.OnTCPCallbackListener;
-import com.pomohouse.launcher.main.interactor.ILauncherInteractor;
+import com.pomohouse.launcher.main.OnLauncherCallbackListener;
 import com.pomohouse.launcher.manager.event.IEventPrefManager;
 import com.pomohouse.launcher.manager.fitness.FitnessPrefModel;
 import com.pomohouse.launcher.manager.fitness.IFitnessPrefManager;
@@ -120,7 +117,6 @@ import static com.pomohouse.launcher.utils.EventConstant.EventLocal.EVENT_LOCK_S
 import static com.pomohouse.launcher.utils.EventConstant.EventLocal.EVENT_REFRESH_LOCATION_CODE;
 import static com.pomohouse.launcher.utils.EventConstant.EventLocal.EVENT_SOS_CODE;
 import static com.pomohouse.launcher.utils.EventConstant.EventLocal.EVENT_UNLOCK_SCREEN_DEFAULT_TO_LAUNCHER_CODE;
-import static com.pomohouse.launcher.utils.EventConstant.EventLocal.EVENT_UPDATE_FCM_TOKEN_CODE;
 import static com.pomohouse.launcher.utils.EventConstant.EventLocal.EVENT_UPDATE_LOCATION_CODE;
 import static com.pomohouse.launcher.utils.EventConstant.EventPair.EVENT_GET_PAIR_CODE;
 import static com.pomohouse.launcher.utils.EventConstant.EventPair.EVENT_PAIR_CODE;
@@ -131,9 +127,8 @@ import static com.pomohouse.launcher.utils.EventConstant.EventSetting.EVENT_NOTI
 /**
  * Created by Admin on 8/18/16 AD.
  */
-public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILauncherPresenter, OnTCPCallbackListener/*, OnSOSListener, OnEventListener*/ {
+public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILauncherPresenter, OnLauncherCallbackListener/*, OnSOSListener, OnEventListener*/ {
     private ILauncherView view;
-    private ILauncherInteractor interactor;
     private IThemePrefManager themeManager;
     private LockScreenEnum lockBy = LockScreenEnum.NONE;
     private boolean isInClassModeEnable = false, isSleepMode = false;
@@ -148,7 +143,6 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     private ISleepTimeManager iSleepTimeManager;
     private InClassModePrefModel inClassModePrefModel;
     private SleepTimePrefModel sleepTimePrefModel;
-    private POMOWatchApplication signalApplication;
     public static final String THEME_SETTING = "theme_open_close_setting";
     public static final String RILAKKUMA_THEME_STATUS = "rilakkuma_theme_status";
 
@@ -159,9 +153,8 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     public final static String EVENT_STATUS_EXTRA = "EVENT_STATUS_EXTRA";
     public final static String EVENT_EXTRA = "EVENT_EXTRA";
 
-    public LauncherPresenterImpl(ILauncherView mainView, ILauncherInteractor iMainInteractor) {
+    public LauncherPresenterImpl(ILauncherView mainView) {
         view = mainView;
-        this.interactor = iMainInteractor;
         isInClassModeEnable = false;
     }
 
@@ -349,6 +342,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
 
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
         }
     };
 
@@ -720,11 +714,6 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     }
 
     @Override
-    public void updateFCMToken(UpdateFirebaseRequest requestParam) {
-        interactor.callUpdateFCMToken(requestParam);
-    }
-
-    @Override
     public void timeZoneChange() {
         try {
             TimeZone tz = TimeZone.getDefault();
@@ -733,7 +722,8 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                 TimezoneUpdateRequest timezoneUpdateRequest = new TimezoneUpdateRequest();
                 timezoneUpdateRequest.setTimeZone(tz.getID());
                 timezoneUpdateRequest.setImei(WearerInfoUtils.getInstance().getImei());
-                interactor.callTimezoneChanged(timezoneUpdateRequest);
+                TCPSocketServiceProvider.getInstance().sendMessageFromLauncher(this, CMDCode.CMD_TIME_ZONE, "{}");
+                /*interactor.callTimezoneChanged(timezoneUpdateRequest);*/
             }
             EventDataInfo eventContent = new EventDataInfo();
             eventContent.setEventCode(EVENT_APP_TIMEZONE_CODE);
@@ -1055,7 +1045,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
 
     @Override
     public void requestShutdownDevice() {
-        interactor.callShutdownDevice(new ImeiRequest(WearerInfoUtils.getInstance().getImei()));
+        TCPSocketServiceProvider.getInstance().sendMessage(CMDCode.CMD_SHUTDOWN, "{}");
     }
 
     @Override
