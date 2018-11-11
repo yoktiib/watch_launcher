@@ -59,6 +59,7 @@ import com.pomohouse.launcher.models.DeviceInfoModel;
 import com.pomohouse.launcher.models.DeviceSetUpDao;
 import com.pomohouse.launcher.models.EventDataInfo;
 import com.pomohouse.launcher.models.settings.InClassDao;
+import com.pomohouse.launcher.tcp.OnTCPStatusListener;
 import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 import com.pomohouse.launcher.utils.CombineObjectConstance;
 import com.pomohouse.library.WearerInfoUtils;
@@ -78,7 +79,6 @@ import butterknife.BindView;
 import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static com.pomohouse.launcher.POMOWatchApplication.mBoundService;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_KILL_APP;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_UPDATE_INTENT;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_IN_CLASS_INTENT;
@@ -185,13 +185,21 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         super.onSetNotificationManager(notificationManager);
         super.onSetSettingManager(settingManager);
         setContentView(R.layout.activity_main);
-        POMOWatchApplication signalApplication = (POMOWatchApplication) getApplication();
-        if (signalApplication.getSocket() != null) {
-            Log.e("Socket", " is null");
-            startService(new Intent(getBaseContext(), TCPSocketServiceProvider.class));
-        }
 
+        // startService(new Intent(getBaseContext(), TCPSocketServiceProvider.class));
         doBindService();
+       /* TCPSocketServiceProvider.getInstance().setTCPStatusListener(new OnTCPStatusListener() {
+            @Override
+            public void onConnected() {
+                presenter.initDevice();
+                contactPresenter.requestContact(WearerInfoUtils.getInstance().getImei());
+            }
+
+            @Override
+            public void onDisconnected() {
+
+            }
+        });*/
 
         this.startDefaultSetting();
         presenter.provideThemeManager(themeManager);
@@ -222,10 +230,24 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     }
 
     private boolean mIsBound;
+
+    public TCPSocketServiceProvider mBoundService;
     protected ServiceConnection socketConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mBoundService = ((TCPSocketServiceProvider.LocalBinder) service).getService();
+            mBoundService.IsBendable(new OnTCPStatusListener() {
+                @Override
+                public void onConnected() {
+                    presenter.requestInitialDevice();
+                    contactPresenter.requestContact(WearerInfoUtils.getInstance().getImei());
+                }
+
+                @Override
+                public void onDisconnected() {
+
+                }
+            });
         }
 
         @Override
@@ -235,9 +257,13 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     };
 
     private void doBindService() {
-        if (mBoundService != null) {
-            bindService(new Intent(this, TCPSocketServiceProvider.class), socketConnection, Context.BIND_AUTO_CREATE);
-            mIsBound = true;
+        //if (mBoundService != null) {
+
+        Intent intent = new Intent(this, TCPSocketServiceProvider.class);
+        startService(intent);
+        bindService(intent, socketConnection, Context.BIND_AUTO_CREATE);
+        mIsBound = true;
+        //mContext.startService(intent);
             /*POMOWatchApplication.mBoundService.IsBendable(new OnLauncherRequestListener() {
                 @Override
                 public void onInitial() {
@@ -249,12 +275,13 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
                     contactPresenter.requestContact(WearerInfoUtils.getInstance().getImei());
                 }
             });*/
-        }
+        // }
     }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+
         viewPager.setAdapter(pagerAdapter = new LauncherHorizontalPagerAdapter(getSupportFragmentManager()));
         viewPager.setCurrentItem(1);
 
@@ -286,10 +313,10 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
             if (!hasPermissions(this, PERMISSIONS)) {
                 ActivityCompat.requestPermissions(this, PERMISSIONS, MY_PERMISSIONS);
             } else {
-                presenter.initDevice();
+                presenter.requestInitialDevice();
             }
         } else {
-            presenter.initDevice();
+            presenter.requestInitialDevice();
         }
     }
 

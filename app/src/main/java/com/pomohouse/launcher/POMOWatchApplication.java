@@ -31,47 +31,19 @@ import timber.log.Timber;
  * Created by Admin on 8/17/16 AD.
  */
 public class POMOWatchApplication extends Application {
-    public static TCPSocketServiceProvider mBoundService;
     private ObjectGraph objectGraph;
     public static Location mLocation;
-    /*private static final String IP = "13.228.58.26";*/
-    private static final String IP = "178.128.27.215";
-    /*private static final String IP = "203.151.93.176";*/
-    private static final int PORT = 4848;
-
-    /*private static final String IP = "203.151.93.176";*/
-
-    public static final boolean DEBUG = true;
-    public static POMOWatchApplication application;
-
-    public static String packageName;
-    public static Resources resources;
-    public static SocketClient mSocket;
-    private static final byte[] HEART_BEAT = "HB".getBytes();
-    private static final byte[] HEAD = {1, 2};
-    private static final byte[] TAIL = {5, 7};
 
 
     @Override
     public void onCreate() {
         super.onCreate();
-        application = this;
         Fabric.with(this, new Crashlytics());
         JodaTimeAndroid.init(this);
         // if (BuildConfig.DEBUG)
         Timber.plant(new Timber.DebugTree());
         AppContextor.getInstance().initContext(getApplicationContext());
         this.initializeInjector();
-        createTCPSocket();
-        //new byte[]{0x13, 0x10}
-    }
-
-    public SocketClient getSocket() {
-        return mSocket;
-    }
-
-    public void createTCPSocket() {
-        mSocket = RxSocketClient.create(new SocketConfig.Builder().setIp(IP).setPort(PORT).setCharset(Charset.forName("UTF-8")).setThreadStrategy(ThreadStrategy.ASYNC).setTimeout(15 * 1000).build()).option(new SocketOption.Builder().setHeartBeat(HEART_BEAT, 10 * 60 * 1000)/*.setHead(HEAD).setTail(TAIL)*/.build());
     }
 
     @Override
@@ -92,9 +64,4 @@ public class POMOWatchApplication extends Application {
         objectGraph.inject(this);
     }
 
-    public void clearSocket() {
-        if (mSocket != null && mSocket.isConnecting()) mSocket.disconnect();
-        mSocket = null;
-        //createTCPSocket();
-    }
 }

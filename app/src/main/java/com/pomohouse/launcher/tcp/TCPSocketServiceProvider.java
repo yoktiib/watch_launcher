@@ -3,6 +3,7 @@ package com.pomohouse.launcher.tcp;
 import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
@@ -34,10 +35,16 @@ import com.pomohouse.library.networks.MetaDataNetwork;
 import com.pomohouse.library.networks.ResultGenerator;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import moe.codeest.rxsocketclient.RxSocketClient;
+import moe.codeest.rxsocketclient.SocketClient;
 import moe.codeest.rxsocketclient.SocketSubscriber;
+import moe.codeest.rxsocketclient.meta.SocketConfig;
+import moe.codeest.rxsocketclient.meta.SocketOption;
+import moe.codeest.rxsocketclient.meta.ThreadStrategy;
 import timber.log.Timber;
 
 
@@ -46,22 +53,34 @@ import static com.pomohouse.launcher.main.presenter.LauncherPresenterImpl.EVENT_
 import static com.pomohouse.launcher.main.presenter.LauncherPresenterImpl.EVENT_STATUS_EXTRA;
 
 public class TCPSocketServiceProvider extends Service {
-
-
+    public static SocketClient mSocket;
     private static final long INTERVAL_KEEP_ALIVE = 1000 * 60 * 4;
-
     private static final long INTERVAL_INITIAL_RETRY = 1000 * 10;
-
     private static final long INTERVAL_MAXIMUM_RETRY = 1000 * 60 * 2;
+    private static final String IP = "13.228.58.26";
+    //private static final String IP = "178.128.27.215";
+    /*private static final String IP = "203.151.93.176";*/
+    private static final int PORT = 4848;
 
-    private POMOWatchApplication signalApplication;
+    /*private static final String IP = "203.151.93.176";*/
+
+    public static final boolean DEBUG = true;
+    public static POMOWatchApplication application;
+
+    public static String packageName;
+    public static Resources resources;
+    private static final byte[] HEART_BEAT = "HELLO".getBytes();
+    private static final byte[] HEAD = {1, 2};
+    private static final byte[] TAIL = {5, 7};
+
     private static final String TAG = "TCP_SSP";
     /*private static final byte[] MESSAGE = {0, 1, 3};
     private static final String MESSAGE_STR = "TEST";*/
     private OnLauncherCallbackListener tcpCallbackListener;
+    private OnTCPStatusListener tcpStatusListener;
     private OnContactListener onContactListener;
     private OnPinCodeListener onPinCodeListener;
-    private OnLauncherRequestListener launcherRequestListener;
+    //private OnLauncherRequestListener launcherRequestListener;
     private boolean isConnecting = false;
     private Disposable ref;
 
@@ -85,8 +104,11 @@ public class TCPSocketServiceProvider extends Service {
         }
     }
 
-    public void IsBendable(OnLauncherRequestListener launcherRequestListener) {
-        this.launcherRequestListener = launcherRequestListener;
+    public void IsBendable(OnTCPStatusListener launcherRequestListener) {
+        this.tcpStatusListener = launcherRequestListener;
+        Log.e(TAG, "Set tcpStatusListener");
+        if (mSocket != null && mSocket.isConnecting())
+            if (tcpStatusListener != null) tcpStatusListener.onConnected();
     }
 
     @Override
@@ -100,41 +122,48 @@ public class TCPSocketServiceProvider extends Service {
             return;
         }
         super.onCreate();
-
-        signalApplication = (POMOWatchApplication) getApplication();
+        instance = this;
         Log.e(TAG, "Start Service");
-
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (isInstanceCreated()) {
+        /*if (isInstanceCreated()) {
             return START_STICKY_COMPATIBILITY;
-        }
+        }*/
         super.onStartCommand(intent, flags, startId);
         connectConnection();
         return START_STICKY;
     }
 
+    public void clearSocket() {
+        if (mSocket != null && mSocket.isConnecting()) mSocket.disconnect();
+        mSocket = null;
+        //createTCPSocket();
+    }
+
     public void connectConnection() {
         Log.e(TAG, "connectConnection");
-        instance = this;
         isConnecting = true;
-        ref = signalApplication.getSocket().connect().observeOn(AndroidSchedulers.mainThread()).subscribe(new SocketSubscriber() {
+        mSocket = RxSocketClient.create(new SocketConfig.Builder().setIp(IP).setPort(PORT).setCharset(Charset.forName("UTF-8")).setThreadStrategy(ThreadStrategy.ASYNC).setTimeout(10 * 1000).build()).option(new SocketOption.Builder().setHeartBeat(HEART_BEAT, 60 * 1000)/*.setHead(HEAD).setTail(TAIL)*/.build());
+        //mSocket.getMObservable().set
+        ref = mSocket.connect().observeOn(AndroidSchedulers.mainThread()).subscribe(new SocketSubscriber() {
 
             @Override
             public void onConnected() {
-                messageReceiver("\n" + "onConnected");
+                messageReceiver("\n" + "onConnected " + (tcpStatusListener != null));
                 isConnecting = false;
+                if (tcpStatusListener != null) tcpStatusListener.onConnected();
                 /*launcherRequestListener.onInitial();
                 launcherRequestListener.onContactRequest();*/
             }
 
             @Override
             public void onDisconnected() {
-                isConnecting = false;
-                signalApplication.clearSocket();
                 messageReceiver("\n" + "onDisconnected");
+                isConnecting = false;
+                clearSocket();
+                if (tcpStatusListener != null) tcpStatusListener.onDisconnected();
             }
 
             @Override
@@ -181,23 +210,22 @@ public class TCPSocketServiceProvider extends Service {
         packageSender.setSum(digits1[0] + digits1[1] + digits1[2]);
         packageSender.setModel(WearerInfoUtils.getInstance().getPlatform());
         Log.e(TAG, "Data Sender : " + packageSender.convertModelToValue());
-        if (POMOWatchApplication.mSocket != null) {
-            if (!POMOWatchApplication.mSocket.isConnecting()) {
+        if (mSocket == null) {
+            connectConnection();
+        } else {
+            if (!mSocket.isConnecting()) {
                 if (isConnecting) return;
                 isConnecting = true;
-                ((POMOWatchApplication) getApplication()).createTCPSocket();
                 connectConnection();
             } else {
-                POMOWatchApplication.mSocket.sendData(packageSender.convertModelToValue());
+                mSocket.sendData(packageSender.convertModelToValue());
             }
-        } else {
-            signalApplication.createTCPSocket();
         }
     }
 
     private void disconnectConnection() {
         instance = null;
-        signalApplication.getSocket().disconnect();
+        if (mSocket != null && mSocket.isConnecting()) mSocket.disconnect();
     }
 
     void messageReceiver(String messenger) {

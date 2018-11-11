@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.pomohouse.launcher">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -98,11 +99,14 @@
         <provider
             android:name=".content_provider.POMOContentProvider"
             android:authorities="com.pomohouse"
-            android:exported="false" />
+            android:exported="true" />
 
         <service android:name=".lock_screen.LockScreenService" />
         <service android:name=".broadcast.alarm.receiver.AalService" />
-        <service android:name=".tcp.TCPSocketServiceProvider" />
+        <service
+            android:name=".tcp.TCPSocketServiceProvider"
+            tools:replace="android:enabled"
+            android:enabled="true" />
         <service android:name=".broadcast.sensor.SensorService" />
 
     </application>

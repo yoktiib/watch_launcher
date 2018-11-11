@@ -351,10 +351,17 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
         this.setUpDevice();
     }
 
+    private int timeTickCount = 0;
+
     private void setUpDevice() {
         this.validateInClassMode();
         this.validateSleepMode();
         if (!isSleepMode) view.startLocation();
+        timeTickCount++;
+        if (timeTickCount % 3 == 0) {
+            TCPSocketServiceProvider.getInstance().sendMessage(CMDCode.CMD_SHUTDOWN, "{}");
+            timeTickCount = 0;
+        }
     }
 
     /**

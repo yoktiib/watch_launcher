@@ -37,7 +37,7 @@ import java.net.SocketException
 
 class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observable<DataWrapper>() {
 
-    var detectUserListener : OnDetectUserListener? = null
+    var detectUserListener: OnDetectUserListener? = null
     val mReadThread: ReadThread = ReadThread()
     lateinit var observerWrapper: SocketObserver
     var mHeartBeatRef: Disposable? = null
@@ -94,27 +94,45 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
         }
     }
 
-    private var timeSleep: Int = 3000
+    private var defaultSleep: Int = 3000
+    private var timeSleep: Int = defaultSleep
     fun updateTimeSleep(timeSleep: Int) {
         if (timeSleep > 3000)
             this.timeSleep = timeSleep
     }
 
+    //val sch: ScheduledThreadPoolExecutor = Executors.newScheduledThreadPool(1) as ScheduledThreadPoolExecutor
+
     inner class ReadThread : Thread() {
         override fun run() {
             super.run()
             try {
+                //sch.scheduleAtFixedRate(periodicTask, 0, 5, TimeUnit.SECONDS)
                 while (!mReadThread.isInterrupted && mSocket.isConnected) {
-                    val input = DataInputStream(mSocket.getInputStream())
-                    val buffer = ByteArray(input.available())
-                    if (buffer.isNotEmpty()) {
-                        input.read(buffer)
-                        observerWrapper.onNext(buffer)
-                    }
-                    Thread.sleep(timeSleep.toLong())
+                    periodicTask.run()
                 }
             } catch (e: SocketException) {
                 observerWrapper.onNext(DataWrapper(SocketState.CLOSE, ByteArray(0)))
+            }
+        }
+
+        // And yet another
+        var periodicTask = Runnable {
+            try {
+                //println(" Log Socket : " + periodicTask)
+                println(" Log Socket : $timeSleep")
+                val input = DataInputStream(mSocket.getInputStream())
+                val buffer = ByteArray(input.available())
+                if (buffer.isNotEmpty()) {
+                    timeSleep = defaultSleep
+                    input.read(buffer)
+                    observerWrapper.onNext(buffer)
+                }
+                if (timeSleep >= 15000)
+                    timeSleep = defaultSleep
+                Thread.sleep(timeSleep.toLong())
+                timeSleep += 1000
+            } catch (e: InterruptedException) {
             }
         }
     }
