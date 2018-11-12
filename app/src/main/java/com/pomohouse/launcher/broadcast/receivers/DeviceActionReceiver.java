@@ -9,6 +9,7 @@ import com.pomohouse.launcher.broadcast.callback.DevicePowerListener;
 import com.pomohouse.launcher.broadcast.callback.DeviceStatusListener;
 import com.pomohouse.launcher.broadcast.callback.ScreenOnListener;
 import com.pomohouse.launcher.broadcast.callback.TimeTickChangedListener;
+import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 
 import timber.log.Timber;
 
@@ -110,18 +111,21 @@ public class DeviceActionReceiver extends BaseBroadcast {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        switch (intent.getAction()) {
-            /**
-             * Power
-             */
-            case Intent.ACTION_SCREEN_OFF:
-            case Intent.ACTION_REBOOT:
-            case Intent.ACTION_SHUTDOWN:
-            case Intent.ACTION_BOOT_COMPLETED:
-            case Intent.ACTION_TIMEZONE_CHANGED:
-            case Intent.ACTION_TIME_CHANGED:
-                sendToLauncherListener(intent);
-                break;
+        if (intent.getAction() != null) {
+            try {
+                switch (intent.getAction()) {
+                    /**
+                     * Power
+                     */
+                    case Intent.ACTION_SCREEN_OFF:
+                        TCPSocketServiceProvider.getInstance().screenOff();
+                    case Intent.ACTION_REBOOT:
+                    case Intent.ACTION_SHUTDOWN:
+                    case Intent.ACTION_BOOT_COMPLETED:
+                    case Intent.ACTION_TIMEZONE_CHANGED:
+                    case Intent.ACTION_TIME_CHANGED:
+                        sendToLauncherListener(intent);
+                        break;
 /*
                 sendToLauncherListener(intent);
                 //onRunLockScreen(context);
@@ -131,28 +135,32 @@ public class DeviceActionReceiver extends BaseBroadcast {
                 sendToLauncherListener(intent);
                 break;
 */
-            case Intent.ACTION_POWER_DISCONNECTED:
-            case Intent.ACTION_POWER_CONNECTED:
-                sendMainFaceListener(intent);
-                sendToLauncherListener(intent);
-                break;
-            case Intent.ACTION_BATTERY_CHANGED:
-            case Intent.ACTION_BATTERY_LOW:
-            case Intent.ACTION_BATTERY_OKAY:
-                sendMainFaceListener(intent);
-                break;
-            case Intent.ACTION_SCREEN_ON:
-                if (screenOnListener != null) screenOnListener.onScreenOn();
-                break;
-            case Intent.ACTION_TIME_TICK:
-                Timber.e("Time Tick Size => " + (mLauncherTimeTickChangedListener != null) + ":" + (mThemeTimeTickChangedListener != null) + ":" + (mLockScreenTimeTickChangedListener != null));
-                if (mLauncherTimeTickChangedListener != null)
-                    mLauncherTimeTickChangedListener.onTimeChanged();
-                if (mThemeTimeTickChangedListener != null)
-                    mThemeTimeTickChangedListener.onTimeChanged();
-                if (mLockScreenTimeTickChangedListener != null)
-                    mLockScreenTimeTickChangedListener.onTimeChanged();
-                break;
+                    case Intent.ACTION_POWER_DISCONNECTED:
+                    case Intent.ACTION_POWER_CONNECTED:
+                        sendMainFaceListener(intent);
+                        sendToLauncherListener(intent);
+                        break;
+                    case Intent.ACTION_BATTERY_CHANGED:
+                    case Intent.ACTION_BATTERY_LOW:
+                    case Intent.ACTION_BATTERY_OKAY:
+                        sendMainFaceListener(intent);
+                        break;
+                    case Intent.ACTION_SCREEN_ON:
+                        TCPSocketServiceProvider.getInstance().screenOn();
+                        if (screenOnListener != null) screenOnListener.onScreenOn();
+                        break;
+                    case Intent.ACTION_TIME_TICK:
+                        Timber.e("Time Tick Size => " + (mLauncherTimeTickChangedListener != null) + ":" + (mThemeTimeTickChangedListener != null) + ":" + (mLockScreenTimeTickChangedListener != null));
+                        if (mLauncherTimeTickChangedListener != null)
+                            mLauncherTimeTickChangedListener.onTimeChanged();
+                        if (mThemeTimeTickChangedListener != null)
+                            mThemeTimeTickChangedListener.onTimeChanged();
+                        if (mLockScreenTimeTickChangedListener != null)
+                            mLockScreenTimeTickChangedListener.onTimeChanged();
+                        break;
+                }
+            } catch (NullPointerException ignored) {
+            }
         }
     }
 

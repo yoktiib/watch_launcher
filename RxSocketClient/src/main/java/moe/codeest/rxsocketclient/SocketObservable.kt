@@ -24,6 +24,7 @@ import moe.codeest.rxsocketclient.meta.SocketConfig
 import java.net.InetSocketAddress
 import java.net.Socket
 import moe.codeest.rxsocketclient.meta.SocketState
+import org.jetbrains.anko.doAsync
 import java.io.DataInputStream
 import java.io.IOException
 import java.net.SocketException
@@ -38,7 +39,7 @@ import java.net.SocketException
 class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observable<DataWrapper>() {
 
     var detectUserListener: OnDetectUserListener? = null
-    val mReadThread: ReadThread = ReadThread()
+    //val mReadThread: ReadThread = ReadThread()
     lateinit var observerWrapper: SocketObserver
     var mHeartBeatRef: Disposable? = null
 
@@ -48,11 +49,16 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
 
         Thread(Runnable {
             try {
+                defaultSleep = mConfig.delayReadBuffer!!
+                maxSleep = mConfig.maxDelayReadBuffer!!
+                increaseSleep = mConfig.increaseSleep!!
+                isDelay = false
                 mSocket.keepAlive = true
                 mSocket.connect(InetSocketAddress(mConfig.mIp, mConfig.mPort
                         ?: 1080), mConfig.mTimeout ?: 0)
                 observer?.onNext(DataWrapper(SocketState.OPEN, ByteArray(0)))
-                mReadThread.start()
+                //mReadThread.start()
+                socketRunAlways()
             } catch (e: IOException) {
                 println(e.toString())
                 observer?.onNext(DataWrapper(SocketState.CLOSE, ByteArray(0)))
@@ -83,7 +89,7 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
         }
 
         override fun dispose() {
-            mReadThread.interrupt()
+            //mReadThread.interrupt()
             mHeartBeatRef?.dispose()
             mSocket.close()
             observer?.onNext(DataWrapper(SocketState.CLOSE, ByteArray(0)))
@@ -94,16 +100,60 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
         }
     }
 
-    private var defaultSleep: Int = 3000
-    private var timeSleep: Int = defaultSleep
-    fun updateTimeSleep(timeSleep: Int) {
-        if (timeSleep > 3000)
-            this.timeSleep = timeSleep
+    private var defaultSleep: Long = 2000
+    private var maxSleep: Long = 15000
+    private var increaseSleep: Long = 1000
+    private var timeSleep: Long = defaultSleep
+    private var isMaxInterval: Boolean = false
+    private var isDelay: Boolean = false
+    fun updateTimeSleep(defaultSleep: Long, isDelay: Boolean) {
+        this.defaultSleep = defaultSleep
+        this.timeSleep = defaultSleep
+        this.isDelay = isDelay
+        periodicTask.run()
     }
 
-    //val sch: ScheduledThreadPoolExecutor = Executors.newScheduledThreadPool(1) as ScheduledThreadPoolExecutor
+    fun socketRunAlways() {
+        doAsync {
+            try {
+                while (mSocket.isConnected)
+                    periodicTask.run()
+            } catch (e: SocketException) {
+                observerWrapper.onNext(DataWrapper(SocketState.CLOSE, ByteArray(0)))
+            }
+        }
+    }
 
-    inner class ReadThread : Thread() {
+    var periodicTask = Runnable {
+        try {
+            println(" Log Socket : $timeSleep")
+            val input = DataInputStream(mSocket.getInputStream())
+            val buffer = ByteArray(input.available())
+            if (buffer.isNotEmpty()) {
+                timeSleep = defaultSleep
+                input.read(buffer)
+                observerWrapper.onNext(buffer)
+            }
+            if (isDelay) {
+                if (isMaxInterval) {
+                    if (timeSleep <= defaultSleep)
+                        isMaxInterval = false
+                    timeSleep -= increaseSleep
+                } else {
+                    if (timeSleep >= maxSleep)
+                        isMaxInterval = true
+                    timeSleep += increaseSleep
+                }
+            } else {
+                timeSleep = defaultSleep
+            }
+            if (timeSleep >= 1000)
+                Thread.sleep(timeSleep)
+        } catch (e: InterruptedException) {
+        }
+    }
+
+    /*inner class ReadThread : Thread() {
         override fun run() {
             super.run()
             try {
@@ -120,7 +170,7 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
         var periodicTask = Runnable {
             try {
                 //println(" Log Socket : " + periodicTask)
-                println(" Log Socket : $timeSleep")
+                println(" Log Socket : ${mLocalConfig.delayReadBuffer}")
                 val input = DataInputStream(mSocket.getInputStream())
                 val buffer = ByteArray(input.available())
                 if (buffer.isNotEmpty()) {
@@ -128,12 +178,24 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
                     input.read(buffer)
                     observerWrapper.onNext(buffer)
                 }
-                if (timeSleep >= 15000)
-                    timeSleep = defaultSleep
-                Thread.sleep(timeSleep.toLong())
-                timeSleep += 1000
+               if (isDelay) {
+                if (isMaxInterval) {
+                    if (timeSleep <= defaultSleep)
+                        isMaxInterval = false
+                    timeSleep -= increaseSleep
+                } else {
+                    if (timeSleep >= maxSleep)
+                        isMaxInterval = true
+                    timeSleep += increaseSleep
+                }
+            } else {
+                timeSleep = defaultSleep
+            }
+            if (timeSleep >= 1000)
+                Thread.sleep(timeSleep)
             } catch (e: InterruptedException) {
             }
         }
-    }
+    }*/
+
 }

@@ -29,11 +29,15 @@ class SocketConfig(
         val mPort: Int?,
         val mTimeout: Int?,
         val mCharset: Charset = Charsets.UTF_8,
-        val mThreadStrategy: Int?
+        val mThreadStrategy: Int?,
+        val delayReadBuffer: Long? = 2000,
+        val maxDelayReadBuffer: Long? = 1500,
+        val increaseSleep: Long? = 1000
 ) {
 
     private constructor(builder: Builder) : this(builder.mIp, builder.mPort,
-            builder.mTimeout, builder.mCharset, builder.mThreadStrategy)
+            builder.mTimeout, builder.mCharset, builder.mThreadStrategy,
+            builder.delayReadBuffer, builder.maxDelayReadBuffer, builder.increaseSleep)
 
     class Builder {
         var mIp: String? = null
@@ -50,16 +54,31 @@ class SocketConfig(
 
         var mThreadStrategy: Int? = ThreadStrategy.ASYNC
 
+        var delayReadBuffer: Long? = null
+            private set
+
+        var maxDelayReadBuffer: Long? = null
+            private set
+
+        var increaseSleep: Long? = null
+            private set
+
         fun setIp(ip: String) = apply { this.mIp = ip }
 
         fun setPort(port: Int) = apply { this.mPort = port }
 
         fun setTimeout(timeout: Int) = apply { this.mTimeout = timeout }
 
-        fun setCharset(charset: Charset) = apply { this.mCharset = charset}
+        fun setCharset(charset: Charset) = apply { this.mCharset = charset }
 
         fun setThreadStrategy(threadStrategy: Int) = apply { this.mThreadStrategy = threadStrategy }
 
         fun build() = SocketConfig(this)
+
+        fun setDelayTime(delayReadBuffer: Long) = apply { this.delayReadBuffer = delayReadBuffer }
+
+        fun setMaxDelayTime(maxDelayReadBuffer: Long?) = apply { this.maxDelayReadBuffer = maxDelayReadBuffer }
+
+        fun setIncreaseDelayTime(increaseSleep: Long?) = apply { this.increaseSleep = increaseSleep }
     }
 }

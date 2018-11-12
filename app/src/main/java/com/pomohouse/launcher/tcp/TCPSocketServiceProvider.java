@@ -41,6 +41,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import moe.codeest.rxsocketclient.RxSocketClient;
 import moe.codeest.rxsocketclient.SocketClient;
+import moe.codeest.rxsocketclient.SocketObservable;
 import moe.codeest.rxsocketclient.SocketSubscriber;
 import moe.codeest.rxsocketclient.meta.SocketConfig;
 import moe.codeest.rxsocketclient.meta.SocketOption;
@@ -55,32 +56,32 @@ import static com.pomohouse.launcher.main.presenter.LauncherPresenterImpl.EVENT_
 public class TCPSocketServiceProvider extends Service {
     public static SocketClient mSocket;
     private static final long INTERVAL_KEEP_ALIVE = 1000 * 60 * 4;
-    private static final long INTERVAL_INITIAL_RETRY = 1000 * 10;
-    private static final long INTERVAL_MAXIMUM_RETRY = 1000 * 60 * 2;
+    private static final long INTERVAL_INCREASE = 1000;
+    private static final long INTERVAL_INITIAL_RETRY = 1000 * 2;
+    private static final long INTERVAL_MAXIMUM_RETRY = 1000 * 15;
     private static final String IP = "13.228.58.26";
     //private static final String IP = "178.128.27.215";
-    /*private static final String IP = "203.151.93.176";*/
+    //private static final String IP = "203.151.93.176";
     private static final int PORT = 4848;
-
-    /*private static final String IP = "203.151.93.176";*/
 
     public static final boolean DEBUG = true;
     public static POMOWatchApplication application;
 
     public static String packageName;
     public static Resources resources;
+
+    private final String START_TAG = "<PMHStart>";
+    private final String END_TAG = "<PMHEnd>";
     private static final byte[] HEART_BEAT = "HELLO".getBytes();
     private static final byte[] HEAD = {1, 2};
     private static final byte[] TAIL = {5, 7};
 
     private static final String TAG = "TCP_SSP";
-    /*private static final byte[] MESSAGE = {0, 1, 3};
-    private static final String MESSAGE_STR = "TEST";*/
     private OnLauncherCallbackListener tcpCallbackListener;
     private OnTCPStatusListener tcpStatusListener;
     private OnContactListener onContactListener;
     private OnPinCodeListener onPinCodeListener;
-    //private OnLauncherRequestListener launcherRequestListener;
+
     private boolean isConnecting = false;
     private Disposable ref;
 
@@ -94,9 +95,21 @@ public class TCPSocketServiceProvider extends Service {
         return instance;
     }
 
-
     private final IBinder myBinder = new LocalBinder();
 
+    public void screenOff() {
+        if (mSocket != null && mSocket.isConnecting()) {
+            if (mSocket.getMObservable() instanceof SocketObservable)
+                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(3000L, true);
+        }
+    }
+
+    public void screenOn() {
+        if (mSocket != null && mSocket.isConnecting()) {
+            if (mSocket.getMObservable() instanceof SocketObservable)
+                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(2000L, false);
+        }
+    }
 
     public class LocalBinder extends Binder {
         public TCPSocketServiceProvider getService() {
@@ -145,8 +158,9 @@ public class TCPSocketServiceProvider extends Service {
     public void connectConnection() {
         Log.e(TAG, "connectConnection");
         isConnecting = true;
-        mSocket = RxSocketClient.create(new SocketConfig.Builder().setIp(IP).setPort(PORT).setCharset(Charset.forName("UTF-8")).setThreadStrategy(ThreadStrategy.ASYNC).setTimeout(10 * 1000).build()).option(new SocketOption.Builder().setHeartBeat(HEART_BEAT, 60 * 1000)/*.setHead(HEAD).setTail(TAIL)*/.build());
-        //mSocket.getMObservable().set
+        mSocket = RxSocketClient.create(new SocketConfig.Builder().setIp(IP).setPort(PORT).setCharset(Charset.forName("UTF-8")).setThreadStrategy(ThreadStrategy.ASYNC)
+                .setTimeout(10 * 1000).setDelayTime(INTERVAL_INITIAL_RETRY).setMaxDelayTime(INTERVAL_MAXIMUM_RETRY).setIncreaseDelayTime(INTERVAL_INCREASE).build())
+                .option(new SocketOption.Builder().setHeartBeat(HEART_BEAT, 60 * 1000)/*.setHead(HEAD).setTail(TAIL)*/.build());
         ref = mSocket.connect().observeOn(AndroidSchedulers.mainThread()).subscribe(new SocketSubscriber() {
 
             @Override
@@ -154,8 +168,6 @@ public class TCPSocketServiceProvider extends Service {
                 messageReceiver("\n" + "onConnected " + (tcpStatusListener != null));
                 isConnecting = false;
                 if (tcpStatusListener != null) tcpStatusListener.onConnected();
-                /*launcherRequestListener.onInitial();
-                launcherRequestListener.onContactRequest();*/
             }
 
             @Override
@@ -232,7 +244,7 @@ public class TCPSocketServiceProvider extends Service {
         new Handler(Looper.getMainLooper()).post(() -> {
             try {
                 if (messenger != null && !messenger.equalsIgnoreCase("")) {
-                    String[] checkContainer = messenger.split("<PMHEnd><PMHStart>");
+                    String[] checkContainer = messenger.split(END_TAG + START_TAG);
                     //if (checkContainer.length != 0) Log.e(TAG, checkContainer[0]);
                  /*   if (checkContainer.length <= 1) {
                         String[] dataEvent = messenger.split("><");
@@ -242,10 +254,10 @@ public class TCPSocketServiceProvider extends Service {
                     } else {*/
                     for (int i = 0; i < checkContainer.length; i++) {
                         if (checkContainer.length != 1) {
-                            if (i == 0) checkContainer[i] = checkContainer[i] + "<PMHEnd>";
+                            if (i == 0) checkContainer[i] = checkContainer[i] + END_TAG;
                             else if (i == checkContainer.length - 1)
-                                checkContainer[i] = "<PMHStart>" + checkContainer[i];
-                            else checkContainer[i] = "<PMHStart>" + checkContainer[i] + "<PMHEnd>";
+                                checkContainer[i] = START_TAG + checkContainer[i];
+                            else checkContainer[i] = START_TAG + checkContainer[i] + END_TAG;
                         }
                         Log.e(TAG, "checkContainer : " + checkContainer[i]);
                         String[] dataEvent = checkContainer[i].split("><");
@@ -263,11 +275,11 @@ public class TCPSocketServiceProvider extends Service {
 
     private void classifyMessage(TCPMessenger messengerModel) {
         try {
-            Log.e(TAG, "LENGHT : " + messengerModel.getLength());
+            //Log.e(TAG, "LENGHT : " + messengerModel.getLength());
             Log.e(TAG, "IMEI : " + messengerModel.getImei());
             Log.e(TAG, "CMD : " + messengerModel.getCMD());
             Log.e(TAG, "Data : " + messengerModel.getData());
-            Log.e(TAG, "Sum : " + messengerModel.getSum());
+            //Log.e(TAG, "Sum : " + messengerModel.getSum());
             MetaDataNetwork network;
             if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_EVENT_SETTING)) {
 
