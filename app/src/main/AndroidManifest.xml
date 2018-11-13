@@ -103,12 +103,20 @@
 
         <service android:name=".lock_screen.LockScreenService" />
         <service android:name=".broadcast.alarm.receiver.AalService" />
-        <service
-            android:name=".tcp.TCPSocketServiceProvider"
-            tools:replace="android:enabled"
-            android:enabled="true" />
         <service android:name=".broadcast.sensor.SensorService" />
 
+        <service
+            android:name=".tcp.TCPSocketServiceProvider"
+            android:enabled="true"
+            tools:replace="android:enabled" />
+        <service
+            android:name=".main.LocationService"
+            android:enabled="true"
+            tools:replace="android:enabled" />
+
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="465faab0eb9caa30daa27e31f05b0c59" />
     </application>
 
 </manifest>

@@ -48,7 +48,7 @@ public class AboutInfoFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tvImei.setText(" ".concat(WearerInfoUtils.getInstance().getImei()));
+        tvImei.setText(" ".concat(WearerInfoUtils.getInstance().getImei(getActivity())));
         tvVersion.setText(" ".concat(WearerInfoUtils.getInstance().getPomoVersion()));
         tvFirmware.setText(" ".concat(Build.DISPLAY));
     }

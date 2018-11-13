@@ -72,7 +72,7 @@ public class ServiceApiGenerator extends BaseServiceGenerator {
                     .addHeader("language", WearerInfoUtils.getInstance().getLanguage())
                     .addHeader("platform", WearerInfoUtils.getInstance().getPlatform())
                     .addHeader("version", WearerInfoUtils.getInstance().getPomoVersion())
-                    .addHeader("imei", WearerInfoUtils.getInstance().getImei())
+                    //.addHeader("imei", WearerInfoUtils.getInstance().getImei())
                     .method(original.method(), original.body()).build();
             return chain.proceed(request);
         });

@@ -93,7 +93,7 @@ public class FitnessActivity extends BaseActivity implements IFitnessView {
                 if (!isUpdated) {
                     isUpdated = true;
                     StepRequest stepReq = new StepRequest(fitnessPrefManager.getFitness().getStepForSync());
-                    stepReq.setImei(WearerInfoUtils.getInstance().getImei());
+                    stepReq.setImei(WearerInfoUtils.getInstance().getImei(FitnessActivity.this));
                     presenter.sendStep(stepReq);
                 }
                 tvStep.setText(String.valueOf(fitnessPrefManager.getFitness().getTotalStep()));

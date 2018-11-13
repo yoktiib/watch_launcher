@@ -56,9 +56,10 @@ import static com.pomohouse.launcher.main.presenter.LauncherPresenterImpl.EVENT_
 public class TCPSocketServiceProvider extends Service {
     public static SocketClient mSocket;
     private static final long INTERVAL_KEEP_ALIVE = 1000 * 60 * 4;
+    private static final int INTERVAL_TIME_OUT = 1000 * 20;
     private static final long INTERVAL_INCREASE = 1000;
-    private static final long INTERVAL_INITIAL_RETRY = 1000 * 2;
-    private static final long INTERVAL_MAXIMUM_RETRY = 1000 * 15;
+    private static final long INTERVAL_INITIAL_RETRY = 1000 * 5;
+    private static final long INTERVAL_MAXIMUM_RETRY = 1000 * 20;
     private static final String IP = "13.228.58.26";
     //private static final String IP = "178.128.27.215";
     //private static final String IP = "203.151.93.176";
@@ -100,14 +101,14 @@ public class TCPSocketServiceProvider extends Service {
     public void screenOff() {
         if (mSocket != null && mSocket.isConnecting()) {
             if (mSocket.getMObservable() instanceof SocketObservable)
-                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(3000L, true);
+                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(8000L, true);
         }
     }
 
     public void screenOn() {
         if (mSocket != null && mSocket.isConnecting()) {
             if (mSocket.getMObservable() instanceof SocketObservable)
-                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(2000L, false);
+                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(5000L, false);
         }
     }
 
@@ -158,9 +159,7 @@ public class TCPSocketServiceProvider extends Service {
     public void connectConnection() {
         Log.e(TAG, "connectConnection");
         isConnecting = true;
-        mSocket = RxSocketClient.create(new SocketConfig.Builder().setIp(IP).setPort(PORT).setCharset(Charset.forName("UTF-8")).setThreadStrategy(ThreadStrategy.ASYNC)
-                .setTimeout(10 * 1000).setDelayTime(INTERVAL_INITIAL_RETRY).setMaxDelayTime(INTERVAL_MAXIMUM_RETRY).setIncreaseDelayTime(INTERVAL_INCREASE).build())
-                .option(new SocketOption.Builder().setHeartBeat(HEART_BEAT, 60 * 1000)/*.setHead(HEAD).setTail(TAIL)*/.build());
+        mSocket = RxSocketClient.create(new SocketConfig.Builder().setIp(IP).setPort(PORT).setCharset(Charset.forName("UTF-8")).setThreadStrategy(ThreadStrategy.ASYNC).setTimeout(INTERVAL_TIME_OUT).setDelayTime(INTERVAL_INITIAL_RETRY).setMaxDelayTime(INTERVAL_MAXIMUM_RETRY).setIncreaseDelayTime(INTERVAL_INCREASE).build()).option(new SocketOption.Builder().setHeartBeat(HEART_BEAT, 60 * 1000)/*.setHead(HEAD).setTail(TAIL)*/.build());
         ref = mSocket.connect().observeOn(AndroidSchedulers.mainThread()).subscribe(new SocketSubscriber() {
 
             @Override
@@ -196,6 +195,10 @@ public class TCPSocketServiceProvider extends Service {
         });
     }
 
+    public void sendLocation(String cmd, String data) {
+        sendMessage(cmd, data);
+    }
+
     public void sendMessagePairCode(OnPinCodeListener listener, String cmd, String data) {
         onPinCodeListener = listener;
         sendMessage(cmd, data);
@@ -213,7 +216,7 @@ public class TCPSocketServiceProvider extends Service {
 
     public void sendMessage(String cmd, String data) {
         TCPMessenger packageSender = new TCPMessenger();
-        packageSender.setImei(WearerInfoUtils.getInstance().getImei());
+        packageSender.setImei(WearerInfoUtils.getInstance().getImei(this));
         packageSender.setCMD(cmd);
         packageSender.setData(data);
         packageSender.setLauncherVersion(WearerInfoUtils.getInstance().getPomoVersion());
@@ -281,9 +284,8 @@ public class TCPSocketServiceProvider extends Service {
             Log.e(TAG, "Data : " + messengerModel.getData());
             //Log.e(TAG, "Sum : " + messengerModel.getSum());
             MetaDataNetwork network;
-            if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_EVENT_SETTING)) {
-
-                Log.e(TAG, "TCPMessengerModel.CMD_EVENT_SETTING");
+            if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_EVENT_AND_SETTING_UPDATE)) {
+                Log.e(TAG, "TCPMessengerModel.CMD_EVENT_AND_LOCATION_UPDATE");
                 onConvertEventAndSetting(messengerModel.getData());
 
             } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_CONTACT)) {
@@ -317,17 +319,17 @@ public class TCPSocketServiceProvider extends Service {
                     onPinCodeListener.onPinCodeSuccess(network, pinCodeModel.getData());
                 else onPinCodeListener.onPinCodeFailure(network);
 
-            } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_LOCATION_UPDATE)) {
+            }/* else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_LOCATION_UPDATE)) {
 
                 Log.e(TAG, "TCPMessengerModel.CMD_LOCATION_UPDATE");
-                EventDataListModel locationUpdate = new GsonBuilder().create().fromJson(messengerModel.getData(), EventDataListModel.class);
+              *//*  EventDataListModel locationUpdate = new GsonBuilder().create().fromJson(messengerModel.getData(), EventDataListModel.class);
                 network = new MetaDataNetwork(locationUpdate.getResCode(), locationUpdate.getResDesc());
                 if (tcpCallbackListener == null) return;
                 if (locationUpdate.getResCode() == 0)
                     tcpCallbackListener.onCallEventSuccess(network, locationUpdate);
-                else tcpCallbackListener.onCallEventFailure(network);
+                else tcpCallbackListener.onCallEventFailure(netwo*//*rk);
 
-            } else {
+            } */ else {
 
                 Log.e(TAG, "Else TCPMessengerModel." + messengerModel.getCMD());
                 new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(AppContextor.getInstance().getContext(), "Else TCPMessengerModel." + messengerModel.getCMD(), Toast.LENGTH_SHORT).show());

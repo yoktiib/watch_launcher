@@ -10,7 +10,7 @@ import com.pomohouse.library.base.interfaces.presenter.IBaseRequestStatePresente
  * Created by Admin on 8/30/16 AD.
  */
 public interface IContactPresenter extends IBaseRequestStatePresenter {
-    void requestContact(String imei);
+    void requestContact();
 
     void onDeleteContact(ContactModel contact) throws Exception;
 

@@ -48,7 +48,7 @@ public class NetworkActivity extends BaseActivity {
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        WearerInfoUtils wearerInfoUtils = WearerInfoUtils.getInstance(this).initWearerInfoUtils(this);
+        WearerInfoUtils wearerInfoUtils = WearerInfoUtils.getInstance().initWearerInfoUtils(this);
         settingManager = new SettingPrefManager(this);
         if (wearerInfoUtils.isHaveSimCard()) {
             ConnectivityManager connectivityManager =

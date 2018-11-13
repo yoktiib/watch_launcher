@@ -15,15 +15,17 @@ public class WearerInfoUtils {
     private String platform = "K8";
     private boolean haveSimCard = false;
 
-    public static WearerInfoUtils getInstance() {
+    /*public static WearerInfoUtils getInstance() {
         return ourInstance;
-    }
+    }*/
 
-    public static WearerInfoUtils getInstance(Context mContext) {
+    public static WearerInfoUtils getInstance() {
         if (ourInstance == null)
             ourInstance = new WearerInfoUtils();
-        if (ourInstance.getImei() == null || ourInstance.getImei().isEmpty())
-            ourInstance.initWearerInfoUtils(mContext);
+       //     ourInstance.initWearerInfoUtils(mContext);
+
+        //if (ourInstance.getImei(mContext) == null || ourInstance.getImei(mContext).isEmpty())
+
         return ourInstance;
     }
 
@@ -47,13 +49,13 @@ public class WearerInfoUtils {
         return haveSimCard;
     }
 
-    public String getImei() {
+    public String getImei(Context mContext) {
+        if (imei == null || imei.isEmpty()) initWearerInfoUtils(mContext);
         return imei;
     }
 
     public String getPlatform() {
-        if (platform == null)
-            return "K8";
+        if (platform == null) return "K8";
         return platform;
     }
 
@@ -62,8 +64,7 @@ public class WearerInfoUtils {
     }
 
     public String getLanguage() {
-        if (language == null)
-            return "en";
+        if (language == null) return "en";
         return language;
     }
 
@@ -72,8 +73,7 @@ public class WearerInfoUtils {
     }
 
     public String getPomoVersion() {
-        if (pomoVersion == null)
-            return "1.1";
+        if (pomoVersion == null) return "1.1";
         return pomoVersion;
     }
 

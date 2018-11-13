@@ -1,6 +1,10 @@
 package com.pomohouse.launcher.main;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -8,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +30,11 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.location.AMapLocationQualityReport;
 import com.google.gson.Gson;
 import com.pomohouse.component.pager.HorizontalViewPager;
 import com.pomohouse.launcher.POMOWatchApplication;
@@ -59,6 +69,7 @@ import com.pomohouse.launcher.models.DeviceInfoModel;
 import com.pomohouse.launcher.models.DeviceSetUpDao;
 import com.pomohouse.launcher.models.EventDataInfo;
 import com.pomohouse.launcher.models.settings.InClassDao;
+import com.pomohouse.launcher.tcp.CMDCode;
 import com.pomohouse.launcher.tcp.OnTCPStatusListener;
 import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 import com.pomohouse.launcher.utils.CombineObjectConstance;
@@ -128,6 +139,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         Timber.e("onStop");
     }
 
+
     @Override
     public void startLocation() {
         //TODO Location Start
@@ -138,6 +150,8 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
             else
                 this.checkLocationAvailable();
         }*/
+        // startService(new Intent(this, LocationService.class));
+        TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_LOCATION_UPDATE, "{}");
     }
 
     @Override
@@ -185,7 +199,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         super.onSetNotificationManager(notificationManager);
         super.onSetSettingManager(settingManager);
         setContentView(R.layout.activity_main);
-
+        WearerInfoUtils.getInstance().initWearerInfoUtils(this);
         // startService(new Intent(getBaseContext(), TCPSocketServiceProvider.class));
         doBindService();
        /* TCPSocketServiceProvider.getInstance().setTCPStatusListener(new OnTCPStatusListener() {
@@ -240,7 +254,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
                 @Override
                 public void onConnected() {
                     presenter.requestInitialDevice();
-                    contactPresenter.requestContact(WearerInfoUtils.getInstance().getImei());
+                    contactPresenter.requestContact(/*WearerInfoUtils.getInstance().getImei(LauncherActivity.this)*/);
                 }
 
                 @Override
@@ -260,7 +274,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         //if (mBoundService != null) {
 
         Intent intent = new Intent(this, TCPSocketServiceProvider.class);
-        startService(intent);
+        //startService(intent);
         bindService(intent, socketConnection, Context.BIND_AUTO_CREATE);
         mIsBound = true;
         //mContext.startService(intent);
@@ -515,7 +529,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
             }
             if (!CombineObjectConstance.getInstance().getContactEntity().isContactSynced()) {
                 Timber.e("Call Contact");
-                contactPresenter.requestContact(WearerInfoUtils.getInstance(this).getImei());
+                contactPresenter.requestContact(/*WearerInfoUtils.getInstance(this).getImei()*/);
             }
         } else {
             if (settingManager != null && settingManager.getSetting().isMobileData() && !isMobileDataConnect()) {
@@ -535,11 +549,12 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         switch (msg.what) {
             case DEVICE_ACTION:
                 Intent intent = (Intent) msg.obj;
-                if (intent == null) return true;
+                if (intent == null || intent.getAction() == null) return true;
                 switch (intent.getAction()) {
-                    case Intent.ACTION_BOOT_COMPLETED:
-                        contactPresenter.requestContact(WearerInfoUtils.getInstance(this).getImei());
-                        break;
+                    /*case Intent.ACTION_BOOT_COMPLETED:
+
+                        contactPresenter.requestContact();
+                        break;*/
                     case Intent.ACTION_SHUTDOWN:
                         presenter.requestShutdownDevice();
                         break;
@@ -601,7 +616,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         flag = false;
         flag2 = true;
         new Handler().postDelayed(() -> {
-            if (flag2) presenter.requestSOS(WearerInfoUtils.getInstance().getImei());
+            if (flag2) presenter.requestSOS(/*WearerInfoUtils.getInstance().getImei()*/);
         }, 1500);
         return true;
     }
@@ -675,18 +690,18 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
     @Override
     public void onEventPairReceived(EventDataInfo eventData) {
-        contactPresenter.requestContact(WearerInfoUtils.getInstance(this).getImei());
+        contactPresenter.requestContact(/*WearerInfoUtils.getInstance().getImei()*/);
         startActivity(new Intent(this, EventAlertActivity.class).putExtra(EventAlertActivity.EVENT_EXTRA, eventData));
     }
 
     @Override
     public void onBestFriendForeverReceived(EventDataInfo eventData) {
-        contactPresenter.requestContact(WearerInfoUtils.getInstance(this).getImei());
+        contactPresenter.requestContact(/*WearerInfoUtils.getInstance(this).getImei()*/);
     }
 
     @Override
     public void onSyncContact(EventDataInfo eventData) {
-        contactPresenter.requestContact(WearerInfoUtils.getInstance(this).getImei());
+        contactPresenter.requestContact(/*WearerInfoUtils.getInstance(this).getImei()*/);
     }
 
     @Override
@@ -707,7 +722,6 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
             settingPrefModel.setTimeZone(timeZone);
             settingManager.addMiniSetting(settingPrefModel);
             super.setUpTimeZone(settingManager.getSetting().getTimeZone());
-
         }
     }
 
@@ -827,12 +841,12 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
     @Override
     public void updateLocation(Location location) {
-        if (WearerInfoUtils.getInstance() == null || WearerInfoUtils.getInstance().getImei() == null || WearerInfoUtils.getInstance().getImei().isEmpty())
-            return;
+        /*if (WearerInfoUtils.getInstance() == null || WearerInfoUtils.getInstance().getImei() == null || WearerInfoUtils.getInstance().getImei().isEmpty())
+            return;*/
         POMOWatchApplication.mLocation = location;
         getContentResolver().delete(POMOContract.WearerEntry.CONTENT_URI, null, new String[]{});
         ContentValues values = new ContentValues();
-        values.put(POMOContract.WearerEntry.IMEI, WearerInfoUtils.getInstance().getImei());
+        values.put(POMOContract.WearerEntry.IMEI, WearerInfoUtils.getInstance().getImei(this));
         values.put(POMOContract.WearerEntry.LONGITUDE, location.getLongitude());
         values.put(POMOContract.WearerEntry.LATITUDE, location.getLatitude());
         getContentResolver().insert(POMOContract.WearerEntry.CONTENT_URI, values);

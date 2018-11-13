@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by Admin on 9/5/16 AD.
  */
-public class LocationUpdateRequest extends ImeiRequest {
+public class LocationUpdateRequest{
 
     /**
      * imei : string
@@ -18,10 +18,10 @@ public class LocationUpdateRequest extends ImeiRequest {
      */
     @SerializedName("power")
     @Expose
-    private double power;
+    private double power;/*
     @SerializedName("speed")
     @Expose
-    private double speed;
+    private double speed;*/
     @SerializedName("lng")
     @Expose
     private double lng;
@@ -45,24 +45,24 @@ public class LocationUpdateRequest extends ImeiRequest {
     }
 
     public LocationUpdateRequest(Location currLocation) {
-        speed = currLocation.getSpeed();
+    //    speed = currLocation.getSpeed();
         accuracy = currLocation.getAccuracy();
         lat = currLocation.getLatitude();
         lng = currLocation.getLongitude();
     }
-
+/*
     public LocationUpdateRequest setPower(int power) {
         this.power = power;
         return this;
-    }
-
+    }*/
+/*
     public double getSpeed() {
         return speed;
     }
 
     public void setSpeed(double speed) {
         this.speed = speed;
-    }
+    }*/
 
     public String getEventList() {
         return eventList;

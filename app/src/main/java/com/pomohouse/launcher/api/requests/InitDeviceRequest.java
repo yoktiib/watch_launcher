@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Admin on 10/12/2016 AD.
  */
 
-public class InitDeviceRequest extends ImeiRequest{
+public class InitDeviceRequest {
 
     @SerializedName("simOperator")
     @Expose

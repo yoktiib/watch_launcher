@@ -37,7 +37,7 @@ public interface ILauncherPresenter extends IBaseRequestStatePresenter {
 
     void readThemeFromAsset();
 
-    void requestSOS(String imei);
+    void requestSOS();
 
     void timeTickControl();
 

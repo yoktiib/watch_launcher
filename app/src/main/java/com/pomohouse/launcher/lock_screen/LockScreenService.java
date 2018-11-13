@@ -33,6 +33,7 @@ import com.pomohouse.launcher.manager.notifications.INotificationManager;
 import com.pomohouse.launcher.manager.notifications.NotificationPrefManager;
 import com.pomohouse.launcher.manager.notifications.NotificationPrefModel;
 import com.pomohouse.launcher.models.contacts.ContactCollection;
+import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 import com.pomohouse.launcher.utils.CombineObjectConstance;
 import com.pomohouse.launcher.utils.EventConstant;
 import com.pomohouse.launcher.models.events.BatteryChargerEvent;

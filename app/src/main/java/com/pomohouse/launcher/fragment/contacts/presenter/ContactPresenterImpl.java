@@ -85,8 +85,7 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
     }
 
     @Override
-    public void requestContact(String imei) {
-        if (imei == null || imei.isEmpty()) return;
+    public void requestContact() {
         TCPSocketServiceProvider.getInstance().sendMessageFromContact(this, CMDCode.CMD_CONTACT, "{}");
     }
 

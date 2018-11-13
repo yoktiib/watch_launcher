@@ -91,7 +91,7 @@ public class SensorService extends Service {
             public void onWatchOff() {
                 if (!CombineObjectConstance.getInstance().isWatchAlarm()) return;
                 WearerStatusRequest wearerStatusRequest = new WearerStatusRequest();
-                wearerStatusRequest.setImei(WearerInfoUtils.getInstance().getImei());
+               // wearerStatusRequest.setImei(WearerInfoUtils.getInstance().getImei());
                 wearerStatusRequest.setWearerStatus("N");
                 presenter.requestWearerStatus(wearerStatusRequest);
             }
@@ -100,12 +100,12 @@ public class SensorService extends Service {
             public void onWatchOn() {
                 if (!CombineObjectConstance.getInstance().isWatchAlarm()) return;
                 WearerStatusRequest wearerStatusRequest = new WearerStatusRequest();
-                wearerStatusRequest.setImei(WearerInfoUtils.getInstance().getImei());
+                //wearerStatusRequest.setImei(WearerInfoUtils.getInstance().getImei());
                 wearerStatusRequest.setWearerStatus("Y");
                 presenter.requestWearerStatus(wearerStatusRequest);
             }
         });
-        mSensorDetector.setFallSensorListener(() -> presenter.requestFallService(new ImeiRequest(WearerInfoUtils.getInstance().getImei())));
+        mSensorDetector.setFallSensorListener(() -> presenter.requestFallService());
         mSensorDetector.setTwistSensorListener(() -> {
             powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
             fullWakeLock = powerManager.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "Loneworker - FULL WAKE LOCK");

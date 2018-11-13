@@ -132,9 +132,6 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     private IThemePrefManager themeManager;
     private LockScreenEnum lockBy = LockScreenEnum.NONE;
     private boolean isInClassModeEnable = false, isSleepMode = false;
-    private long mLastStepTime;
-    private long mLastLocationTime;
-    private SensorManager mSensorManager;
     private IInClassModePrefManager inClassModeManager;
     private ISettingManager iSettingManager;
     private IFitnessPrefManager iFitnessPrefManager;
@@ -162,9 +159,8 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     public void onInitial(Object... param) {
         super.onInitial(param);
         view.initializeServiceAndReceiver();
-        mLastStepTime = 0;
-        mLastLocationTime = 0;
         this.setUpDevice();
+      //  view.startLocation();
     }
 
     @Override
@@ -233,7 +229,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                 btName = mBluetoothAdapter.getName();
             }
             InitDeviceRequest deviceRequest = new InitDeviceRequest();
-            deviceRequest.setImei(WearerInfoUtils.getInstance().getImei());
+            //deviceRequest.setImei(WearerInfoUtils.getInstance().getImei());
             deviceRequest.setFirmwareVersion(Build.DISPLAY);
             if (iSettingManager != null && iSettingManager.getSetting() != null) {
                 String token = iSettingManager.getSetting().getFCMToken();
@@ -256,16 +252,6 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
         } catch (Exception ignore) {
 
         }
-    }
-
-    private int getPowerLevel() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            BatteryManager bm = (BatteryManager) ActivityContextor.getInstance().getContext().getSystemService(BATTERY_SERVICE);
-            if (bm != null) {
-                return bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
-            }
-        }
-        return 0;
     }
 
     @Override
@@ -308,44 +294,6 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
         }
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) ActivityContextor.getInstance().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = null;
-        if (connectivityManager != null) {
-            activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        }
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-    private void updateFitnessService() {
-        mSensorManager = (SensorManager) ActivityContextor.getInstance().getContext().getSystemService(SENSOR_SERVICE);
-        if (mSensorManager != null) {
-            mSensorManager.registerListener(sensorEventListener, mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER), SensorManager.SENSOR_DELAY_FASTEST);
-        }
-    }
-
-    private SensorEventListener sensorEventListener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent event) {
-            Sensor sensor = event.sensor;
-            Timber.i("Sensor Type : " + sensor.getType());
-            if (Sensor.TYPE_STEP_COUNTER == sensor.getType()) {
-                int curr = (int) event.values[0];
-                Timber.i("curr => " + curr);
-                FitnessPrefModel fitnessPrefModel = iFitnessPrefManager.getFitness();
-                fitnessPrefModel.calculateStepSync(curr, null);
-                fitnessPrefModel.getSyncStep();
-                iFitnessPrefManager.addFitness(fitnessPrefModel);
-                if (mSensorManager != null) mSensorManager.unregisterListener(sensorEventListener);
-            }
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-        }
-    };
-
     @Override
     public void timeTickControl() {
         this.setUpDevice();
@@ -356,11 +304,12 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     private void setUpDevice() {
         this.validateInClassMode();
         this.validateSleepMode();
-        if (!isSleepMode) view.startLocation();
+        /*if (!isSleepMode)
+            view.startLocation();*/
         timeTickCount++;
         if (timeTickCount % 3 == 0) {
-            TCPSocketServiceProvider.getInstance().sendMessage(CMDCode.CMD_SHUTDOWN, "{}");
             timeTickCount = 0;
+            view.startLocation();
         }
     }
 
@@ -579,6 +528,12 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                     TimeZoneDao timeZoneDao = new Gson().fromJson(_eventData.getContent(), TimeZoneDao.class);
                     if (timeZoneDao != null && !timeZoneDao.getAutoTimezone().isEmpty() && !timeZoneDao.getTimeZone().isEmpty()) {
                         Timber.e(String.valueOf("Timezone : " + timeZoneDao.getAutoTimezone()));
+
+                        SettingPrefModel settingPrefModel = iSettingManager.getSetting();
+                        settingPrefModel.setTimeZone(timeZoneDao.getTimeZone());
+                        settingPrefModel.setAutoTimezone(timeZoneDao.getAutoTimezone().equalsIgnoreCase("Y"));
+                        iSettingManager.addMiniSetting(settingPrefModel);
+
                         if (timeZoneDao.getAutoTimezone().equalsIgnoreCase("Y"))
                             view.setAutoTimezone();
                         else view.setUpTimeZone(timeZoneDao.getTimeZone());
@@ -636,48 +591,6 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
         }
     }
 
-    /**
-     * Start Of Event Function
-     * Request API
-     * Convert Data
-     * Send Data To Broadcast
-     * Insert To Database
-     *
-     * @param locationInfo
-     */
-    private void requestEventInterval(LocationUpdateRequest locationInfo) {
-        if (!isNetworkAvailable()) return;
-        final long now = SystemClock.elapsedRealtime();// + (30 * 1000);
-        if (iSettingManager == null) return;
-        Timber.e((now - mLastLocationTime) + " : " + (iSettingManager.getSetting().getPositionTiming() - 60) * 1000);
-        if (now - mLastLocationTime < ((iSettingManager.getSetting().getPositionTiming() - 60) * 1000) && mLastLocationTime != 0)
-            return;
-        if (now - mLastStepTime < (iSettingManager.getSetting().getStepSyncTiming() * 1000)) {
-            Timber.e("ignoring STEP_PERIOD until period has elapsed");
-            if (locationInfo != null) {
-                locationInfo.setPower(getPowerLevel());
-                locationInfo.setImei(WearerInfoUtils.getInstance().getImei());
-                TCPSocketServiceProvider.getInstance().sendMessageFromLauncher(this, CMDCode.CMD_LOCATION_UPDATE, new Gson().toJson(locationInfo));
-                mLastLocationTime = now;
-            }
-        } else {
-            updateFitnessService();
-            new Handler().postDelayed(() -> {
-                if (locationInfo != null) {
-                    Timber.e("Get STEP_PERIOD");
-                    locationInfo.setPower(getPowerLevel());
-                    locationInfo.setImei(WearerInfoUtils.getInstance().getImei());
-                    locationInfo.setStep(iFitnessPrefManager.getFitness().getStepForSync());
-
-                    TCPSocketServiceProvider.getInstance().sendMessageFromLauncher(this, CMDCode.CMD_LOCATION_UPDATE, new Gson().toJson(locationInfo));
-                    //interactor.callUpdateInfoAndGetEventService(LauncherPresenterImpl.this, locationInfo);
-                    mLastStepTime = now;
-                    mLastLocationTime = now;
-                }
-            }, 3000);
-        }
-    }
-
     private void onResetSyncContact() {
         CombineObjectConstance.getInstance().getContactEntity().setContactSynced(false);
     }
@@ -728,9 +641,8 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
             if (tz != null) {
                 TimezoneUpdateRequest timezoneUpdateRequest = new TimezoneUpdateRequest();
                 timezoneUpdateRequest.setTimeZone(tz.getID());
-                timezoneUpdateRequest.setImei(WearerInfoUtils.getInstance().getImei());
-                TCPSocketServiceProvider.getInstance().sendMessageFromLauncher(this, CMDCode.CMD_TIME_ZONE, "{}");
-                /*interactor.callTimezoneChanged(timezoneUpdateRequest);*/
+                //timezoneUpdateRequest.setImei(WearerInfoUtils.getInstance().getImei());
+                TCPSocketServiceProvider.getInstance().sendMessageFromLauncher(this, CMDCode.CMD_TIME_ZONE, new Gson().toJson(timezoneUpdateRequest));
             }
             EventDataInfo eventContent = new EventDataInfo();
             eventContent.setEventCode(EVENT_APP_TIMEZONE_CODE);
@@ -769,7 +681,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     }
 
     @Override
-    public void requestSOS(String imei) {
+    public void requestSOS() {
         TCPSocketServiceProvider.getInstance().sendMessageFromLauncher(this, CMDCode.CMD_LOCATION_UPDATE, "");
         EventDataInfo eventContent = new EventDataInfo();
         eventContent.setEventCode(EVENT_SOS_CODE);

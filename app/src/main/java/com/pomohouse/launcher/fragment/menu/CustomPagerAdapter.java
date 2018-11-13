@@ -104,7 +104,7 @@ public class CustomPagerAdapter extends PagerAdapter {
             return false;
         }
         i.putExtra("LANGUAGE", LanguageSetting.getLanguage());
-        i.putExtra("IMEI", WearerInfoUtils.getInstance().getImei());
+        i.putExtra("IMEI", WearerInfoUtils.getInstance().getImei(mContext));
         i.putExtra("POMO_VERSION", WearerInfoUtils.getInstance().getPomoVersion());
         i.putExtra("PLATFORM", WearerInfoUtils.getInstance().getPlatform());
         if (packageName.contains("takemehome") && POMOWatchApplication.mLocation!=null){

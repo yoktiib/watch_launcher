@@ -30,8 +30,8 @@ class SocketConfig(
         val mTimeout: Int?,
         val mCharset: Charset = Charsets.UTF_8,
         val mThreadStrategy: Int?,
-        val delayReadBuffer: Long? = 2000,
-        val maxDelayReadBuffer: Long? = 1500,
+        val delayReadBuffer: Long? = 5000,
+        val maxDelayReadBuffer: Long? = 20000,
         val increaseSleep: Long? = 1000
 ) {
 

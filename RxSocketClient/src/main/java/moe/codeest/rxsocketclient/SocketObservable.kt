@@ -27,6 +27,7 @@ import moe.codeest.rxsocketclient.meta.SocketState
 import org.jetbrains.anko.doAsync
 import java.io.DataInputStream
 import java.io.IOException
+import java.lang.Exception
 import java.net.SocketException
 
 
@@ -100,8 +101,8 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
         }
     }
 
-    private var defaultSleep: Long = 2000
-    private var maxSleep: Long = 15000
+    private var defaultSleep: Long = 5000
+    private var maxSleep: Long = 20000
     private var increaseSleep: Long = 1000
     private var timeSleep: Long = defaultSleep
     private var isMaxInterval: Boolean = false
@@ -110,7 +111,9 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
         this.defaultSleep = defaultSleep
         this.timeSleep = defaultSleep
         this.isDelay = isDelay
-        periodicTask.run()
+        /*try {
+            periodicTask.run()
+        }catch (ex : Exception){}*/
     }
 
     fun socketRunAlways() {

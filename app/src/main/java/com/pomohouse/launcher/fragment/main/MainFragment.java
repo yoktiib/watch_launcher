@@ -193,7 +193,7 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
     };
 
     public void onCheckGetStart() {
-        WearerInfoUtils wearerInfoUtils = WearerInfoUtils.getInstance(getContext());
+        WearerInfoUtils wearerInfoUtils = WearerInfoUtils.getInstance().initWearerInfoUtils(getActivity());
         if (getActivity() != null && settingManager != null && settingManager.getSetting().isFirstTime()) {
             if (wearerInfoUtils.isHaveSimCard() || (settingManager.getSetting().isFirstTimeNoSim() && !wearerInfoUtils.isHaveSimCard()))
                 startActivity(new Intent(getActivity(), GetStartActivity.class));

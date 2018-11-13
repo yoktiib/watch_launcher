@@ -22,8 +22,7 @@ public class SensorPresenterImpl extends BaseRetrofitPresenter implements ISenso
     }
 
     @Override
-    public void requestFallService(ImeiRequest imeiRequest) {
-        if (imeiRequest == null) return;
+    public void requestFallService() {
         TCPSocketServiceProvider.getInstance().sendMessage(CMDCode.CMD_FALL, "{}");
     }
 }

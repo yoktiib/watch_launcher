@@ -146,8 +146,8 @@ public class DeviceActionReceiver extends BaseBroadcast {
                         sendMainFaceListener(intent);
                         break;
                     case Intent.ACTION_SCREEN_ON:
-                        TCPSocketServiceProvider.getInstance().screenOn();
                         if (screenOnListener != null) screenOnListener.onScreenOn();
+                        TCPSocketServiceProvider.getInstance().screenOn();
                         break;
                     case Intent.ACTION_TIME_TICK:
                         Timber.e("Time Tick Size => " + (mLauncherTimeTickChangedListener != null) + ":" + (mThemeTimeTickChangedListener != null) + ":" + (mLockScreenTimeTickChangedListener != null));

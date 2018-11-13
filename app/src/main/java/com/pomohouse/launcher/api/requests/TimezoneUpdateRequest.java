@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Admin on 6/4/2017 AD.
  */
 
-public class TimezoneUpdateRequest extends ImeiRequest{
+public class TimezoneUpdateRequest{
 
     @SerializedName("timezone")
     @Expose

@@ -61,7 +61,7 @@ public class GetStartedQRCodeFragment extends BaseFragment {
             int _bgColor = Color.rgb(255, 255, 255);
 
             Bitmap qrCode = new QrGenerator.Builder()
-                    .content(WearerInfoUtils.getInstance(getContext()).getImei())
+                    .content(WearerInfoUtils.getInstance().getImei(getContext()))
                     .qrSize(500)
                     /*.margin(2)*/
                     .color(_color)
