@@ -150,8 +150,8 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
             else
                 this.checkLocationAvailable();
         }*/
-        // startService(new Intent(this, LocationService.class));
-        TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_LOCATION_UPDATE, "{}");
+        startService(new Intent(this, LocationService.class));
+        //TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_LOCATION_UPDATE, "{}");
     }
 
     @Override

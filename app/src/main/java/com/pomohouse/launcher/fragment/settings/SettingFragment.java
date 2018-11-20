@@ -1,13 +1,16 @@
 package com.pomohouse.launcher.fragment.settings;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +28,11 @@ import com.pomohouse.launcher.fragment.settings.presenter.ISettingPresenter;
 import com.pomohouse.launcher.tcp.CMDCode;
 import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -156,12 +161,55 @@ public class SettingFragment extends BaseFragment implements ISettingView {
 
     }
 
+    private void shutDown() {
+
+        try {
+            //获得ServiceManager类
+            Log.e("zglkey", "----------shutdown--1");
+            Class<?> ServiceManager = Class
+                    .forName("android.os.ServiceManager");
+            //获得ServiceManager的getService方法
+            Method getService = ServiceManager.getMethod("getService", java.lang.String.class);
+            //调用getService获取RemoteService
+            Object oRemoteService = getService.invoke(null, Context.POWER_SERVICE);
+            //获得IPowerManager.Stub类
+            Class<?> cStub = Class
+                    .forName("android.os.IPowerManager$Stub");
+            //获得asInterface方法
+            Method asInterface = cStub.getMethod("asInterface", android.os.IBinder.class);
+            //调用asInterface方法获取IPowerManager对象
+            Object oIPowerManager = asInterface.invoke(null, oRemoteService);
+            //获得shutdown()方法
+            Method shutdown = oIPowerManager.getClass().getMethod("shutdown", boolean.class, boolean.class);
+            //调用shutdown()方法
+            shutdown.invoke(oIPowerManager, false, true);
+            //Log.e("zglkey", "----------shutdown--2");
+        } catch (Exception e) {
+            Log.e("zglkey", e.toString(), e);
+        }
+
+    }
+
+    private void reStartPhone() {
+        Log.e("zglkey", "----------reStartPhone--");
+        PowerManager pManager = (PowerManager) Objects.requireNonNull(getActivity()).getSystemService(Context.POWER_SERVICE);
+        pManager.reboot("");
+    }
+
+
+    private void reStartPhone2(){
+        Intent intent = new Intent(Intent.ACTION_REBOOT);
+        intent.putExtra("nowait", 1);
+        intent.putExtra("interval", 1);
+        intent.putExtra("window", 0);
+        Objects.requireNonNull(getActivity()).sendBroadcast(intent);
+    }
+
     final ConfirmDialogFragment.ConfirmDialogListener restart = new ConfirmDialogFragment.ConfirmDialogListener() {
         @Override
         public void onYesDialogClick() {
             TCPSocketServiceProvider.getInstance().sendMessage(CMDCode.CMD_RESTART, "{}");
-            final Intent restart = new Intent("com.pomohouse.waffle.REQUEST_RESTART");
-            getContext().sendBroadcast(restart);
+            reStartPhone();
         }
 
         @Override
@@ -173,8 +221,7 @@ public class SettingFragment extends BaseFragment implements ISettingView {
         @Override
         public void onYesDialogClick() {
             TCPSocketServiceProvider.getInstance().sendMessage(CMDCode.CMD_SHUTDOWN, "{}");
-            final Intent shutdown = new Intent("com.pomohouse.waffle.REQUEST_SHUTDOWN");
-            getContext().sendBroadcast(shutdown);
+            shutDown();
         }
 
         @Override

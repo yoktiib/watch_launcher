@@ -10,26 +10,15 @@ import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.pomohouse.launcher.api.requests.InitDeviceRequest;
-import com.pomohouse.launcher.api.requests.LocationUpdateRequest;
 import com.pomohouse.launcher.api.requests.TimezoneUpdateRequest;
 import com.pomohouse.launcher.broadcast.alarm.model.AlarmDatabase;
 import com.pomohouse.launcher.broadcast.alarm.model.AlarmItem;
@@ -38,7 +27,6 @@ import com.pomohouse.launcher.content_provider.POMOContract;
 import com.pomohouse.launcher.main.ILauncherView;
 import com.pomohouse.launcher.main.OnLauncherCallbackListener;
 import com.pomohouse.launcher.manager.event.IEventPrefManager;
-import com.pomohouse.launcher.manager.fitness.FitnessPrefModel;
 import com.pomohouse.launcher.manager.fitness.IFitnessPrefManager;
 import com.pomohouse.launcher.manager.in_class_mode.IInClassModePrefManager;
 import com.pomohouse.launcher.manager.in_class_mode.InClassModePrefModel;
@@ -85,9 +73,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import timber.log.Timber;
-
-import static android.content.Context.BATTERY_SERVICE;
-import static android.content.Context.SENSOR_SERVICE;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_LOCK_DEFAULT_INTENT;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_LOCK_IN_CLASS_INTENT;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_UNLOCK_IN_CLASS_INTENT;
@@ -160,7 +145,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
         super.onInitial(param);
         view.initializeServiceAndReceiver();
         this.setUpDevice();
-      //  view.startLocation();
+        view.startLocation();
     }
 
     @Override
@@ -309,7 +294,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
         timeTickCount++;
         if (timeTickCount % 3 == 0) {
             timeTickCount = 0;
-            view.startLocation();
+            //view.startLocation();
         }
     }
 

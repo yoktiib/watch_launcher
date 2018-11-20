@@ -101,7 +101,7 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
         }
     }
 
-    private var defaultSleep: Long = 5000
+    private var defaultSleep: Long = 7000
     private var maxSleep: Long = 20000
     private var increaseSleep: Long = 1000
     private var timeSleep: Long = defaultSleep

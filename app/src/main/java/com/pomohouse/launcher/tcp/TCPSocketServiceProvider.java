@@ -58,7 +58,7 @@ public class TCPSocketServiceProvider extends Service {
     private static final long INTERVAL_KEEP_ALIVE = 1000 * 60 * 4;
     private static final int INTERVAL_TIME_OUT = 1000 * 20;
     private static final long INTERVAL_INCREASE = 1000;
-    private static final long INTERVAL_INITIAL_RETRY = 1000 * 5;
+    private static final long INTERVAL_INITIAL_RETRY = 1000 * 7;
     private static final long INTERVAL_MAXIMUM_RETRY = 1000 * 20;
     private static final String IP = "13.228.58.26";
     //private static final String IP = "178.128.27.215";
@@ -101,14 +101,14 @@ public class TCPSocketServiceProvider extends Service {
     public void screenOff() {
         if (mSocket != null && mSocket.isConnecting()) {
             if (mSocket.getMObservable() instanceof SocketObservable)
-                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(8000L, true);
+                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(INTERVAL_INITIAL_RETRY, true);
         }
     }
 
     public void screenOn() {
         if (mSocket != null && mSocket.isConnecting()) {
             if (mSocket.getMObservable() instanceof SocketObservable)
-                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(5000L, false);
+                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(INTERVAL_INITIAL_RETRY, false);
         }
     }
 

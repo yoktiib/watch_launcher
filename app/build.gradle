@@ -16,14 +16,30 @@ repositories {
 }
 
 android {
-    signingConfigs {
+    /*signingConfigs {
         release {
             keyAlias 'pomo_waffle_launcher'
             keyPassword 'pomo@2017'
             storeFile file('/Users/sirawit/pomo_watch_launcher/pomo-waffle-key.jks')
             storePassword 'pomohouse'
         }
+    }*/
+
+    signingConfigs {
+        debug {
+            keyAlias 'platform'
+            keyPassword 'android'
+            storeFile file('/Users/sirawit/pomo_watch_launcher/release.keystore')
+            storePassword 'android'
+        }
+        release {
+            keyAlias 'platform'
+            keyPassword 'android'
+            storeFile file('/Users/sirawit/pomo_watch_launcher/release.keystore')
+            storePassword 'android'
+        }
     }
+
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.pomohouse.launcher"
@@ -34,11 +50,12 @@ android {
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled = true
     }
+
     buildTypes {
         debug {
             debuggable true
-            signingConfig signingConfigs.release
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.debug
         }
         release {
             minifyEnabled false
@@ -59,6 +76,7 @@ android {
     }
     productFlavors {
     }
+
 }
 
 dependencies {

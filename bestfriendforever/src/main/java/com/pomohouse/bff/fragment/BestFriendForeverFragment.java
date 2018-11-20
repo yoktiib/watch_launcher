@@ -181,7 +181,7 @@ public class BestFriendForeverFragment extends BaseFragment implements IBestFrie
     LocationListener locationChangeListener = location -> {
         if (wearerInfo == null)
             return;
-        wearerInfo.setImei(WearerInfoUtils.getInstance().getImei());
+        wearerInfo.setImei(WearerInfoUtils.getInstance().getImei(getActivity()));
         wearerInfo.setLat(location.getLatitude());
         wearerInfo.setLng(location.getLongitude());
         presenter.onInitial(wearerInfo);
@@ -210,7 +210,7 @@ public class BestFriendForeverFragment extends BaseFragment implements IBestFrie
                     Timber.i(wearerInfo.getImei() + " : " + wearerInfo.getLat() + " : " + wearerInfo.getLat());
                     wearerInfo.setLat(wearerInfo.getLat());
                     wearerInfo.setLng(wearerInfo.getLng());
-                    wearerInfo.setImei(WearerInfoUtils.getInstance().getImei());
+                    wearerInfo.setImei(WearerInfoUtils.getInstance().getImei(getActivity()));
 
                     presenter.onInitial(wearerInfo);
                     presenter.requestReadyRequestFriend();
