@@ -2,29 +2,19 @@ package com.pomohouse.launcher;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.res.Resources;
 import android.location.Location;
 
 import com.crashlytics.android.Crashlytics;
 import com.pomohouse.launcher.di.ApplicationModule;
-import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 import com.pomohouse.library.manager.AppContextor;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
-import java.net.Socket;
-import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.List;
 
 import dagger.ObjectGraph;
 import io.fabric.sdk.android.Fabric;
-import io.reactivex.disposables.Disposable;
-import moe.codeest.rxsocketclient.RxSocketClient;
-import moe.codeest.rxsocketclient.SocketClient;
-import moe.codeest.rxsocketclient.meta.SocketConfig;
-import moe.codeest.rxsocketclient.meta.SocketOption;
-import moe.codeest.rxsocketclient.meta.ThreadStrategy;
 import timber.log.Timber;
 
 /**

@@ -5,7 +5,7 @@
         android:left="16dp"
         android:right="16dp" />
 
-    <solid android:color="@color/waffle_blue_04_color" />
+    <solid android:color="@color/waffle_white_color" />
 
     <corners
         android:bottomLeftRadius="24dp"

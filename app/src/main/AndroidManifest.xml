@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:sharedUserId="android.uid.system"
-    package="com.pomohouse.launcher">
+    package="com.pomohouse.launcher"
+    android:sharedUserId="android.uid.system">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -46,6 +46,8 @@
     <uses-permission
         android:name="android.permission.SHUTDOWN"
         tools:ignore="ProtectedPermissions" />
+
+
     <application
         android:name=".POMOWatchApplication"
         android:allowBackup="true"
@@ -81,6 +83,7 @@
             android:name=".activity.getstarted.GetStartActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".activity.settings.network.NetworkActivity" />
+        <activity android:name=".activity.camera.CameraActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

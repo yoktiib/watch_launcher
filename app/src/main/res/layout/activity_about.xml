@@ -20,10 +20,10 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:padding="10dp"
-        app:fillColor="@color/waffle_orange_01_color"
+        app:fillColor="#ff8f9a"
         app:pageColor="@color/waffle_background_color"
         app:radius="10dp"
-        app:strokeColor="@color/waffle_yellow_03_color"
+        app:strokeColor="#ff8f9a"
         app:strokeWidth="4dp" />
 
 </RelativeLayout>

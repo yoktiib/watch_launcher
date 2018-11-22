@@ -3,8 +3,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="contact_divider">32dp</dimen>
     <dimen name="mini_setting_size">200dp</dimen>
-    <dimen name="battery_width_size">48dp</dimen>
-    <dimen name="battery_height_size">24dp</dimen>
+    <dimen name="battery_width_size">47dp</dimen>
+    <dimen name="battery_height_size">25.5dp</dimen>
     <dimen name="viewpager_margin_fix">32dp</dimen>
 
     <dimen name="calling_text_size">25sp</dimen>
@@ -16,13 +16,15 @@
     <dimen name="text_size_super_large_big_3">100sp</dimen>
     <dimen name="text_size_super_large_big_2">88sp</dimen>
     <dimen name="text_size_super_large_big">80sp</dimen>
-
+    <dimen name="text_size_large_big_3">72sp</dimen>
     <dimen name="text_size_large_big_2">64sp</dimen>
     <dimen name="text_size_large_big">56sp</dimen>
     <dimen name="text_size_big_large">48sp</dimen>
     <dimen name="text_size_big">40sp</dimen>
     <dimen name="text_size_medium_large">36sp</dimen>
     <dimen name="text_size_medium">32sp</dimen>
+    <dimen name="text_size_small_large_3">22sp</dimen>
+    <dimen name="text_size_small_large_2">30sp</dimen>
     <dimen name="text_size_small_large">28sp</dimen>
     <dimen name="text_size_small">24sp</dimen>
     <dimen name="text_size_small_s">20sp</dimen>

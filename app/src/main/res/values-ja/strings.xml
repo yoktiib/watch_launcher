@@ -2,8 +2,7 @@
 <resources>
 
     <!-- Common -->
-    <string name="app_name">Pomo Launcher</string>
-    <string name="font_style">fonts/quicksand_bold.otf</string>
+    <string name="font_style">fonts/Itim-Regular.ttf</string>
 
     <string name="pair_text">ペアされました</string>
     <string name="un_pair_text">アンペアされました</string>

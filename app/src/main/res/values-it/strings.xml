@@ -2,8 +2,9 @@
 <resources>
     <!-- Common -->
 
-    <string name="font_style">fonts/quicksand_bold.otf</string>
-    <string name="app_name">Pomo Launcher</string>
+    <!-- Common -->
+    <string name="font_style">fonts/Itim-Regular.ttf</string>
+
     <string name="pair_text">è accoppiato</string>
     <string name="un_pair_text">è disaccoppiato</string>
     <string name="pause">Pausa</string>

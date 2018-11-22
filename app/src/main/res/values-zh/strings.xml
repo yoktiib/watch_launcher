@@ -2,6 +2,7 @@
 <resources>
 
     <!-- Common -->
+    <string name="font_style">fonts/Itim-Regular.ttf</string>
 
     <string name="pair_text">配對</string>
     <string name="un_pair_text">取消配對</string>

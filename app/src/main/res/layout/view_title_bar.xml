@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="48dp">
+    android:layout_height="54dp">
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/ivSignal"
@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="12dp"
         android:layout_toEndOf="@+id/ivSignal"
         android:visibility="gone"
         app:srcCompat="@drawable/signal_3g_network" />
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="8dp"
         android:layout_toStartOf="@+id/ivBattery"
         android:textColor="@color/waffle_white_color"
         android:textSize="18sp" />

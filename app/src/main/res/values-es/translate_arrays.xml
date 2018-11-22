@@ -41,12 +41,12 @@
     </string-array>
 
     <string-array name="mainMenuNameArr">
-        <!--<item>AMIGOS</item>-->
+        <item>CAMERA</item>
         <item>MENSAJE</item>
-        <item>GRUPO CHAT</item>
+        <!--<item>GRUPO CHAT</item>
         <item>TRADUCTOR</item>
         <item>LLEVAME A CASA</item>
-        <item>DÓNDE ESTOY</item>
+        <item>DÓNDE ESTOY</item>-->
         <item>PODÓMETRO</item>
         <!--<item>MOSQUITOS</item>-->
         <item>AJUSTES</item>
@@ -55,7 +55,7 @@
     <string-array name="settingMenuNameArr">
         <item>ENLAZAR RELOJ</item>
 
-        <item>BRILLO</item>
+        <!--<item>BRILLO</item>-->
         <item>VOLUMEN</item>
         <item>MI RELOJ</item>
         <!-- <item>BLUETOOTH</item>

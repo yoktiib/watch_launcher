@@ -40,12 +40,12 @@
     </string-array>
 
     <string-array name="mainMenuNameArr">
-        <!--<item>BFF</item>-->
+        <item>CAMERA</item>
         <item>MESSAGE</item>
-        <item>GROUP CHAT</item>
+        <!--<item>GROUP CHAT</item>
         <item>TRANSLATE</item>
         <item>TAKE ME HOME</item>
-        <item>WHERE AM I</item>
+        <item>WHERE AM I</item>-->
         <!--<item>MUSIC</item>-->
         <item>FITNESS</item>
         <!-- <item>MOSQUITO</item>-->
@@ -54,7 +54,7 @@
 
     <string-array name="settingMenuNameArr">
         <item>Pair Watch</item>
-        <item>Brightness</item>
+        <!--<item>Brightness</item>-->
         <item>Volume</item>
         <item>My Watch</item>
         <!--<item>Bluetooth</item>-->

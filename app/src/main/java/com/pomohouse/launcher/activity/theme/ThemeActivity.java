@@ -30,11 +30,11 @@ public class ThemeActivity extends BaseActivity {
         setContentView(R.layout.activity_theme);
         iBackgroundManager = new ThemePrefManager(this);
         themePrefModelArrayList = iBackgroundManager.getDataTheme();
-        if(isRilakkumaThemeOpen()){
+        //if(isRilakkumaThemeOpen()){
             NUM_PAGES = themePrefModelArrayList.size();
-        }else{
+        /*}else{
             NUM_PAGES = themePrefModelArrayList.size() - 3;
-        }
+        }*/
 
     }
 

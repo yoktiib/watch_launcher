@@ -2,6 +2,7 @@ package com.pomohouse.launcher.fragment.theme;
 
 import android.database.ContentObserver;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -11,6 +12,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -114,7 +116,7 @@ public class ThemeDigitalFragment extends BaseThemeFragment implements IThemeFra
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Timber.e(THEME + ":" + theme.getPosition());
-        themeDefault = false;
+        return inflater.inflate(R.layout.fragment_theme_5, container, false);/*
         if (theme == null)
             theme = new ThemePrefModel();
         switch (theme.getThemeId()) {
@@ -125,34 +127,30 @@ public class ThemeDigitalFragment extends BaseThemeFragment implements IThemeFra
             case 4:
                 return inflater.inflate(R.layout.fragment_theme_4, container, false);
             case 5:
-                themeDefault = true;
-                themeDefault = theme.getPosition() == 1 && theme.getThemeId() == 5;//normal
-//                themeDefault = theme.getPosition() <= 2 && theme.getThemeId() == 5;//frisco
                 return inflater.inflate(R.layout.fragment_theme_5, container, false);
             case 7:
                 return inflater.inflate(R.layout.fragment_theme_7, container, false);
             default:
                 return inflater.inflate(R.layout.fragment_theme_5, container, false);
-        }
+        }*/
     }
 
-    private boolean themeDefault = false;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter.onInitial();
-        if (themeDefault) {
-            LinearLayout boxTime = (LinearLayout) view.findViewById(R.id.boxTime);
-            if (boxTime != null)
-                boxTime.setBackground(getResources().getDrawable(R.drawable.shape_rectangle));
+        Drawable drawable;
+        if (theme.getPosition() == 1)
+            drawable = getResources().getDrawable(R.drawable.theme_box_bg_1);
+        else if (theme.getPosition() == 2)
+            drawable = getResources().getDrawable(R.drawable.theme_box_bg_2);
+        else drawable = getResources().getDrawable(R.drawable.theme_box_bg_3);
 
-        }
-        if (theme.getThemeId() == 5) {
-            TextView tvPoral = (TextView) view.findViewById(R.id.tvPoral);
-            if (tvPoral != null)
-                tvPoral.setTextColor(Color.parseColor(theme.getDosColor()));
-        }
+        ((ImageView)view.findViewById(R.id.boxDate)).setImageDrawable(drawable);
+
+        TextView tvPoral = view.findViewById(R.id.tvPoral);
+        if (tvPoral != null) tvPoral.setTextColor(Color.parseColor(theme.getDosColor()));
         int resId = getResources().getIdentifier(theme.getBackground(), "drawable", getActivity().getPackageName());
         container.setBackgroundResource(resId);
         tvDate.setTextColor(Color.parseColor(theme.getDataColor()));
@@ -167,14 +165,10 @@ public class ThemeDigitalFragment extends BaseThemeFragment implements IThemeFra
 
         currentTimeFormat = Settings.System.getString(getActivity().getContentResolver(), Settings.System.TIME_12_24);
         updateTime(Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE));
-        getActivity().getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.TIME_12_24),
-                false, timeFormatObserver);
-        if (currentTimeFormat == null)
-            return;
-        if (currentTimeFormat.equals("24"))
-            LockScreenService.is24HourFormat = true;
-        else if (currentTimeFormat.equals("12"))
-            LockScreenService.is24HourFormat = false;
+        getActivity().getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.TIME_12_24), false, timeFormatObserver);
+        if (currentTimeFormat == null) return;
+        if (currentTimeFormat.equals("24")) LockScreenService.is24HourFormat = true;
+        else if (currentTimeFormat.equals("12")) LockScreenService.is24HourFormat = false;
     }
 
 
@@ -197,11 +191,11 @@ public class ThemeDigitalFragment extends BaseThemeFragment implements IThemeFra
                 break;
             case UPDATE_DAY:
                 day = (String) msg.obj;
-                tvDay.setText(day);
+                tvDay.setText(day.toUpperCase() + " ");
                 break;
             case UPDATE_DATE:
                 date = (String) msg.obj;
-                tvDate.setText(date);
+                tvDate.setText(date.toUpperCase());
                 break;
         }
         return true;
@@ -213,8 +207,7 @@ public class ThemeDigitalFragment extends BaseThemeFragment implements IThemeFra
         String hourStr = hour < 10 ? "0" + hour : String.valueOf(hour);
         String minuteStr = minute < 10 ? "0" + minute : String.valueOf(minute);
         tvAmPm.setText(hour >= 12 ? getResources().getString(R.string.text_pm) : getResources().getString(R.string.text_am));
-        if (currentTimeFormat == null)
-            return;
+        if (currentTimeFormat == null) return;
         if (currentTimeFormat.equals("24")) {
             tvAmPm.setVisibility(View.INVISIBLE);
         } else if (currentTimeFormat.equals("12")) {

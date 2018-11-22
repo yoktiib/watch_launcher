@@ -2,9 +2,9 @@
 <resources>    <!-- Common -->
 
     <!-- Common -->
-    <string name="app_name">Pomo Launcher</string>
+    <string name="app_name" translatable="false">Cube By Jolly</string>
 
-    <string name="font_style">fonts/quicksand_bold.otf</string>
+    <string name="font_style">fonts/Itim-Regular.ttf</string>
 
     <string name="pair_text">is Paired!</string>
     <string name="un_pair_text">is UnPaired!</string>
@@ -17,7 +17,7 @@
     <string name="text_setting">SETTINGS</string>
     <string name="text_volume_high">High</string>
     <string name="text_volume_low">Low</string>
-    <string name="text_pomo_waffle">POMO WAFFLE</string>
+    <string name="text_pomo_waffle">Cube By Jolly</string>
     <string name="text_volume_medium">Medium</string>
     <string name="text_volume_mute">Mute</string>
     <string name="text_volume_silent">Silent</string>

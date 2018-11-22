@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Common -->
-    <string name="app_name">Pomo Launcher</string>
+
     <string name="font_style">fonts/superspace_bold.otf</string>
     <string name="pair_text">เชื่อมต่อแล้ว</string>
     <string name="un_pair_text">ยกเลิกการเชื่อมต่อแล้ว</string>

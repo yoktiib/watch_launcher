@@ -29,11 +29,13 @@ import com.pomohouse.launcher.utils.SoundPoolManager;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * Fragment to manage the top page of the 5 pages application navigation (top, center, bottom, left, right).
@@ -184,15 +186,16 @@ public class MiniSettingFragment extends BaseFragment implements IMiniSettingVie
             miniSettingPrefModel = new SettingPrefModel();
         miniSettingPrefModel.setBrightLevel(level);
         miniSettingManager.addMiniSetting(miniSettingPrefModel);
+
         int backLightValue;
         if (level == 1)
-            backLightValue = 5;
-        else if (level == 2)
             backLightValue = 50;
-        else
+        else if (level == 2)
             backLightValue = 150;
+        else
+            backLightValue = 255;
         {
-            ContentResolver cResolver = getContext().getContentResolver();
+            ContentResolver cResolver = Objects.requireNonNull(getContext()).getContentResolver();
             Settings.System.putInt(cResolver, Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
             Settings.System.putInt(cResolver, Settings.System.SCREEN_BRIGHTNESS, backLightValue);
         }
@@ -201,6 +204,7 @@ public class MiniSettingFragment extends BaseFragment implements IMiniSettingVie
             layoutParams.screenBrightness = backLightValue;
             getActivity().getWindow().setAttributes(layoutParams);
         }
+        //Timber.e("Length Of STREAM_MUSIC : "+am.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
     }
 
     @SuppressLint("DefaultLocale")
@@ -214,24 +218,36 @@ public class MiniSettingFragment extends BaseFragment implements IMiniSettingVie
         else if (level == 2)
             volume = 10;
         this.onUpdateMuteNotification(true);
-        SoundPoolManager soundPoolManager = SoundPoolManager.getInstance(activity);
-        if (soundPoolManager == null)
-            return;
+
+        AudioManager am=(AudioManager) Objects.requireNonNull(getContext()).getSystemService(Context.AUDIO_SERVICE);
+        //Objects.requireNonNull(am).adjustStreamVolume (AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
+        //am.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
+        //Timber.e("Length Of STREAM_MUSIC : "+am.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+        /*Timber.e("Length Of STREAM_RING : "+am.getStreamMaxVolume(AudioManager.STREAM_RING));
+        Timber.e("Length Of STREAM_ALARM : "+am.getStreamMaxVolume(AudioManager.STREAM_ALARM));*/
+        //am.getStreamVolume(AudioManager.STREAM_MUSIC);
+        Objects.requireNonNull(am).setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.STREAM_MUSIC);/*
+        am.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.STREAM_ALARM);
+        am.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.STREAM_RING);*/
+        //SoundPoolManager soundPoolManager = SoundPoolManager.getInstance(activity);
+        /*if (soundPoolManager == null)
+            return;*/
         if (CombineObjectConstance.getInstance().isInClassTime()) {
-            soundPoolManager.silentMode(activity);
+            am.setRingerMode(AudioManager.RINGER_MODE_SILENT);
             return;
         }
         if (CombineObjectConstance.getInstance().isSilentMode()) {
-            soundPoolManager.silentMode(activity);
+            am.setRingerMode(AudioManager.RINGER_MODE_SILENT);
         } else {
             if (level == 0) {
-                soundPoolManager.vibrateOnly(activity);
+                am.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
             } else {
                 this.onUpdateMuteNotification(false);
-                soundPoolManager.vibrateAndSound(activity, volume);
+                am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+                Objects.requireNonNull(am).setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.STREAM_MUSIC);
             }
             if (CombineObjectConstance.getInstance().isAutoAnswer())
-                soundPoolManager.ringingMode(activity, volume);
+                am.setRingerMode(AudioManager.RINGER_MODE_SILENT);
         }
     }
 

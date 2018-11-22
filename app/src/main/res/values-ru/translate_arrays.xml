@@ -41,11 +41,12 @@
 
     <string-array name="mainMenuNameArr">
         <!--<item>ДРУЗЬЯ НАВСЕГДА</item>-->
+        <item>CAMERA</item>
         <item>СООБЩЕНИЕ</item>
-        <item>ГРУППОВОЙ ЧАТ</item>
+        <!--<item>ГРУППОВОЙ ЧАТ</item>
         <item>ПУТЬ ДОМОЙ</item>
         <item>Переведите</item>
-        <item>WHERE AM I</item>
+        <item>WHERE AM I</item>-->
         <!--<item>MUSIC</item>-->
         <item>ФИТНЕС</item>
         <!--<item>АНТИ КОМАР</item>-->
@@ -55,7 +56,7 @@
 
     <string-array name="settingMenuNameArr">
         <item>Парные Часы</item>
-        <item>Яркость</item>
+        <!--<item>Яркость</item>-->
         <item>Громкость</item>
         <item>Мои Часы</item>
         <!--<item>Bluetooth</item>-->

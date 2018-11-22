@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -76,17 +77,17 @@ public class SettingFragment extends BaseFragment implements ISettingView {
                     case 0:
                         openActivity(AboutActivity.class);
                         break;
-                    case 1:
+                    /*case 1:
                         bundle = new Bundle();
                         bundle.putInt(MiniSettingFragment.MENU_SELECTED, 1);
                         openActivity(OptionSettingActivity.class, bundle);
-                        break;
-                    case 2:
+                        break;*/
+                    case 1:
                         bundle = new Bundle();
                         bundle.putInt(MiniSettingFragment.MENU_SELECTED, 0);
                         openActivity(OptionSettingActivity.class, bundle);
                         break;
-                    case 3:
+                    case 2:
                         openActivity(ThemeActivity.class);
                         break;
                     /*case 4:
@@ -96,17 +97,18 @@ public class SettingFragment extends BaseFragment implements ISettingView {
 //                    case 5:
 //                        openActivity(NetworkActivity.class);
 //                        break;
-                    case 4:
-                        Intent intentWIFI = new Intent("com.gt.watchsettings.WIFI_SETTINGS");
-                        startActivity(intentWIFI);
+                    case 3:
+                        /*Intent intentWIFI = new Intent("com.gt.watchsettings.WIFI_SETTINGS");
+                        startActivity(intentWIFI);*/
+                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
                         break;
-                    case 5:
+                    case 4:
                         showAlertDialogFragment(ConfirmDialogFragment.newInstance(restart, ConfirmDialogFragment._KEY_RESTART), ConfirmDialogFragment.class.getName());
                         break;
-                    case 6:
+                    case 5:
                         showAlertDialogFragment(ConfirmDialogFragment.newInstance(shutdown, ConfirmDialogFragment._KEY_POWER_OFF), ConfirmDialogFragment.class.getName());
                         break;
-                    case 7:
+                    case 6:
                         ComponentName componentName = new ComponentName("com.rock.gota", "com.rock.gota.MainActivity");
                         Intent updateIntent = new Intent();
                         updateIntent.setComponent(componentName);

@@ -36,12 +36,12 @@
         <item>Dormire</item>
     </string-array>
     <string-array name="mainMenuNameArr">
-        <!--<item>BFF</item>-->
+        <item>CAMERA</item>
         <item>MESSAGGI</item>
-        <item>CHAT DI GRUPPO</item>
+        <!--<item>CHAT DI GRUPPO</item>
         <item>TRANSLATE</item>
         <item>TORNA A CASA</item>
-        <item>WHERE AM I</item>
+        <item>WHERE AM I</item>-->
         <!--<item>MUSIC</item>-->
         <item>CONTAPASSI</item>
         <!--<item>ZANZARE</item>-->
@@ -51,7 +51,7 @@
     <string-array name="settingMenuNameArr">
         <item>Associa</item>
 
-        <item>Luminosità</item>
+        <!--<item>Luminosità</item>-->
         <item>Volume</item>
         <item>Il mio Waffle</item>
        <!-- <item>Bluetooth</item>

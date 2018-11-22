@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <permission android:name="com.pomohouse.bff.permission.READ" />
 
+
     <application
         android:name=".BestFriendForeverApplication"
         android:allowBackup="true"

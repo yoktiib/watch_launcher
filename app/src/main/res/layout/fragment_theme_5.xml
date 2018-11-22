@@ -17,25 +17,24 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
             android:layout_marginLeft="40dp"
+            android:layout_marginTop="80dp"
             android:textColor="@color/waffle_am_pm_text_color"
             android:textSize="25sp"
-            android:visibility="invisible"
-            />
+            android:visibility="invisible" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/boxTime"
-            android:layout_alignEnd="@+id/boxTime"
+            android:layout_centerHorizontal="true"
             android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/ivCallNotification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
+                android:layout_margin="12dp"
                 android:layout_weight="1"
                 android:visibility="invisible"
                 app:srcCompat="@drawable/notification_miss_call" />
@@ -44,110 +43,128 @@
                 android:id="@+id/ivMessageNotification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:visibility="invisible"
+                android:layout_margin="12dp"
                 android:layout_weight="1"
+                android:visibility="invisible"
                 app:srcCompat="@drawable/notification_message" />
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/ivStatusDNotification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:visibility="invisible"
+                android:layout_margin="12dp"
                 android:layout_weight="1"
+                android:visibility="invisible"
                 app:srcCompat="@drawable/notification_mute" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/boxTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tvHour"
-                    style="@style/POMO_TextView_Time_Origin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/waffle_orange_01_color" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tvHour2"
-                    style="@style/POMO_TextView_Time_Origin"
-                    android:layout_width="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/waffle_orange_01_color" />
-
-            </LinearLayout>
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tvPoral"
-                style="@style/POMO_TextView_Time_Origin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginStart="8dp"
-                android:text=":"
-                android:textColor="@color/waffle_orange_01_color" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:orientation="horizontal">
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tvMinute"
-                    style="@style/POMO_TextView_Time_Origin"
-                    android:layout_width="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/waffle_orange_01_color" />
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/tvMinute2"
-                    style="@style/POMO_TextView_Time_Origin"
-                    android:layout_width="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/waffle_orange_01_color" />
-
-            </LinearLayout>
-        </LinearLayout>
-
         <RelativeLayout
+            android:id="@+id/boxTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/boxTime"
-            android:layout_alignStart="@+id/boxTime"
-            android:layout_below="@+id/boxTime"
-            android:layout_marginTop="4dp"
-            android:orientation="horizontal">
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tvDay"
-                style="@style/POMO_TextView_Date"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/boxDate"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/waffle_yellow_03_color" />
+                android:adjustViewBounds="true"
+                android:src="@drawable/theme_box_bg_1" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tvDate"
-                style="@style/POMO_TextView_Date"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:textColor="@color/waffle_orange_01_color" />
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_marginTop="-10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tvHour"
+                            style="@style/POMO_TextView_Time_Origin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/waffle_orange_01_color" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tvHour2"
+                            style="@style/POMO_TextView_Time_Origin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/waffle_orange_01_color" />
+
+                    </LinearLayout>
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tvPoral"
+                        style="@style/POMO_TextView_Time_Origin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text=":"
+                        android:textColor="@color/waffle_orange_01_color" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tvMinute"
+                            style="@style/POMO_TextView_Time_Origin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/waffle_orange_01_color" />
+
+                        <android.support.v7.widget.AppCompatTextView
+                            android:id="@+id/tvMinute2"
+                            style="@style/POMO_TextView_Time_Origin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/waffle_orange_01_color" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tvDay"
+                        style="@style/POMO_TextView_Date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/waffle_yellow_03_color" />
+
+                    <android.support.v7.widget.AppCompatTextView
+                        android:id="@+id/tvDate"
+                        style="@style/POMO_TextView_Date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/waffle_orange_01_color" />
+                </LinearLayout>
+            </LinearLayout>
         </RelativeLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>

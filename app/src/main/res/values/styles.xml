@@ -83,8 +83,8 @@
         <item name="android:maxLines">1</item>
         <item name="android:text">0</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="android:textSize">@dimen/text_size_super_large_big</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_large_big_3</item>
+        <!--<item name="android:textStyle">bold</item>-->
         <!--<item name="android:textStyle">bold</item>-->
     </style>
     <style name="POMO_TextView_Time_Origin_large" parent="@android:style/Widget.TextView">
@@ -142,8 +142,8 @@
         <item name="android:maxLines">1</item>
         <item name="android:text">0</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="android:textSize">@dimen/text_size_small_large</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_small_large_3</item>
+
     </style>
 
     <style name="AppTheme.Widget" />

@@ -41,11 +41,12 @@
 
     <string-array name="mainMenuNameArr">
         <!--<item>添加朋友</item>-->
+        <item>CAMERA</item>
         <item>訊息</item>
-        <item>多人聊天</item>
+        <!--<item>多人聊天</item>
         <item>翻譯</item>
         <item>帶我回家</item>
-        <item>WHERE AM I</item>
+        <item>WHERE AM I</item>-->
         <item>運動</item>
         <!--<item>蚊子</item>-->
         <item>設置</item>
@@ -55,7 +56,7 @@
     <string-array name="settingMenuNameArr">
         <item>配對手錶</item>
 
-        <item>亮度</item>
+        <!--<item>亮度</item>-->
         <item>音量</item>
         <item>我的手錶</item>
         <!--<item>藍牙</item>

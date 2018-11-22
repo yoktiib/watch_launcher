@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="@string/text_pairing_code"
             android:textColor="@color/waffle_black_color"
-            android:textSize="@dimen/text_size_big"
+            android:textSize="@dimen/text_size_medium_large"
             android:textStyle="bold" />
 
         <TextView
@@ -29,7 +29,7 @@
             android:layout_marginTop="@dimen/margin_content"
             android:text="@string/text_pin"
             android:textColor="@color/waffle_blue_02_color"
-            android:textSize="@dimen/text_size_super_large_big"
+            android:textSize="@dimen/text_size_large_big_2"
             android:textStyle="bold" />
 
         <Button
@@ -39,6 +39,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_content"
             android:text="@string/action_get_code"
-            android:textSize="@dimen/text_size_medium_large" />
+            android:textSize="@dimen/text_size_medium" />
     </LinearLayout>
 </LinearLayout>

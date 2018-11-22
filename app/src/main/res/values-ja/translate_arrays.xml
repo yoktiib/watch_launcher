@@ -41,11 +41,12 @@
 
     <string-array name="mainMenuNameArr">
         <!--<item>しんゆう</item>-->
+        <item>CAMERA</item>
         <item>メッセージ</item>
-        <item>グループチャット</item>
+        <!--<item>グループチャット</item>
         <item>TRANSLATE</item>
         <item>おうちへかえろう</item>
-        <item>WHERE AM I</item>
+        <item>WHERE AM I</item>-->
         <!--<item>MUSIC</item>-->
         <item>うんどう</item>
         <!--<item>MOSQUITO（か）</item>-->
@@ -55,7 +56,7 @@
 
     <string-array name="settingMenuNameArr">
         <item>ペアウォッチ</item>
-        <item>あかるさ</item>
+        <!--<item>あかるさ</item>-->
         <item>おんりょう</item>
         <item>My ウォッチ</item>
        <!-- <item>Bluetooth</item>

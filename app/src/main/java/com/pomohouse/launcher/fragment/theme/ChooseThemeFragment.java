@@ -71,6 +71,5 @@ public class ChooseThemeFragment extends Fragment {
         Intent i = new Intent();
         getActivity().setResult(Activity.RESULT_OK, i);
         getActivity().finish();
-
     }
 }

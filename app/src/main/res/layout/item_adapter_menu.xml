@@ -25,7 +25,7 @@
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             android:maxLines="1"
             android:textColor="@color/waffle_grey_08_color"
             android:textSize="30sp" />

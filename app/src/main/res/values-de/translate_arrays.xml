@@ -39,12 +39,12 @@
     </string-array>
 
     <string-array name="mainMenuNameArr">
-        <!--<item>BFFI</item>-->
+        <item>CAMERA</item>
         <item>NACHRICHT</item>
-        <item>GRUPPENCHAT</item>
+        <!--<item>GRUPPENCHAT</item>
         <item>TRANSLATE</item>
         <item>ZUHAUSE</item>
-        <item>WHEREAMI</item>
+        <item>WHEREAMI</item>-->
         <!--<item>MUSIC</item>-->
         <item>FITNESS</item>
         <!--<item>MOSKITO</item>-->
@@ -54,7 +54,7 @@
 
     <string-array name="settingMenuNameArr">
         <item>Uhr Koppeln</item>
-        <item>Helligkeit</item>
+        <!--<item>Helligkeit</item>-->
         <item>Lautstärke</item>
         <item>Meine Uhr</item>
        <!-- <item>Bluetooth</item>

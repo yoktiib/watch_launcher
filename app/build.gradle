@@ -87,6 +87,7 @@ dependencies {
     api project(':component')
     api project(':network-library')
     api project(':library')
+    api project(':RxSocketClient')
 
     /*implementation "com.github.hotchemi:permissionsdispatcher:${permissionsDispatcherVersion}"
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:${permissionsDispatcherVersion}"*/
@@ -134,7 +135,7 @@ dependencies {
     */
 
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    implementation "io.reactivex.rxjava2:rxjava:2.2.0"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.2"
     //Dagger
     implementation "com.squareup.dagger:dagger:$daggerVer"
     annotationProcessor "com.squareup.dagger:dagger-compiler:$daggerVer"

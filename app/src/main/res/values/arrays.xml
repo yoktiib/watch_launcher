@@ -16,22 +16,23 @@
     <!-- Default All Resource not for change-->
     <integer-array name="mainMenuBackgroundArr">
         <!--<item>@color/waffle_bff_bg_color</item>-->
+        <item>@color/waffle_camera_bg_color</item>
         <item>@color/waffle_message_bg_color</item>
-        <item>@color/waffle_group_chat_bg_color</item>
+        <!--<item>@color/waffle_group_chat_bg_color</item>
         <item>@color/waffle_translate_bg_color</item>
         <item>@color/waffle_take_me_home_bg_color</item>
-        <item>@color/waffle_translate_bg_color</item>
+        <item>@color/waffle_translate_bg_color</item>-->
         <!--<item>@color/waffle_yellow_04_color</item>-->
-        <item>@color/waffle_blue_02_color</item>
+        <item>@color/waffle_fitness_bg_color</item>
         <!--<item>@color/waffle_yellow_03_color</item>-->
-        <item>@color/waffle_orange_01_color</item>
+        <item>@color/waffle_setting_bg_color</item>
         <!--<item>@color/waffle_pink_01_color</item>-->
     </integer-array>
 
     <integer-array name="settingMenuDrawableArr">
         <item>@drawable/setting_about</item>
         <item>@drawable/setting_brightness</item>
-        <item>@drawable/setting_volume</item>
+        <!--<item>@drawable/setting_volume</item>-->
         <item>@drawable/setting_theme</item>
        <!-- <item>@drawable/setting_bluetooth</item>-->
         <!--<item>@drawable/setting_network</item>-->
@@ -44,11 +45,12 @@
 
     <integer-array name="mainMenuDrawableArr">
         <!--<item>@drawable/menu_bff</item>-->
+        <item>@drawable/menu_camera</item>
         <item>@drawable/menu_message</item>
-        <item>@drawable/menu_group_chat</item>
-        <item>@drawable/menu_translate</item>
-        <item>@drawable/menu_take_me_home</item>
-        <item>@drawable/menu_where_am_i</item>
+        <!--<item>@drawable/menu_group_chat</item>-->
+        <!--<item>@drawable/menu_translate</item>-->
+        <!--<item>@drawable/menu_take_me_home</item>-->
+        <!--<item>@drawable/menu_where_am_i</item>-->
         <!--<item>@drawable/menu_music</item>-->
         <item>@drawable/menu_fitness</item>
         <!--<item>@drawable/menu_mosquito</item>-->
@@ -58,11 +60,12 @@
 
     <string-array name="mainMenuPackageArr" translatable="false">
         <!--<item>com.pomohouse.bff</item>-->
+        <item>com.pomohouse.launcher.activity.camera.CameraActivity</item>
         <item>com.pomohouse.message</item>
-        <item>com.pomohouse.groupchat</item>
+        <!--<item>com.pomohouse.groupchat</item>
         <item>com.pomohouse.translate</item>
         <item>com.pomohouse.takemehome</item>
-        <item>com.pomohouse.whereami</item>
+        <item>com.pomohouse.whereami</item>-->
         <!--<item>com.pomohouse.music</item>-->
         <item>com.pomohouse.launcher.activity.fitness.FitnessActivity</item>
         <item>com.pomohouse.launcher.activity.settings.SettingActivity</item>
@@ -71,11 +74,11 @@
 
     <integer-array name="mainMenuActionArr">
         <!--<item>0</item>-->
+        <item>1</item>
         <item>0</item>
+        <!--<item>0</item>
         <item>0</item>
-        <item>0</item>
-        <item>0</item>
-        <item>0</item>
+        <item>0</item>-->
         <!--<item>0</item>-->
         <item>1</item>
         <item>1</item>

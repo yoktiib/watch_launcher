@@ -2,71 +2,9 @@
 <resources>
 
     <!-- Common -->
-    <!-- English -->
 
-   <!-- <string name="app_name">Pomo Launcher</string>
+    <string name="font_style">fonts/Itim-Regular.ttf</string>
 
-    <string name="font_style">fonts/quicksand_bold.otf</string>
-
-    <string name="pair_text">is Paired!</string>
-    <string name="un_pair_text">is UnPaired!</string>
-    <string name="pause">Pause</string>
-    <string name="resume">Resume</string>
-    <string name="reset">Reset</string>
-    <string name="today">Today</string>
-    <string name="text_brightness">BRIGHTNESS</string>
-    <string name="text_volume">VOLUME</string>
-    <string name="text_setting">SETTINGS</string>
-    <string name="text_volume_high">High</string>
-    <string name="text_volume_low">Low</string>
-    <string name="text_pomo_waffle">POMO WAFFLE</string>
-    <string name="text_volume_medium">Medium</string>
-    <string name="text_volume_mute">Mute</string>
-    <string name="text_volume_silent">Silent</string>
-    <string name="text_value_go_to_settings">Go To Settings</string>
-
-    <string name="battery_format">%d%%</string>
-
-    <string name="anti_mosquito">Anti-Mosquito</string>
-    <string name="settings">Settings</string>
-    <string name="text_pairing_code">Pairing code</string>
-    <string name="text_title_reset_factory">Attention!</string>
-    <string name="text_title_power_off">Do you want to\n shutdown</string>
-    <string name="text_title_restart">Do you want to\n restart</string>
-    <string name="text_desc_reset_factory">Resetting your phone will\n erase all your personal\n content, and will restore\n the factory settings. \nDo you want to continue?</string>
-    <string name="text_are_you_sure">Are you sure ?</string>
-    <string name="text_desc_confirm_reset_factory">All of data will restore\n the factory settings.</string>
-    <string name="text_warning">WARNING!</string>
-    <string name="action_get_code">Get Code</string>
-    <string name="text_pin">- - - -</string>
-    <string name="action_reset">RESET</string>
-    <string name="action_cancel">CANCEL</string>
-    <string name="action_close">CLOSE</string>
-    <string name="action_ok">OK</string>
-    <string name="text_steps">STEPS</string>
-    <string name="title_network">Network</string>
-    <string name="text_data_roaming">Data Roaming</string>
-    <string name="desc_connect_to_data_services_when_roaming">Connect to data\n services when roaming</string>
-    <string name="Header_data_network">Data Network</string>
-    <string name="desc_enable_data_access_over_mobile_network">Enable data access\n over Mobile network</string>
-    <string name="desc_tap_scan_qr_code_for_paring">Tap \n“Scan QR Code” \n for Paring</string>
-    <string name="desc_install_waffle_application">Install Waffle \nApplication</string>
-    <string name="desc_insert_sim_card">Insert \nSIM Card</string>
-    <string name="desc_back_to_main_screen">Back to\nMain Screen</string>
-    <string name="watch_text">Watch : </string>
-    <string name="firmware_text">Firmware : </string>
-    <string name="imei_text">IMEI : </string>
-    <string name="no_contact">No Contact</string>
-    <string name="text_setup_success">Setup Success</string>
-
-    <string name="network_on">On</string>
-    <string name="network_off">Off</string>
-    <string name="network_no_sim">No SIM Card</string>-->
-
-
-    <!--Spanish-->
-    <string name="app_name">Pomo Launcher</string>
-    <string name="font_style">fonts/quicksand_bold.otf</string>
     <string name="battery_format">%d%%</string>
     <string name="pair_text">esta enlazado</string>
     <string name="un_pair_text">esta desenlazado</string>

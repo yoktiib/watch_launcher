@@ -52,7 +52,7 @@ public class QRCodeFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        onGenerateClick();
+        //onGenerateClick();
     }
 
     void onGenerateClick() {

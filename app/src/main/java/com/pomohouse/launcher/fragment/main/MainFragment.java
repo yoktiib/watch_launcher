@@ -49,27 +49,13 @@ import com.pomohouse.launcher.utils.callbacks.SignalInfoListener;
 import com.pomohouse.library.WearerInfoUtils;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import butterknife.OnLongClick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import moe.codeest.rxsocketclient.RxSocketClient;
-import moe.codeest.rxsocketclient.SocketSubscriber;
-import moe.codeest.rxsocketclient.meta.SocketConfig;
-import moe.codeest.rxsocketclient.meta.SocketOption;
-import moe.codeest.rxsocketclient.meta.ThreadStrategy;
 import timber.log.Timber;
 
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_INTERNET_AVAILABLE;
@@ -132,13 +118,6 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-    }
-
-    @SuppressLint("CheckResult")
-    @OnClick(R.id.btnConnect)
-    public void clickConnect() {
-        //((POMOWatchApplication) Objects.requireNonNull(getActivity()).getApplication()).createTCPSocket();
-        TCPSocketServiceProvider.getInstance().sendMessage(CMDCode.CMD_SHUTDOWN, "{}");
     }
 
     @Override

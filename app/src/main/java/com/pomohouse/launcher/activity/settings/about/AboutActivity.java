@@ -28,9 +28,9 @@ public class AboutActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         adapter = new MyPageAdapter(getSupportFragmentManager());
-        pager = (ViewPager) findViewById(R.id.pager);
+        pager =  findViewById(R.id.pager);
         pager.setAdapter(adapter);
-        indicator = (CirclePageIndicator) findViewById(R.id.indicator);
+        indicator = findViewById(R.id.indicator);
         indicator.setViewPager(pager);
         indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
