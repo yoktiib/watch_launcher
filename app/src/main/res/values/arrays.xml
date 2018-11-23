@@ -31,7 +31,7 @@
 
     <integer-array name="settingMenuDrawableArr">
         <item>@drawable/setting_about</item>
-        <item>@drawable/setting_brightness</item>
+        <item>@drawable/setting_volume</item>
         <!--<item>@drawable/setting_volume</item>-->
         <item>@drawable/setting_theme</item>
        <!-- <item>@drawable/setting_bluetooth</item>-->

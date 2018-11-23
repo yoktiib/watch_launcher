@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff">
+    android:background="@color/waffle_contact_app_bg_color">
 
     <com.pomohouse.component.pager.VerticalViewPager
         android:id="@+id/fragment_contact_pager"

@@ -45,7 +45,7 @@
                         android:layout_marginEnd="12dp"
                         android:layout_weight="1"
                         android:visibility="invisible"
-                        app:srcCompat="@drawable/notification_miss_call" />
+                        app:srcCompat="@drawable/notification_lock_miss_call" />
 
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/ivMessageNotification"
@@ -54,7 +54,7 @@
                         android:layout_marginEnd="12dp"
                         android:layout_weight="1"
                         android:visibility="invisible"
-                        app:srcCompat="@drawable/notification_message" />
+                        app:srcCompat="@drawable/notification_lock_message" />
 
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/ivMuteNotification"
@@ -63,7 +63,7 @@
                         android:layout_marginEnd="12dp"
                         android:layout_weight="1"
                         android:visibility="invisible"
-                        app:srcCompat="@drawable/notification_mute" />
+                        app:srcCompat="@drawable/notification_lock_mute" />
 
                     <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/ivInClass"
@@ -88,14 +88,14 @@
 
                         <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/tvHour"
-                            style="@style/POMO_TextView_Time_LockScreen"
+                            style="@style/POMO_TextView_Time_Origin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/waffle_grey_13_color" />
 
                         <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/tvHour2"
-                            style="@style/POMO_TextView_Time_LockScreen"
+                            style="@style/POMO_TextView_Time_Origin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/waffle_grey_13_color" />
@@ -104,10 +104,9 @@
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tvPoral"
-                        style="@style/POMO_TextView_Time_LockScreen"
+                        style="@style/POMO_TextView_Time_Origin"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
                         android:gravity="center"
                         android:text=":"
                         android:textColor="@color/waffle_grey_13_color" />
@@ -121,15 +120,14 @@
 
                         <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/tvMinute"
-                            style="@style/POMO_TextView_Time_LockScreen"
+                            style="@style/POMO_TextView_Time_Origin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
                             android:textColor="@color/waffle_grey_13_color" />
 
                         <android.support.v7.widget.AppCompatTextView
                             android:id="@+id/tvMinute2"
-                            style="@style/POMO_TextView_Time_LockScreen"
+                            style="@style/POMO_TextView_Time_Origin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/waffle_grey_13_color" />
@@ -139,30 +137,30 @@
 
                 </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignEnd="@+id/boxTime"
                     android:layout_alignStart="@+id/boxTime"
                     android:layout_below="@+id/boxTime"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="-12dp"
+                    android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tvDay"
-                        style="@style/POMO_TextView_Date_LockScreen"
+                        style="@style/POMO_TextView_Date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/waffle_grey_13_color" />
 
                     <android.support.v7.widget.AppCompatTextView
                         android:id="@+id/tvDate"
-                        style="@style/POMO_TextView_Date_LockScreen"
+                        style="@style/POMO_TextView_Date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
                         android:textColor="@color/waffle_grey_13_color" />
-                </RelativeLayout>
+                </LinearLayout>
             </RelativeLayout>
 
         </RelativeLayout>
@@ -170,7 +168,7 @@
         <View
             android:id="@+id/boxBottom"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="38dp"
             android:layout_alignParentBottom="true" />
 
         <android.support.v7.widget.AppCompatImageView

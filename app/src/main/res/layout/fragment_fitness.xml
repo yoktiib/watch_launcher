@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/waffle_blue_02_color"
+    android:background="@color/waffle_fitness_app_bg_color"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/margin">
@@ -11,9 +11,11 @@
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/appCompatTextView"
         style="@style/POMO_TextView_Title"
+        android:textColor="@color/waffle_fitness_app_font_color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/today" />
+        android:text="@string/today"
+        android:textStyle="normal" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -31,12 +33,12 @@
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tvStep"
-                style="@style/POMO_TextView_Time_Origin_large"
+                style="@style/POMO_TextView_Time_Origin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:textSize="@dimen/text_size_big_large"
-                android:textColor="@color/waffle_black_color" />
+                android:textColor="@color/waffle_fitness_app_font_color"
+                android:textSize="@dimen/text_size_big" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/tvStepUnit"
@@ -46,22 +48,15 @@
                 android:layout_below="@+id/tvStep"
                 android:layout_centerHorizontal="true"
                 android:text="@string/text_steps"
-                android:textColor="@color/waffle_black_color" />
+                android:textColor="@color/waffle_fitness_app_font_color" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/boxHeadStep"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="84dp"
+            android:layout_height="84dp"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/shape_oval_small_fitness"
-            android:padding="20dp">
-
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:srcCompat="@drawable/ic_step" />
-        </RelativeLayout>
+            app:srcCompat="@drawable/ic_step" />
     </RelativeLayout>
 
 </LinearLayout>

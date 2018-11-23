@@ -473,7 +473,7 @@ public class LockScreenService extends Service {
             day = calendar.get(Calendar.DAY_OF_WEEK);
             //int am_pm = calendar.get(Calendar.AM_PM);
             updateTime(hours, minutes);
-            updateDate(dayNumber, monthOfYear[month], dayOfWeek[day > 0 ? day - 1 : day]);
+            updateDate(dayNumber, monthOfYear[month].toUpperCase(), dayOfWeek[day > 0 ? day - 1 : day]);
         } catch (Exception ignore) {
         }
     }
@@ -504,7 +504,7 @@ public class LockScreenService extends Service {
 
     protected void updateDate(int day, String month, String dayName) {
         if (tvDay != null)
-            tvDay.setText(dayName.toUpperCase());
+            tvDay.setText(dayName.toUpperCase()+" ");
         if (tvDate != null)
             tvDate.setText(day + " " + month);
         if (tvAmPm != null) {
@@ -553,6 +553,7 @@ public class LockScreenService extends Service {
             tvDate = (AppCompatTextView) mView.findViewById(R.id.tvDate);
             tvDay = (AppCompatTextView) mView.findViewById(R.id.tvDay);
             tvAmPm = (AppCompatTextView) mView.findViewById(R.id.tvAmPm);
+            AppCompatTextView tvPoral= (AppCompatTextView) mView.findViewById(R.id.tvPoral);
             if (is24HourFormat) {
                 tvAmPm.setVisibility(View.GONE);
             } else {
@@ -560,6 +561,7 @@ public class LockScreenService extends Service {
             }
             if (tvHour == null || tvHour2 == null || tvMinute == null || tvMinute2 == null)
                 return;
+            tvPoral.setTypeface(custom_font);
             tvHour.setTypeface(custom_font);
             tvHour2.setTypeface(custom_font);
             tvMinute.setTypeface(custom_font);

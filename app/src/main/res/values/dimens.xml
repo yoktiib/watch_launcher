@@ -16,7 +16,7 @@
     <dimen name="text_size_super_large_big_3">100sp</dimen>
     <dimen name="text_size_super_large_big_2">88sp</dimen>
     <dimen name="text_size_super_large_big">80sp</dimen>
-    <dimen name="text_size_large_big_3">72sp</dimen>
+    <dimen name="text_size_large_big_3">74sp</dimen>
     <dimen name="text_size_large_big_2">64sp</dimen>
     <dimen name="text_size_large_big">56sp</dimen>
     <dimen name="text_size_big_large">48sp</dimen>

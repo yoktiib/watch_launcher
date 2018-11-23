@@ -18,16 +18,16 @@ import com.google.gson.reflect.TypeToken;
 import com.pomohouse.launcher.POMOWatchApplication;
 import com.pomohouse.launcher.content_provider.POMOContract;
 import com.pomohouse.launcher.fragment.about.presenter.OnPinCodeListener;
+import com.pomohouse.launcher.fragment.about.presenter.OnQRCodeListener;
 import com.pomohouse.launcher.fragment.contacts.presenter.OnContactListener;
 import com.pomohouse.launcher.main.OnLauncherCallbackListener;
-import com.pomohouse.launcher.main.OnLauncherRequestListener;
 import com.pomohouse.launcher.manager.event.EventPrefManagerImpl;
 import com.pomohouse.launcher.manager.event.EventPrefModel;
 import com.pomohouse.launcher.manager.event.IEventPrefManager;
 import com.pomohouse.launcher.models.DeviceInfoModel;
 import com.pomohouse.launcher.models.EventDataInfo;
-import com.pomohouse.launcher.models.EventDataListModel;
 import com.pomohouse.launcher.models.PinCodeModel;
+import com.pomohouse.launcher.models.QRCodeModel;
 import com.pomohouse.launcher.models.contacts.ContactCollection;
 import com.pomohouse.library.WearerInfoUtils;
 import com.pomohouse.library.manager.AppContextor;
@@ -74,14 +74,16 @@ public class TCPSocketServiceProvider extends Service {
     private final String START_TAG = "<PMHStart>";
     private final String END_TAG = "<PMHEnd>";
     private static final byte[] HEART_BEAT = "HELLO".getBytes();
-    private static final byte[] HEAD = {1, 2};
-    private static final byte[] TAIL = {5, 7};
+    /*private static final byte[] HEAD = {1, 2};
+    private static final byte[] TAIL = {5, 7};*/
 
     private static final String TAG = "TCP_SSP";
     private OnLauncherCallbackListener tcpCallbackListener;
     private OnTCPStatusListener tcpStatusListener;
     private OnContactListener onContactListener;
     private OnPinCodeListener onPinCodeListener;
+    private OnQRCodeListener onQRCodeListener;
+    private boolean isDelayUp = false;
 
     private boolean isConnecting = false;
     private Disposable ref;
@@ -101,16 +103,17 @@ public class TCPSocketServiceProvider extends Service {
     public void screenOff() {
         if (mSocket != null && mSocket.isConnecting()) {
             if (mSocket.getMObservable() instanceof SocketObservable)
-                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(INTERVAL_INITIAL_RETRY, true);
+                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(INTERVAL_INITIAL_RETRY, isDelayUp = true);
         }
     }
 
     public void screenOn() {
         if (mSocket != null && mSocket.isConnecting()) {
             if (mSocket.getMObservable() instanceof SocketObservable)
-                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(INTERVAL_INITIAL_RETRY, false);
+                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(INTERVAL_INITIAL_RETRY, isDelayUp = false);
         }
     }
+
 
     public class LocalBinder extends Binder {
         public TCPSocketServiceProvider getService() {
@@ -204,6 +207,12 @@ public class TCPSocketServiceProvider extends Service {
         sendMessage(cmd, data);
     }
 
+
+    public void sendMessageQRCode(OnQRCodeListener listener, String cmd, String data) {
+        onQRCodeListener = listener;
+        sendMessage(cmd, data);
+    }
+
     public void sendMessageFromContact(OnContactListener listener, String cmd, String data) {
         onContactListener = listener;
         sendMessage(cmd, data);
@@ -220,10 +229,10 @@ public class TCPSocketServiceProvider extends Service {
         packageSender.setCMD(cmd);
         packageSender.setData(data);
         packageSender.setLauncherVersion(WearerInfoUtils.getInstance().getPomoVersion());
-        packageSender.setLength(data.getBytes().length);
         char[] digits1 = String.valueOf(cmd).toCharArray();
         packageSender.setSum(digits1[0] + digits1[1] + digits1[2]);
         packageSender.setModel(WearerInfoUtils.getInstance().getPlatform());
+        packageSender.setLength(packageSender.convertModelToValue().length());
         Log.e(TAG, "Data Sender : " + packageSender.convertModelToValue());
         if (mSocket == null) {
             connectConnection();
@@ -298,7 +307,6 @@ public class TCPSocketServiceProvider extends Service {
                 else onContactListener.onContactFailure(network);
 
             } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_INIT_DEVICE)) {
-
                 Log.e(TAG, "TCPMessengerModel.CMD_INIT_DEVICE");
                 ResultGenerator<DeviceInfoModel> deviceInfoModel = new GsonBuilder().create().fromJson(messengerModel.getData(), new TypeToken<ResultGenerator<DeviceInfoModel>>() {
                 }.getType());
@@ -309,7 +317,6 @@ public class TCPSocketServiceProvider extends Service {
                 else tcpCallbackListener.onInitialDeviceFailure(network);
 
             } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_PAIR_CODE)) {
-
                 Log.e(TAG, "TCPMessengerModel.CMD_PAIR_CODE");
                 ResultGenerator<PinCodeModel> pinCodeModel = new GsonBuilder().create().fromJson(messengerModel.getData(), new TypeToken<ResultGenerator<PinCodeModel>>() {
                 }.getType());
@@ -319,7 +326,17 @@ public class TCPSocketServiceProvider extends Service {
                     onPinCodeListener.onPinCodeSuccess(network, pinCodeModel.getData());
                 else onPinCodeListener.onPinCodeFailure(network);
 
-            }/* else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_LOCATION_UPDATE)) {
+            } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_QR_CODE)) {
+                Log.e(TAG, "TCPMessengerModel.CMD_QR_CODE");
+                ResultGenerator<QRCodeModel> QRCodeModel = new GsonBuilder().create().fromJson(messengerModel.getData(), new TypeToken<ResultGenerator<QRCodeModel>>() {
+                }.getType());
+                network = new MetaDataNetwork(QRCodeModel.getResCode(), QRCodeModel.getResDesc());
+                if (onQRCodeListener == null) return;
+                if (QRCodeModel.getResCode() == 0)
+                    onQRCodeListener.onQRCodeSuccess(network, QRCodeModel.getData());
+                else onQRCodeListener.onQRCodeFailure(network);
+            }
+            /* else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_LOCATION_UPDATE)) {
 
                 Log.e(TAG, "TCPMessengerModel.CMD_LOCATION_UPDATE");
               *//*  EventDataListModel locationUpdate = new GsonBuilder().create().fromJson(messengerModel.getData(), EventDataListModel.class);
@@ -329,7 +346,8 @@ public class TCPSocketServiceProvider extends Service {
                     tcpCallbackListener.onCallEventSuccess(network, locationUpdate);
                 else tcpCallbackListener.onCallEventFailure(netwo*//*rk);
 
-            } */ else {
+            } */
+            else {
 
                 Log.e(TAG, "Else TCPMessengerModel." + messengerModel.getCMD());
                 new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(AppContextor.getInstance().getContext(), "Else TCPMessengerModel." + messengerModel.getCMD(), Toast.LENGTH_SHORT).show());

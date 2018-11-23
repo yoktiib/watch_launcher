@@ -53,7 +53,7 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
                 defaultSleep = mConfig.delayReadBuffer!!
                 maxSleep = mConfig.maxDelayReadBuffer!!
                 increaseSleep = mConfig.increaseSleep!!
-                isDelay = false
+                isDelayUp = false
                 mSocket.keepAlive = true
                 mSocket.connect(InetSocketAddress(mConfig.mIp, mConfig.mPort
                         ?: 1080), mConfig.mTimeout ?: 0)
@@ -106,15 +106,28 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
     private var increaseSleep: Long = 1000
     private var timeSleep: Long = defaultSleep
     private var isMaxInterval: Boolean = false
-    private var isDelay: Boolean = false
-    fun updateTimeSleep(defaultSleep: Long, isDelay: Boolean) {
+    private var isDelayUp: Boolean = false
+    private var isSendMessage: Boolean = false
+    fun updateTimeSleep(defaultSleep: Long, isDelayUp: Boolean) {
         this.defaultSleep = defaultSleep
         this.timeSleep = defaultSleep
-        this.isDelay = isDelay
+        this.isDelayUp = isDelayUp
         /*try {
             periodicTask.run()
         }catch (ex : Exception){}*/
     }
+
+    /*fun subscribeMessage() {
+        this.isSendMessage = true
+        Thread.interrupted()
+        //periodicTask.run()
+    }*/
+
+    /*fun unsubscribeMessage() {
+        this.isSendMessage = false
+        Thread.interrupted()
+        //periodicTask.run()
+    }*/
 
     fun socketRunAlways() {
         doAsync {
@@ -137,21 +150,25 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
                 input.read(buffer)
                 observerWrapper.onNext(buffer)
             }
-            if (isDelay) {
-                if (isMaxInterval) {
-                    if (timeSleep <= defaultSleep)
-                        isMaxInterval = false
-                    timeSleep -= increaseSleep
+            /*if (isSendMessage) {
+                Thread.sleep(2000)
+            } else {*/
+                if (isDelayUp) {
+                    if (isMaxInterval) {
+                        if (timeSleep <= defaultSleep)
+                            isMaxInterval = false
+                        timeSleep -= increaseSleep
+                    } else {
+                        if (timeSleep >= maxSleep)
+                            isMaxInterval = true
+                        timeSleep += increaseSleep
+                    }
                 } else {
-                    if (timeSleep >= maxSleep)
-                        isMaxInterval = true
-                    timeSleep += increaseSleep
+                    timeSleep = defaultSleep
                 }
-            } else {
-                timeSleep = defaultSleep
-            }
-            if (timeSleep >= 1000)
-                Thread.sleep(timeSleep)
+                if (timeSleep >= 1000)
+                    Thread.sleep(timeSleep)
+            /*}*/
         } catch (e: InterruptedException) {
         }
     }

@@ -36,7 +36,7 @@ public class PinCodePresenterImpl extends BaseRetrofitPresenter implements IPinC
 
     @Override
     public void requestGetCode() {
-        view.disableGetCodeButton();
+        //view.disableGetCodeButton();
         /*ImeiRequest imeiRequest = new ImeiRequest(WearerInfoUtils.getInstance().getImei());
         interactor.callGetCode(imeiRequest, this);*/
         TCPSocketServiceProvider.getInstance().sendMessagePairCode(this, CMDCode.CMD_PAIR_CODE, "{}");
@@ -49,7 +49,7 @@ public class PinCodePresenterImpl extends BaseRetrofitPresenter implements IPinC
 
     @Override
     public void onPinCodeSuccess(MetaDataNetwork metaData, PinCodeModel readyModel) {
-        view.enableGetCodeButton();
+        //view.enableGetCodeButton();
         view.onGetPinSuccess(readyModel);
     }
 }

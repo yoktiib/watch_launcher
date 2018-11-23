@@ -39,6 +39,11 @@
     <color name="waffle_fitness_bg_color">#f27576</color>
     <color name="waffle_setting_bg_color">#c3bbff</color>
 
+    <color name="waffle_fitness_app_oval_bg_color">#fffb83</color>
+    <color name="waffle_fitness_app_oval_border_bg_color">#ff8f9a</color>
+    <color name="waffle_fitness_app_bg_color">#b8e9ff</color>
+    <color name="waffle_fitness_app_font_color">#777</color>
+    <color name="waffle_contact_app_bg_color">#ffe6ea</color>
 
 
     <color name="waffle_group_chat_bg_color">#a967aa</color>

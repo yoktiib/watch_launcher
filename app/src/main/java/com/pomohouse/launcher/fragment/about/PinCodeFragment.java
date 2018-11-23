@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.ybq.android.spinkit.SpinKitView;
 import com.pomohouse.launcher.R;
 import com.pomohouse.launcher.base.BaseFragment;
 import com.pomohouse.launcher.models.PinCodeModel;
@@ -37,6 +38,8 @@ public class PinCodeFragment extends BaseFragment implements IPinCodeView {
     Button btnGetCode;
     @BindView(R.id.tvPinCode)
     TextView tvPinCode;
+    @BindView(R.id.spin_kit)
+    SpinKitView spin_kit;
 
     @Override
     protected List<Object> injectModules() {
@@ -63,17 +66,25 @@ public class PinCodeFragment extends BaseFragment implements IPinCodeView {
         return inflater.inflate(R.layout.fragment_pin_code, container, false);
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        spin_kit.setVisibility(View.GONE);
+    }
+
     @OnClick(R.id.btnGetCode)
     void onClickGetCode() {
         //TODO Change To GET CODE
-        if (isNetworkAvailable())
+        if (isNetworkAvailable()) {
+            spin_kit.setVisibility(View.VISIBLE);
             presenter.requestGetCode();
-        else
+        }else
             Toast.makeText(getActivity(), "Please Check Internet Connection", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onGetPinSuccess(PinCodeModel readyModel) {
+        spin_kit.setVisibility(View.GONE);
         tvPinCode.setText(readyModel.getCode());
     }
 

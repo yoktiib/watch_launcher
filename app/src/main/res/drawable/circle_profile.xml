@@ -4,7 +4,7 @@
     android:shape="oval">
 
     <solid
-        android:color="@color/waffle_yellow_01_color"/>
+        android:color="@color/waffle_fitness_app_oval_bg_color"/>
 
     <size
         android:width="100dp"
