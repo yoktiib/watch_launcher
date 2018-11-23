@@ -1,14 +1,11 @@
 package com.pomohouse.launcher.fragment.main;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,12 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.github.pwittchen.networkevents.library.BusWrapper;
-import com.github.pwittchen.networkevents.library.NetworkEvents;
-import com.github.pwittchen.networkevents.library.event.ConnectivityChanged;
-import com.pomohouse.launcher.POMOWatchApplication;
+import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.pomohouse.launcher.R;
 import com.pomohouse.launcher.activity.getstarted.GetStartActivity;
 import com.pomohouse.launcher.activity.theme.ThemeActivity;
@@ -35,27 +28,27 @@ import com.pomohouse.launcher.di.module.MainFragmentPresenterModule;
 import com.pomohouse.launcher.fragment.main.presenter.IMainFragmentPresenter;
 import com.pomohouse.launcher.fragment.theme.ThemeAnalogFragment;
 import com.pomohouse.launcher.fragment.theme.ThemeDigitalFragment;
-import com.pomohouse.launcher.main.LauncherActivity;
 import com.pomohouse.launcher.manager.settings.ISettingManager;
 import com.pomohouse.launcher.manager.theme.IThemePrefManager;
 import com.pomohouse.launcher.manager.theme.ThemePrefModel;
 import com.pomohouse.launcher.models.EventDataInfo;
-import com.pomohouse.launcher.tcp.CMDCode;
-import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 import com.pomohouse.launcher.utils.SoundPoolManager;
 import com.pomohouse.launcher.utils.TelephoneState;
 import com.pomohouse.launcher.utils.VibrateManager;
 import com.pomohouse.launcher.utils.callbacks.SignalInfoListener;
 import com.pomohouse.library.WearerInfoUtils;
-import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnLongClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_INTERNET_AVAILABLE;
@@ -69,12 +62,13 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
     private final static String ACTION_SIM_STATE_CHANGED = "android.intent.action.SIM_STATE_CHANGED";
     private BaseThemeFragment currentTheme;
     private ArrayList<ThemePrefModel> themePrefModelArrayList;
-    private BusWrapper busWrapper;
-    private NetworkEvents networkEvents;
     private TelephoneState telephoneState;
     private SoundPoolManager soundPoolManager;
     private VibrateManager vibrateManager;
     private Context context;
+
+    private Disposable networkDisposable;
+    private Disposable internetDisposable;
 
     @BindView(R.id.ivBattery)
     ImageView ivBattery;
@@ -137,13 +131,6 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
              */
             EventReceiver.getInstance().initEventMainListener(this::onEventReceived);
             DeviceActionReceiver.getInstance().initDeviceActionListener(this::onDeviceStatusActionReceived);
-            /**
-             * Init Network Checking
-             */
-            busWrapper = getOttoBusWrapper(new Bus());
-            networkEvents = new NetworkEvents(getContext(), busWrapper).enableInternetCheck().enableWifiScan();
-            busWrapper.register(this);
-            networkEvents.register();
         } catch (Exception ignore) {
         }
     }
@@ -179,32 +166,6 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
         }
     }
 
-    @NonNull
-    private BusWrapper getOttoBusWrapper(final Bus bus) {
-        return new BusWrapper() {
-            @Override
-            public void register(Object object) {
-                bus.register(object);
-            }
-
-            @Override
-            public void unregister(Object object) {
-                bus.unregister(object);
-            }
-
-            @Override
-            public void post(Object event) {
-                bus.post(event);
-            }
-        };
-    }
-
-    @Subscribe
-    @SuppressWarnings("unused")
-    public void onEvent(ConnectivityChanged event) {
-        presenter.ConnectivityChanged(event);
-    }
-
     @OnLongClick(R.id.container)
     boolean onThemeChange() {
         Intent intent = new Intent(this.getActivity(), ThemeActivity.class);
@@ -233,12 +194,52 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
         checkThemeChange();
         presenter.onBatteryLevelInfo(getContext());
         context.registerReceiver(simStateReceiver, new IntentFilter(ACTION_SIM_STATE_CHANGED));
+        networkDisposable = ReactiveNetwork.observeNetworkConnectivity(getActivity()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(connectivity -> {
+            Log.d(TAG, connectivity.toString());
+            final NetworkInfo.State state = connectivity.state();
+           // final String name = connectivity.typeName();
+            //tvConnectivityStatus.setText(String.format("state: %s, typeName: %s", state, name));
+            try {
+                if (connectivity.typeName().equalsIgnoreCase("WIFI")) {
+                    ivInternetType.setVisibility(View.VISIBLE);
+                    Timber.e("connectedWiFiAvailable");
+                    setImageFromResource(R.drawable.signal_wifi_network, ivInternetType);
+                    sendInternetAvailable(true);
+                }else if(connectivity.typeName().equalsIgnoreCase("MOBILE")){
+                    ivInternetType.setVisibility(View.VISIBLE);
+                    Timber.e("connectedMobileNetwork");
+                    setImageFromResource(R.drawable.signal_3g_network, ivInternetType);
+                    sendInternetAvailable(true);
+                }else{
+                    Timber.e("Network - Connection GONE");
+                    ivInternetType.setVisibility(View.GONE);
+                    sendInternetAvailable(false);
+                }
+            } catch (Exception ignored) {
+
+            }
+        });
+
+        internetDisposable = ReactiveNetwork.observeInternetConnectivity().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(isConnected -> {
+
+        });
     }
+
+    private static final String TAG = "ReactiveNetwork";
 
     @Override
     public void onPause() {
         super.onPause();
         context.unregisterReceiver(simStateReceiver);
+        safelyDispose(networkDisposable, internetDisposable);
+    }
+
+    private void safelyDispose(Disposable... disposables) {
+        for (Disposable subscription : disposables) {
+            if (subscription != null && !subscription.isDisposed()) {
+                subscription.dispose();
+            }
+        }
     }
 
     private BroadcastReceiver simStateReceiver = new BroadcastReceiver() {
@@ -373,48 +374,11 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
             currentTheme.eventReceived(eventData);
     }
 
-    @Override
-    public void networkConnectionType(ConnectivityChanged typeOfConnection) {
-        try {
-            switch (typeOfConnection.getConnectivityStatus()) {
-                case UNKNOWN:
-                case WIFI_CONNECTED_HAS_INTERNET:
-                    ivInternetType.setVisibility(View.VISIBLE);
-                    Timber.e("connectedWiFiAvailable");
-                    setImageFromResource(R.drawable.signal_wifi_network, ivInternetType);
-                    sendInternetAvailable(true);
-                    break;
-                case MOBILE_CONNECTED:
-                    ivInternetType.setVisibility(View.VISIBLE);
-                    Timber.e("connectedMobileNetwork");
-                    setImageFromResource(R.drawable.signal_3g_network, ivInternetType);
-                    sendInternetAvailable(true);
-                    break;
-                default:
-                    Timber.e("Network - Connection GONE");
-                    ivInternetType.setVisibility(View.GONE);
-                    sendInternetAvailable(false);
-                    break;
-            }
-        } catch (Exception ignored) {
-
-        }
-    }
-
     private void sendInternetAvailable(boolean inAvailable) {
         Intent intent;
         if (inAvailable) intent = new Intent(SEND_EVENT_INTERNET_AVAILABLE);
         else intent = new Intent(SEND_EVENT_INTERNET_UN_AVAILABLE);
         getContext().sendBroadcast(intent);
-    }
-
-    @Override
-    public void onDestroyView() {
-        if (busWrapper != null) busWrapper.unregister(this);
-        if (networkEvents != null) networkEvents.unregister();
-        busWrapper = null;
-        networkEvents = null;
-        super.onDestroyView();
     }
 
     public void setImageFromResource(int internetRes, ImageView ivAvatar) {

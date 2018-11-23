@@ -85,9 +85,10 @@ dependencies {
     //Image Loader
     //Animation View
     api project(':component')
-    api project(':network-library')
+    //api project(':network-library')
     api project(':library')
     api project(':RxSocketClient')
+    api project(':network')
 
     /*implementation "com.github.hotchemi:permissionsdispatcher:${permissionsDispatcherVersion}"
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:${permissionsDispatcherVersion}"*/

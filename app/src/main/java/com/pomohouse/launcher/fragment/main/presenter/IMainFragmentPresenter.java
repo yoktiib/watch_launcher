@@ -3,7 +3,6 @@ package com.pomohouse.launcher.fragment.main.presenter;
 import android.content.Context;
 import android.content.Intent;
 
-import com.github.pwittchen.networkevents.library.event.ConnectivityChanged;
 import com.pomohouse.library.base.interfaces.presenter.IBaseRequestStatePresenter;
 import com.pomohouse.launcher.models.EventDataInfo;
 
@@ -22,10 +21,4 @@ public interface IMainFragmentPresenter extends IBaseRequestStatePresenter {
     void onSignalChange(int signal);
 
     void onNoSimCardPlugin();
-
-    //void checkEventUnreadAndVolume(EventDataInfo eventDataInfo);
-
-    void ConnectivityChanged(ConnectivityChanged connectivityChanged);
-
-    //void provideInClassModeManager(IInClassModePrefManager inClassModeManager);
 }

@@ -7,7 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/bestfriendforever/bestfriendforever.iml" filepath="$PROJECT_DIR$/bestfriendforever/bestfriendforever.iml" />
       <module fileurl="file://$PROJECT_DIR$/component/component.iml" filepath="$PROJECT_DIR$/component/component.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/network-library/network-library.iml" filepath="$PROJECT_DIR$/network-library/network-library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/network/network.iml" filepath="$PROJECT_DIR$/network/network.iml" />
       <module fileurl="file://$PROJECT_DIR$/pomo_watch_launcher.iml" filepath="$PROJECT_DIR$/pomo_watch_launcher.iml" />
     </modules>
   </component>

@@ -102,6 +102,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
+      <excludeFolder url="file://$MODULE_DIR$/build/reports" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 28 Platform" jdkType="Android SDK" />
@@ -167,9 +168,9 @@
     <orderEntry type="library" name="Gradle: com.crashlytics.sdk.android:answers-1.4.3" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.core:common:1.1.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.jakewharton.rxbinding:rxbinding-0.4.0" level="project" />
+    <orderEntry type="module" module-name="network" />
     <orderEntry type="module" module-name="component" />
     <orderEntry type="module" module-name="library" />
-    <orderEntry type="module" module-name="network-library" />
     <orderEntry type="module" module-name="RxSocketClient" />
   </component>
 </module>

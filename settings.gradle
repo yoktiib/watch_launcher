@@ -1,1 +1,1 @@
-include ':app', ':library', ':bestfriendforever', ':component', ':network-library','RxSocketClient'
+include ':app', ':library', ':bestfriendforever', ':component', 'RxSocketClient', ':network'

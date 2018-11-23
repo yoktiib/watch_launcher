@@ -8,8 +8,6 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.telephony.CellSignalStrength;
-
-import com.github.pwittchen.networkevents.library.event.ConnectivityChanged;
 import com.pomohouse.launcher.R;
 import com.pomohouse.launcher.fragment.main.IMainFragmentView;
 import com.pomohouse.launcher.models.EventDataInfo;
@@ -71,11 +69,6 @@ public class MainFragmentPresenterImpl extends BaseRetrofitPresenter implements 
             return;
         _handler.sendMessage(_handler.obtainMessage(EVENT_MESSAGE, _eventDataInfo));
     }*/
-
-    @Override
-    public void ConnectivityChanged(ConnectivityChanged connectivityChanged) {
-        view.networkConnectionType(connectivityChanged);
-    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {

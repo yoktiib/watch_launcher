@@ -2,7 +2,6 @@ package com.pomohouse.launcher.fragment.main;
 
 import android.content.Intent;
 
-import com.github.pwittchen.networkevents.library.event.ConnectivityChanged;
 import com.pomohouse.launcher.models.EventDataInfo;
 
 /**
@@ -33,6 +32,4 @@ public interface IMainFragmentView {
     void onNotificationChanged(EventDataInfo eventData);
 
     void onTimeZoneChange(EventDataInfo eventData);
-
-    void networkConnectionType(ConnectivityChanged typeOfConnection);
 }

@@ -18,8 +18,7 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="12dp"
         android:layout_toEndOf="@+id/ivSignal"
-        android:visibility="gone"
-        app:srcCompat="@drawable/signal_3g_network" />
+        app:srcCompat="@drawable/signal_wifi_network" />
 
     <TextView
         android:id="@+id/tvBattery"
