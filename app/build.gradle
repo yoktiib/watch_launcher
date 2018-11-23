@@ -40,11 +40,11 @@ android {
         }
     }
 
-    compileSdkVersion 27
+    compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.pomohouse.launcher"
-        minSdkVersion 22
-        targetSdkVersion 22
+        minSdkVersion rootProject.ext.minSdkVersionApps
+        targetSdkVersion rootProject.ext.compileSdkVersion
         versionCode 7
         versionName '1.0.7'
         vectorDrawables.useSupportLibrary = true

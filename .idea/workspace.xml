@@ -9,7 +9,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -18,16 +18,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe6dcc07-1257-44c5-b572-5ef1ace136ed" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/about/presenter/OnQRCodeListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/models/QRCodeModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_8.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileContent/fileContent.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileContent/fileContent.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" afterDir="false" />
@@ -41,65 +31,23 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_dexmaker_dexmaker_1_0_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_dexmaker_dexmaker_mockito_1_0_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_mockito_mockito_core_1_10_19_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_objenesis_objenesis_2_1_jar.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RxSocketClient/src/main/java/moe/codeest/rxsocketclient/SocketObservable.kt" beforeDir="false" afterPath="$PROJECT_DIR$/RxSocketClient/src/main/java/moe/codeest/rxsocketclient/SocketObservable.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/about/PinCodeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/about/PinCodeFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/about/QRCodeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/about/QRCodeFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/about/presenter/PinCodePresenterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/about/presenter/PinCodePresenterImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/avatar/AvatarCollection.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/avatar/AvatarCollection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/contacts/ContactItemFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/contacts/ContactItemFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/lock_screen/LockScreenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/lock_screen/LockScreenService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/tcp/TCPSocketServiceProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/tcp/TCPSocketServiceProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_aunt.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_boy.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_dad.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_girl.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_grand_dad.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_grand_mom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_mom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_other01.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_other02.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_other03.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_other04.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_other05.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_other06.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/avatar_uncle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/circle_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/circle_profile.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/contact_type_family.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/contact_type_family.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/menu_music.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/menu_where_am_i.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/placeholder.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/placeholder.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/screen_locked.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/screen_locked.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/setting_about.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/setting_about.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/setting_brightness.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/setting_brightness.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/setting_power_off.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/setting_power_off.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/setting_restart.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/setting_restart.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/setting_theme.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/setting_theme.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/setting_volume.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/setting_volume.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/setting_wifi.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/setting_wifi.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/shape_oval_big_fitness.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/shape_oval_big_fitness.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/theme_bg_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/theme_bg_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/theme_bg_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/theme_bg_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/theme_bg_3.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/theme_bg_3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/theme_box_bg_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/theme_box_bg_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/theme_box_bg_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/theme_box_bg_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/theme_box_bg_3.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/theme_box_bg_3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_contact.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_contact.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_fitness.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_fitness.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_pin_code.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_pin_code.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_qr_code.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_qr_code.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_theme_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_theme_5.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_contact.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_contact.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/lock_screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/lock_screen.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/arrays.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/arrays.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bestfriendforever/bestfriendforever.iml" beforeDir="false" afterPath="$PROJECT_DIR$/bestfriendforever/bestfriendforever.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/component/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/component/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/component/component.iml" beforeDir="false" afterPath="$PROJECT_DIR$/component/component.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/library/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/library.iml" beforeDir="false" afterPath="$PROJECT_DIR$/library/library.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network-library/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/network-library/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network-library/network-library.iml" beforeDir="false" afterPath="$PROJECT_DIR$/network-library/network-library.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network-library/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/network-library/src/main/AndroidManifest.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -162,39 +110,39 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="PinCodeFragment.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/about/PinCodeFragment.java">
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="85" column="58" lean-forward="true" selection-start-line="85" selection-start-column="58" selection-end-line="85" selection-end-column="58" />
-              <folding>
-                <element signature="e#2693#2694#0" expanded="true" />
-                <element signature="e#2736#2737#0" expanded="true" />
-                <element signature="e#2792#2793#0" expanded="true" />
-                <element signature="e#2836#2837#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1470">
+              <caret line="98" column="58" selection-start-line="98" selection-start-column="58" selection-end-line="98" selection-end-column="58" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QRCodeFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/about/QRCodeFragment.java">
+      <file leaf-file-name="LauncherActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="40" column="24" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="24" />
+            <state relative-caret-position="1500">
+              <caret line="199" column="54" selection-start-line="199" selection-start-column="54" selection-end-line="199" selection-end-column="54" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fragment_pin_code.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_pin_code.xml">
+      <file leaf-file-name="MainFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/main/MainFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="484">
-              <caret line="45" column="40" selection-start-line="45" selection-start-column="40" selection-end-line="45" selection-end-column="40" />
+            <state relative-caret-position="1200">
+              <caret line="143" column="83" selection-start-line="143" selection-start-column="83" selection-end-line="143" selection-end-column="83" />
             </state>
           </provider>
-          <provider editor-type-id="android-designer2">
-            <state />
+        </entry>
+      </file>
+      <file leaf-file-name="NetworkEvents.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/network-library/src/main/java/com/github/pwittchen/networkevents/library/NetworkEvents.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="251">
+              <caret line="129" column="50" lean-forward="true" selection-start-line="129" selection-start-column="50" selection-end-line="129" selection-end-column="50" />
+            </state>
           </provider>
         </entry>
       </file>
@@ -212,9 +160,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>MODIFY_AUDIO_SETTINGS</find>
-      <find>brightnessLevelConvertToDrawable</find>
-      <find>onBrightnessChange</find>
       <find>app_name</find>
       <find>PERMISSIONS</find>
       <find>btnConnect</find>
@@ -242,6 +187,9 @@
       <find>avatar_boy</find>
       <find>boxAvatar</find>
       <find>tvContactName</find>
+      <find>busWrapper</find>
+      <find>ACCESS_NETWORK_STATE</find>
+      <find>connected</find>
     </findStrings>
   </component>
   <component name="GenerateSignedApkSettings">
@@ -6479,14 +6427,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/notification_lock_message.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/notification_mute.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/theme/ThemeDigitalFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/item_adapter_menu.xml" />
-        <option value="$PROJECT_DIR$/RxSocketClient/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/models/QRCode.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/about/presenter/OnPinCodeListener.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/about/presenter/OnQRCodeListener.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/arrays.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/screen_locked.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" />
@@ -6494,7 +6434,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_theme_5.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/lock_screen/LockScreenService.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/lock_screen.xml" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/RxSocketClient/src/main/java/moe/codeest/rxsocketclient/SocketObservable.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/tcp/TCPSocketServiceProvider.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/about/QRCodeFragment.java" />
@@ -6530,6 +6469,15 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_fitness.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_pin_code.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/about/PinCodeFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/main/MainFragment.java" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/network-library/build.gradle" />
+        <option value="$PROJECT_DIR$/component/build.gradle" />
+        <option value="$PROJECT_DIR$/build.gradle" />
+        <option value="$PROJECT_DIR$/library/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java" />
+        <option value="$PROJECT_DIR$/network-library/src/main/java/com/github/pwittchen/networkevents/library/receiver/NetworkConnectionChangeReceiver.java" />
+        <option value="$PROJECT_DIR$/network-library/src/main/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -6544,9 +6492,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="AndroidView" />
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -6557,105 +6504,89 @@
             <path>
               <item name="pomo_watch_launcher" type="b2602c69:ProjectViewProjectNode" />
               <item name="pomo_watch_launcher" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="network-library" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
             </path>
             <path>
               <item name="pomo_watch_launcher" type="b2602c69:ProjectViewProjectNode" />
               <item name="pomo_watch_launcher" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="network-library" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pomo_watch_launcher" type="b2602c69:ProjectViewProjectNode" />
               <item name="pomo_watch_launcher" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pomo_watch_launcher" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pomo_watch_launcher" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="network-library" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pomo_watch_launcher" type="b2602c69:ProjectViewProjectNode" />
               <item name="pomo_watch_launcher" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="network-library" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pomo_watch_launcher" type="b2602c69:ProjectViewProjectNode" />
               <item name="pomo_watch_launcher" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="network-library" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="pomohouse" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pomo_watch_launcher" type="b2602c69:ProjectViewProjectNode" />
               <item name="pomo_watch_launcher" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="network-library" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="pomohouse" type="462c0819:PsiDirectoryNode" />
-              <item name="launcher" type="462c0819:PsiDirectoryNode" />
+              <item name="github" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pomo_watch_launcher" type="b2602c69:ProjectViewProjectNode" />
               <item name="pomo_watch_launcher" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="network-library" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="pomohouse" type="462c0819:PsiDirectoryNode" />
-              <item name="launcher" type="462c0819:PsiDirectoryNode" />
-              <item name="fragment" type="462c0819:PsiDirectoryNode" />
+              <item name="github" type="462c0819:PsiDirectoryNode" />
+              <item name="pwittchen" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pomo_watch_launcher" type="b2602c69:ProjectViewProjectNode" />
               <item name="pomo_watch_launcher" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="network-library" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="pomohouse" type="462c0819:PsiDirectoryNode" />
-              <item name="launcher" type="462c0819:PsiDirectoryNode" />
-              <item name="fragment" type="462c0819:PsiDirectoryNode" />
-              <item name="about" type="462c0819:PsiDirectoryNode" />
+              <item name="github" type="462c0819:PsiDirectoryNode" />
+              <item name="pwittchen" type="462c0819:PsiDirectoryNode" />
+              <item name="networkevents" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pomo_watch_launcher" type="b2602c69:ProjectViewProjectNode" />
               <item name="pomo_watch_launcher" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="network-library" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="res" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pomo_watch_launcher" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pomo_watch_launcher" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="res" type="462c0819:PsiDirectoryNode" />
-              <item name="layout" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="github" type="462c0819:PsiDirectoryNode" />
+              <item name="pwittchen" type="462c0819:PsiDirectoryNode" />
+              <item name="networkevents" type="462c0819:PsiDirectoryNode" />
+              <item name="library" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -6675,7 +6606,7 @@
     <property name="android.project.structure.last.selected" value="app" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
-    <property name="device.picker.selection" value="LNT4TWNF6DQOIZQW" />
+    <property name="device.picker.selection" value="192.168.56.101:5555" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="show.do.not.ask.upgrade.gradle.plugin" value="3.1.2" />
@@ -7066,9 +6997,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info anchor="bottom" id="Android Profiler" order="0" weight="0.32991204" />
+      <window_info anchor="bottom" id="Android Profiler" order="0" show_stripe_button="false" weight="0.32991204" />
       <window_info id="Build Variants" order="0" side_tool="true" />
       <window_info anchor="bottom" id="DB Execution Console" order="0" />
       <window_info anchor="bottom" id="Event Log" order="0" sideWeight="0.503231" side_tool="true" weight="0.51319647" />
@@ -7077,7 +7007,7 @@
       <window_info id="Designer" order="0" />
       <window_info id="Project Explorer" order="0" />
       <window_info id="Job Explorer" order="0" weight="0.32956383" />
-      <window_info anchor="bottom" id="Build" order="0" sideWeight="0.49676898" weight="0.49558824" />
+      <window_info anchor="bottom" id="Build" order="0" sideWeight="0.49676898" visible="true" weight="0.49558824" />
       <window_info anchor="bottom" id="Console" order="0" />
       <window_info id="Structure" order="0" side_tool="true" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" weight="0.32956383" />
@@ -7087,15 +7017,15 @@
       <window_info anchor="right" id="Palette&#9;" order="0" />
       <window_info id="Image Layers" order="0" />
       <window_info anchor="right" id="Capture Analysis" order="0" />
-      <window_info anchor="right" id="Preview" order="1" weight="0.26332796" />
-      <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Run" order="0" weight="0.32991204" />
+      <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Terminal" order="0" />
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27705976" />
       <window_info anchor="right" id="Gradle" order="0" />
       <window_info anchor="right" id="Theme Preview" order="0" />
       <window_info id="Favorites" order="0" side_tool="true" />
+      <window_info anchor="right" id="Preview" order="1" weight="0.26332796" />
       <window_info anchor="bottom" id="Find" order="1" />
     </layout>
     <layout-to-restore>
@@ -7144,108 +7074,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/menu_music.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/menu_setting.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/shape_oval_big_fitness.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="25" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/theme_bg_1.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/theme_bg_3.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/shape_oval_small_fitness.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="8" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/about/presenter/PinCodePresenterImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="367">
-          <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/setting_about.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1545">
-          <caret line="103" column="9" selection-start-line="103" selection-start-column="9" selection-end-line="103" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/setting_brightness.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="9" selection-start-line="34" selection-start-column="9" selection-end-line="34" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/setting_theme.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="9" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/setting_volume.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="9" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/setting_wifi.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="9" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_dad.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="146">
-          <caret line="11" column="80" selection-start-line="11" selection-start-column="80" selection-end-line="11" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_girl.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" column="33" selection-start-line="35" selection-start-column="33" selection-end-line="35" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/setting_update_firmware.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/setting_power_off.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="9" lean-forward="true" selection-start-line="13" selection-start-column="9" selection-end-line="13" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/setting_restart.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -7253,84 +7081,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_2.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="1879" column="9" selection-start-line="1879" selection-start-column="9" selection-end-line="1879" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_3.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="1717" column="9" selection-start-line="1717" selection-start-column="9" selection-end-line="1717" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_4.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="1879" column="9" selection-start-line="1879" selection-start-column="9" selection-end-line="1879" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_6.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="2020" column="9" selection-start-line="2020" selection-start-column="9" selection-end-line="2020" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_5.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="1711" column="9" selection-start-line="1711" selection-start-column="9" selection-end-line="1711" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_7.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="3088" column="9" selection-start-line="3088" selection-start-column="9" selection-end-line="3088" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_aunt.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="18" column="59" selection-start-line="18" selection-start-column="59" selection-end-line="18" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_1.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="565">
-          <caret line="1411" column="9" selection-start-line="1411" selection-start-column="9" selection-end-line="1411" selection-end-column="9" />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_boy.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-642">
-          <caret line="11" column="37" lean-forward="true" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_8.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="516">
-          <caret line="3094" column="9" selection-start-line="3094" selection-start-column="9" selection-end-line="3094" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_grand_dad.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_2.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_3.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_4.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_6.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_5.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_7.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_aunt.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_1.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_boy.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_8.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_grand_dad.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/avatar_2.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -7358,11 +7119,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Desktop/device-2018-11-23-155829.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/Desktop/device-2018-11-23-155829.png" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/contact_type_bff.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -7428,13 +7185,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/network-library/src/main/java/com/github/pwittchen/networkevents/library/NetworkEvents.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="136" column="71" lean-forward="true" selection-start-line="136" selection-start-column="71" selection-end-line="136" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/network-library/src/main/java/com/github/pwittchen/networkevents/library/ConnectivityStatus.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -7492,14 +7242,133 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/about/PinCodeFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="85" column="58" lean-forward="true" selection-start-line="85" selection-start-column="58" selection-end-line="85" selection-end-column="58" />
+        <state relative-caret-position="603">
+          <caret line="78" column="49" selection-start-line="78" selection-start-column="49" selection-end-line="78" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/network-library/gradle.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/component/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="19" lean-forward="true" selection-start-line="4" selection-start-column="19" selection-end-line="6" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" selection-start-line="4" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RxSocketClient/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/network-library/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="56">
+          <caret line="34" column="52" selection-start-line="34" selection-start-column="52" selection-end-line="34" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/POMOWatchApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/library/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="6" column="27" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1470">
+          <caret line="98" column="58" selection-start-line="98" selection-start-column="58" selection-end-line="98" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/main/presenter/MainFragmentPresenterImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-374">
+          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1500">
+          <caret line="199" column="54" selection-start-line="199" selection-start-column="54" selection-end-line="199" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/main/MainFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1200">
+          <caret line="143" column="83" selection-start-line="143" selection-start-column="83" selection-end-line="143" selection-end-column="83" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-28/android.jar!/android/net/ConnectivityManager.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="990">
+          <caret line="70" column="28" selection-start-line="70" selection-start-column="28" selection-end-line="70" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-28/android.jar!/android/net/NetworkInfo.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/network-library/src/main/java/com/github/pwittchen/networkevents/library/receiver/NetworkConnectionChangeReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="55" column="50" lean-forward="true" selection-start-line="55" selection-start-column="50" selection-end-line="55" selection-end-column="50" />
           <folding>
-            <element signature="e#2693#2694#0" expanded="true" />
-            <element signature="e#2736#2737#0" expanded="true" />
-            <element signature="e#2792#2793#0" expanded="true" />
-            <element signature="e#2836#2837#0" expanded="true" />
+            <element signature="e#1499#1500#0" expanded="true" />
+            <element signature="e#1541#1542#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/network-library/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="76" selection-start-line="9" selection-start-column="76" selection-end-line="9" selection-end-column="76" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/network-library/src/main/java/com/github/pwittchen/networkevents/library/NetworkEvents.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="129" column="50" lean-forward="true" selection-start-line="129" selection-start-column="50" selection-end-line="129" selection-end-column="50" />
         </state>
       </provider>
     </entry>
