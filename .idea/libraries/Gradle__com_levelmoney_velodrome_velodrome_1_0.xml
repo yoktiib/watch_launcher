@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.levelmoney.velodrome:velodrome-1.0">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/velodrome-1.0.aar/eb4ae355d8e5e4dfb59e82e8c4b8b5cb/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/velodrome-1.0.aar/eb4ae355d8e5e4dfb59e82e8c4b8b5cb/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/velodrome-1.0.aar/8a94cc3914202d205b07669eb8a3969f/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/velodrome-1.0.aar/8a94cc3914202d205b07669eb8a3969f/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

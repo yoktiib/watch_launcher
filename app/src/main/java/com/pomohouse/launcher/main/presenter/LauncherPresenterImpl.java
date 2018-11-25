@@ -1,5 +1,6 @@
 package com.pomohouse.launcher.main.presenter;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.bluetooth.BluetoothAdapter;
@@ -9,10 +10,12 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -73,6 +76,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import timber.log.Timber;
+
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_LOCK_DEFAULT_INTENT;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_LOCK_IN_CLASS_INTENT;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_UNLOCK_IN_CLASS_INTENT;
@@ -227,7 +231,8 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
             if (telephonyManager != null) {
                 deviceRequest.setSimOperator(telephonyManager.getSimOperator());
                 deviceRequest.setSimOperatorName(telephonyManager.getSimOperatorName());
-                deviceRequest.setSimSerialNumber(telephonyManager.getSimSerialNumber());
+                if (ActivityCompat.checkSelfPermission(AppContextor.getInstance().getContext(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED)
+                    deviceRequest.setSimSerialNumber(telephonyManager.getSimSerialNumber());
             }
             if (tz != null) {
                 Timber.i("Timezone :: " + tz.getDisplayName(false, TimeZone.SHORT) + " Timezone id :: " + tz.getID());

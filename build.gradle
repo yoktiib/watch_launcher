@@ -5,7 +5,7 @@ buildscript {
         minSdkVersionApps = 22
         compileSdkVersion = 28
 
-        supportLib = '27.1.1'
+        supportLib = '28.0.0'
         retrofitVer = '2.2.0'
         butterKnifeVer = '8.3.0'
         permissionsDispatcherVersion = '4.0.0'
@@ -35,8 +35,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
-        /*classpath 'com.google.gms:google-services:4.0.0'*/
+        classpath 'com.android.tools.build:gradle:3.2.1'
     }
 }
 

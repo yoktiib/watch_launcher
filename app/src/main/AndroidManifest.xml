@@ -25,7 +25,7 @@
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--<uses-permission android:name="android.permission.RECORD_AUDIO" />-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -63,7 +63,9 @@
             android:screenOrientation="portrait"
             android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <!-- The following two intent-filters are the key to set homescreen -->
                 <category android:name="android.intent.category.HOME" />
@@ -89,8 +91,6 @@
             android:name="io.fabric.ApiKey"
             android:value="0b9b99303c5879e9b3b7887410a46a60384e8d18" />
 
-        <receiver android:name=".broadcast.alarm.receiver.AlarmReceiver" />
-        <receiver android:name=".broadcast.alarm.receiver.BootReceiver" />
         <receiver android:name=".fragment.contacts.IncomingCallReceiver">
             <intent-filter android:priority="999">
                 <action android:name="android.intent.action.PHONE_STATE" />
@@ -109,8 +109,10 @@
             android:exported="true" />
 
         <service android:name=".lock_screen.LockScreenService" />
-        <service android:name=".broadcast.alarm.receiver.AalService" />
         <service android:name=".broadcast.sensor.SensorService" />
+        <!--<receiver android:name=".broadcast.alarm.receiver.AlarmReceiver" />
+        <receiver android:name=".broadcast.alarm.receiver.BootReceiver" />
+        <service android:name=".broadcast.alarm.receiver.AalService" />-->
 
         <service
             android:name=".tcp.TCPSocketServiceProvider"

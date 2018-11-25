@@ -1,10 +1,6 @@
 package com.pomohouse.launcher.main;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -12,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -31,11 +26,6 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
-import com.amap.api.location.AMapLocationQualityReport;
 import com.google.gson.Gson;
 import com.pomohouse.component.pager.HorizontalViewPager;
 import com.pomohouse.launcher.POMOWatchApplication;
@@ -70,7 +60,6 @@ import com.pomohouse.launcher.models.DeviceInfoModel;
 import com.pomohouse.launcher.models.DeviceSetUpDao;
 import com.pomohouse.launcher.models.EventDataInfo;
 import com.pomohouse.launcher.models.settings.InClassDao;
-import com.pomohouse.launcher.tcp.CMDCode;
 import com.pomohouse.launcher.tcp.OnTCPStatusListener;
 import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 import com.pomohouse.launcher.utils.CombineObjectConstance;
@@ -192,7 +181,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     }
 
     private final int MY_PERMISSIONS = 1010;
-    String[] PERMISSIONS = {Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_SETTINGS, Manifest.permission.MODIFY_AUDIO_SETTINGS, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CALL_PHONE, Manifest.permission.PROCESS_OUTGOING_CALLS, Manifest.permission.WRITE_CONTACTS, Manifest.permission.WAKE_LOCK, Manifest.permission.SET_TIME_ZONE};
+    String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO,Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_SETTINGS, Manifest.permission.MODIFY_AUDIO_SETTINGS, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CALL_PHONE, Manifest.permission.PROCESS_OUTGOING_CALLS, Manifest.permission.WRITE_CONTACTS, Manifest.permission.WAKE_LOCK, Manifest.permission.SET_TIME_ZONE};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -799,10 +788,10 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
     @Override
     public void onAlarmEventReceived() {
-        Timber.e("onAlarmEventReceived Change");
+       /* Timber.e("onAlarmEventReceived Change");
         Intent i = new Intent(this, AalService.class);
         i.setAction(AalService.ACTION_SET_SILENT_ALARM);
-        startService(i);
+        startService(i);*/
     }
 
     @Override
