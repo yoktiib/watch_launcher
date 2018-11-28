@@ -1,3 +1,4 @@
+/*
 package com.pomohouse.launcher.main;
 
 import android.content.Context;
@@ -13,9 +14,11 @@ import java.util.List;
 
 import timber.log.Timber;
 
+*/
 /**
  * Created by yangyu on 2018/5/25.
- */
+ *//*
+
 public class LocationCacheManager {
 
     private static LocationCacheManager INSTANCE;
@@ -46,10 +49,12 @@ public class LocationCacheManager {
     }
 
 
-    /**
+    */
+/**
      * if have wifi scan result , will add wifi BSSID list to location extra
      * @param location
-     */
+     *//*
+
     public void setCurLocationExtras(Location location){
         if(location == null){
             return;
@@ -104,7 +109,8 @@ public class LocationCacheManager {
 
 
     private void compareCacheListAndReplaceWrongLocation(){
-       /* ArrayList<LocationCacheInfo> removeList = new ArrayList<>();
+       */
+/* ArrayList<LocationCacheInfo> removeList = new ArrayList<>();
         ArrayList<LocationCacheInfo> wifiUseList = new ArrayList<>();
         if(locationCacheInfoList != null && locationCacheInfoList.size() > 0){
             for(LocationCacheInfo info : locationCacheInfoList){
@@ -116,7 +122,8 @@ public class LocationCacheManager {
         }
         if(locationCacheInfoList != null && locationCacheInfoList.size() > 2){
 
-        }*/
+        }*//*
+
 
         filterByWifi();
 
@@ -307,11 +314,13 @@ public class LocationCacheManager {
 
 
 
-    /**
+    */
+/**
      * 根据相邻三个点角度过滤
      *for phone app
      * @param datas
-     */
+     *//*
+
     private void filterAngle(List<Location> datas) {
         List<Location> removePoints = new ArrayList<>();
         for (int i = 0; i < datas.size() - 2; i++) {
@@ -356,12 +365,14 @@ public class LocationCacheManager {
 
 
 
-    /**
+    */
+/**
      * 计算两点之间距离
      * @param start
      * @param end
      * @return 米 meter
-     */
+     *//*
+
     public static double getDistance(LatLng start, LatLng end){
         if(start == null || end == null){
             return -1;
@@ -401,3 +412,4 @@ public class LocationCacheManager {
 
 
 }
+*/

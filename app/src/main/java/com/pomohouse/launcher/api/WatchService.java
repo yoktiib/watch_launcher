@@ -16,9 +16,16 @@ import com.pomohouse.launcher.models.events.CallContact;
 import com.pomohouse.library.networks.ResponseDao;
 import com.pomohouse.library.networks.ResultGenerator;
 
+import java.util.Map;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -57,6 +64,11 @@ public interface WatchService {
     @POST("fitness/sendFitness")
     Observable<ResponseDao> callUpdateStep(@Body StepRequest param);
 */
+
+    @Multipart
+    @POST("gallery/uploadPhoto")
+    Observable<ResultGenerator> callImageService(@PartMap Map<String, RequestBody> param, @Part MultipartBody.Part file);
+
     @POST("location/updateLocation")
     Observable<ResponseDao> callUpdateLocation(@Body RefreshLocationRequest locationInfo);
 

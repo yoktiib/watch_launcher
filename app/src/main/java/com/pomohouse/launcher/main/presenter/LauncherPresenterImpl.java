@@ -296,11 +296,11 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
         this.validateSleepMode();
         /*if (!isSleepMode)
             view.startLocation();*/
-        timeTickCount++;
+        /*timeTickCount++;
         if (timeTickCount % 3 == 0) {
             timeTickCount = 0;
             //view.startLocation();
-        }
+        }*/
     }
 
     /**
@@ -393,10 +393,6 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     public void eventReceiver(EventDataInfo _eventData) {
         try {
             switch (_eventData.getEventCode()) {
-                /*case EVENT_UPDATE_FCM_TOKEN_CODE:
-                    UpdateFirebaseRequest requestParam = new Gson().fromJson(_eventData.getContent(), UpdateFirebaseRequest.class);
-                    interactor.callUpdateFCMToken(requestParam);
-                    break;*/
                 case EVENT_GET_PAIR_CODE:
                     PinCodeModel pinCodeModel = new Gson().fromJson(_eventData.getContent(), PinCodeModel.class);
                     if (pinCodeModel != null) view.openPinCodeView(pinCodeModel.getCode());
@@ -443,10 +439,10 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                     onResetSyncContact();
                     view.onResetFactoryEventReceived(_eventData);
                     break;
-                case EVENT_BFF_CODE:
+                /*case EVENT_BFF_CODE:
                     onResetSyncContact();
                     view.onBestFriendForeverReceived(_eventData);
-                    break;
+                    break;*/
                 case EVENT_SYNC_CONTACT:
                     onResetSyncContact();
                     view.onSyncContact(_eventData);
@@ -460,12 +456,12 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                     final Intent shutdown = new Intent("com.pomohouse.waffle.REQUEST_SHUTDOWN");
                     ActivityContextor.getInstance().getContext().sendBroadcast(shutdown);
                     break;
-                case EVENT_BRIGHTNESS_TIME_OUT_CODE:
+                /*case EVENT_BRIGHTNESS_TIME_OUT_CODE:
                     BrightnessTimeOutDao brightnessTimeOut = new Gson().fromJson(_eventData.getContent(), BrightnessTimeOutDao.class);
                     if (brightnessTimeOut != null)
                         view.onSetUpBrightnessTimeOut(brightnessTimeOut.getBrightnessTimeOut());
                     view.setupSuccess();
-                    break;
+                    break;*/
                 case EVENT_LOCATION_REQUEST_CODE:
                     // TODO REQUEST LOCATION
                  /*   RefreshLocationDao refreshLocation = new Gson().fromJson(_eventData.getContent(), RefreshLocationDao.class);
@@ -476,13 +472,13 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                     }*/
                     view.requestGPSLocation();
                     break;
-                case EVENT_LANGUAGE_CODE:
+          /*      case EVENT_LANGUAGE_CODE:
                     LanguageDao language = new Gson().fromJson(_eventData.getContent(), LanguageDao.class);
                     Log.d("LchrPreImpl", "EVENT_LANGUAGE_CODE _eventData.getContent() " + _eventData.getContent());
                     if (language != null)
                         view.onChangeLanguage(new Locale(language.getLanguage(), language.getCountry()));
                     view.setupSuccess();
-                    break;
+                    break;*/
                 /**
                  * Setup Event [ Position, WatchOff, Silent, TimeZone, AutoAnswer ]
                  */
@@ -514,7 +510,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                         }
                     }
                     break;
-                case EVENT_TIMEZONE_CODE:
+             /*   case EVENT_TIMEZONE_CODE:
                     TimeZoneDao timeZoneDao = new Gson().fromJson(_eventData.getContent(), TimeZoneDao.class);
                     if (timeZoneDao != null && !timeZoneDao.getAutoTimezone().isEmpty() && !timeZoneDao.getTimeZone().isEmpty()) {
                         Timber.e(String.valueOf("Timezone : " + timeZoneDao.getAutoTimezone()));
@@ -528,7 +524,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                             view.setAutoTimezone();
                         else view.setUpTimeZone(timeZoneDao.getTimeZone());
                     }
-                    break;
+                    break;*/
             /*    case EVENT_AUTO_ANSWER_CODE:
                     AutoAnswerDao autoAnswer = new Gson().fromJson(_eventData.getContent(), AutoAnswerDao.class);
                     if (autoAnswer != null) {
@@ -538,7 +534,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                             view.disableAutoAnswer();
                     }
                     break;*/
-                case EVENT_WEARER_STATUS_CODE:
+                /*case EVENT_WEARER_STATUS_CODE:
                     WearerStatusDao watchStatus = new Gson().fromJson(_eventData.getContent(), WearerStatusDao.class);
                     if (watchStatus != null) {
                         Timber.e("watchStatus : " + watchStatus.getWatchOff());
@@ -547,7 +543,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                         else CombineObjectConstance.getInstance().setWatchAlarm(false);
                         view.onUpdateWearerStatus();
                     }
-                    break;
+                    break;*/
                 case EVENT_REFRESH_LOCATION_CODE:
                     // TODO REQUEST NEW LOCATION
                     /*LocationIntentService.isRefreshLocation = false;
@@ -710,18 +706,6 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
             for (AlarmModel item : alarmList)
                 mDbAdapter.saveAlarm(new AlarmItem().setUpData(item));
             mDbAdapter.close();
-        } catch (Exception ignore) {
-        }
-    }
-
-    @Override
-    public void updateFCMTokenManager(String fcmToken) {
-        try {
-            SettingPrefModel setting = iSettingManager.getSetting();
-            if (setting != null) {
-                setting.setFCMToken(fcmToken);
-                iSettingManager.addMiniSetting(setting);
-            }
         } catch (Exception ignore) {
         }
     }

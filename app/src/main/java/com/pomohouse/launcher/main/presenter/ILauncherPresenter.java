@@ -69,8 +69,6 @@ public interface ILauncherPresenter extends IBaseRequestStatePresenter {
 
     void updateScheduler(ArrayList<AlarmModel> alarmModelList);
 
-    void updateFCMTokenManager(String fcmToken);
-
     void onStart();
 
     void onStop();

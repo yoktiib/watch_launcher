@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.pomohouse.launcher.POMOWatchApplication;
+import com.pomohouse.launcher.activity.pincode.PinCodeActivity;
 import com.pomohouse.launcher.content_provider.POMOContract;
 import com.pomohouse.launcher.fragment.about.presenter.OnPinCodeListener;
 import com.pomohouse.launcher.fragment.about.presenter.OnQRCodeListener;
@@ -111,6 +112,13 @@ public class TCPSocketServiceProvider extends Service {
         if (mSocket != null && mSocket.isConnecting()) {
             if (mSocket.getMObservable() instanceof SocketObservable)
                 ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(INTERVAL_INITIAL_RETRY, isDelayUp = false);
+        }
+    }
+
+    public void screenOn(int time) {
+        if (mSocket != null && mSocket.isConnecting()) {
+            if (mSocket.getMObservable() instanceof SocketObservable)
+                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(time, isDelayUp = false);
         }
     }
 
@@ -335,6 +343,12 @@ public class TCPSocketServiceProvider extends Service {
                 if (QRCodeModel.getResCode() == 0)
                     onQRCodeListener.onQRCodeSuccess(network, QRCodeModel.getData());
                 else onQRCodeListener.onQRCodeFailure(network);
+            } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_PIN_CODE)) {
+                Log.e(TAG, "TCPMessengerModel.CMD_PIN_CODE");
+                PinCodeModel pinCode = new GsonBuilder().create().fromJson(messengerModel.getData(), PinCodeModel.class);
+                Intent intent = new Intent(AppContextor.getInstance().getContext(), PinCodeActivity.class);
+                intent.putExtra(PinCodeActivity.EXTRA_PIN_CODE, pinCode.getCode());
+                AppContextor.getInstance().getContext().startActivity(intent);
             }
             /* else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_LOCATION_UPDATE)) {
 
@@ -347,65 +361,64 @@ public class TCPSocketServiceProvider extends Service {
                 else tcpCallbackListener.onCallEventFailure(netwo*//*rk);
 
             } */
-            else {
+            else{
 
-                Log.e(TAG, "Else TCPMessengerModel." + messengerModel.getCMD());
-                new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(AppContextor.getInstance().getContext(), "Else TCPMessengerModel." + messengerModel.getCMD(), Toast.LENGTH_SHORT).show());
+                    Log.e(TAG, "Else TCPMessengerModel." + messengerModel.getCMD());
+                    new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(AppContextor.getInstance().getContext(), "Else TCPMessengerModel." + messengerModel.getCMD(), Toast.LENGTH_SHORT).show());
 
-            }
-        } catch (Exception ignore) {
-            Log.e(TAG, "Error ClassifyMessage : " + ignore.getLocalizedMessage());
-        }
-    }
-
-    public void onConvertEventAndSetting(String data) {
-        if (data != null && !data.isEmpty()) {
-            try {
-                EventDataInfo dataEvent = new Gson().fromJson(data, EventDataInfo.class);
-                if (dataEvent != null) {
-                    IEventPrefManager iEventPrefManager = new EventPrefManagerImpl(this);
-                    EventPrefModel eventPrefModel = iEventPrefManager.getEvent();
-                    if (eventPrefModel != null) {
-                        eventPrefModel.getListEvent().add(String.valueOf(dataEvent.getEventId()));
-                        iEventPrefManager.addEvent(eventPrefModel);
-                    }
-                    Timber.e("Parser Okay");
-                    final Intent intent = new Intent(SEND_EVENT_UPDATE_INTENT, null);
-                    MetaDataNetwork network = new MetaDataNetwork(0, "", MetaDataNetwork.MetaType.SUCCESS);
-                    intent.putExtra(EVENT_STATUS_EXTRA, network);
-                    intent.putExtra(EVENT_EXTRA, dataEvent);
-                    sendBroadcast(intent);
-                    insertEventContentProvider(dataEvent);
-                } else {
-                    Timber.e("Message data Event : Error Null");
                 }
-            } catch (Exception ignore) {
-                Timber.e("Exception : " + ignore.toString());
+            } catch(Exception ignore){
+                Log.e(TAG, "Error ClassifyMessage : " + ignore.getLocalizedMessage());
             }
         }
-    }
 
-    void insertEventContentProvider(EventDataInfo event) {
-        if (AppContextor.getInstance().getContext() != null) {
-            ContentValues values = new ContentValues();
-            values.put(POMOContract.EventEntry.EVENT_ID, event.getEventId());
-            values.put(POMOContract.EventEntry.EVENT_CODE, event.getEventCode());
-            values.put(POMOContract.EventEntry.EVENT_TYPE, event.getEventType());
-            values.put(POMOContract.EventEntry.SENDER, event.getSenderId());
-            values.put(POMOContract.EventEntry.RECEIVE, event.getReceiveId());
-            values.put(POMOContract.EventEntry.SENDER_INFO, event.getSenderInfo());
-            values.put(POMOContract.EventEntry.RECEIVE_INFO, event.getReceiverInfo());
-            values.put(POMOContract.EventEntry.CONTENT, event.getContent());
-            values.put(POMOContract.EventEntry.STATUS, event.getStatus());
-            values.put(POMOContract.EventEntry.TIME_STAMP, event.getTimeStamp());
-            AppContextor.getInstance().getContext().getContentResolver().insert(POMOContract.EventEntry.CONTENT_URI, values);
+        public void onConvertEventAndSetting (String data){
+            if (data != null && !data.isEmpty()) {
+                try {
+                    EventDataInfo dataEvent = new Gson().fromJson(data, EventDataInfo.class);
+                    if (dataEvent != null) {
+                        IEventPrefManager iEventPrefManager = new EventPrefManagerImpl(this);
+                        EventPrefModel eventPrefModel = iEventPrefManager.getEvent();
+                        if (eventPrefModel != null) {
+                            eventPrefModel.getListEvent().add(String.valueOf(dataEvent.getEventId()));
+                            iEventPrefManager.addEvent(eventPrefModel);
+                        }
+                        Timber.e("Parser Okay");
+                        final Intent intent = new Intent(SEND_EVENT_UPDATE_INTENT, null);
+                        MetaDataNetwork network = new MetaDataNetwork(0, "", MetaDataNetwork.MetaType.SUCCESS);
+                        intent.putExtra(EVENT_STATUS_EXTRA, network);
+                        intent.putExtra(EVENT_EXTRA, dataEvent);
+                        sendBroadcast(intent);
+                        insertEventContentProvider(dataEvent);
+                    } else {
+                        Timber.e("Message data Event : Error Null");
+                    }
+                } catch (Exception ignore) {
+                    Timber.e("Exception : " + ignore.toString());
+                }
+            }
+        }
+
+        void insertEventContentProvider (EventDataInfo event){
+            if (AppContextor.getInstance().getContext() != null) {
+                ContentValues values = new ContentValues();
+                values.put(POMOContract.EventEntry.EVENT_ID, event.getEventId());
+                values.put(POMOContract.EventEntry.EVENT_CODE, event.getEventCode());
+                values.put(POMOContract.EventEntry.EVENT_TYPE, event.getEventType());
+                values.put(POMOContract.EventEntry.SENDER, event.getSenderId());
+                values.put(POMOContract.EventEntry.RECEIVE, event.getReceiveId());
+                values.put(POMOContract.EventEntry.SENDER_INFO, event.getSenderInfo());
+                values.put(POMOContract.EventEntry.RECEIVE_INFO, event.getReceiverInfo());
+                values.put(POMOContract.EventEntry.CONTENT, event.getContent());
+                values.put(POMOContract.EventEntry.STATUS, event.getStatus());
+                values.put(POMOContract.EventEntry.TIME_STAMP, event.getTimeStamp());
+                AppContextor.getInstance().getContext().getContentResolver().insert(POMOContract.EventEntry.CONTENT_URI, values);
+            }
+        }
+
+        @Override public void onDestroy () {
+            super.onDestroy();
+            disconnectConnection();
+            if (ref != null) ref.dispose();
         }
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        disconnectConnection();
-        if (ref != null) ref.dispose();
-    }
-}

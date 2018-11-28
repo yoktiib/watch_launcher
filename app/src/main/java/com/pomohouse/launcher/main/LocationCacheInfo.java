@@ -1,3 +1,4 @@
+/*
 package com.pomohouse.launcher.main;
 
 import android.location.Location;
@@ -5,9 +6,11 @@ import android.net.wifi.ScanResult;
 
 import java.util.List;
 
+*/
 /**
  * Created by yangyu on 2018/5/25.
- */
+ *//*
+
 public class LocationCacheInfo implements Cloneable {
     Location location;
     List<ScanResult> wifiScanResult;
@@ -43,3 +46,4 @@ public class LocationCacheInfo implements Cloneable {
         return super.clone();
     }
 }
+*/

@@ -140,6 +140,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
             else
                 this.checkLocationAvailable();
         }*/
+
         startService(new Intent(this, LocationService.class));
         //TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_LOCATION_UPDATE, "{}");
     }
@@ -147,7 +148,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     @Override
     public void stopLocation() {
         //TODO Location End
-
+        stopService(new Intent(this, LocationService.class));
     }
 
     @Override
@@ -181,7 +182,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     }
 
     private final int MY_PERMISSIONS = 1010;
-    String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO,Manifest.permission.READ_PHONE_STATE,Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_SETTINGS, Manifest.permission.MODIFY_AUDIO_SETTINGS, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CALL_PHONE, Manifest.permission.PROCESS_OUTGOING_CALLS, Manifest.permission.WRITE_CONTACTS, Manifest.permission.WAKE_LOCK, Manifest.permission.SET_TIME_ZONE};
+    String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_SETTINGS, Manifest.permission.MODIFY_AUDIO_SETTINGS, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CALL_PHONE, Manifest.permission.PROCESS_OUTGOING_CALLS, Manifest.permission.WRITE_CONTACTS, Manifest.permission.WAKE_LOCK, Manifest.permission.SET_TIME_ZONE};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -437,25 +438,16 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
                 sleepTimeManager.addSleepTime(data.getSleepMode());
             if (data.getAlarmModelList() != null)
                 presenter.updateScheduler(data.getAlarmModelList());
-            if (data.getThemeModelList() != null) {
-                Timber.i("init device theme size---" + data.getThemeModelList().size());
-                if (data.getThemeModelList().size() == 0) {
-                    hideRilakkumaTheme();
-                }
-            } else if (data.getThemeModelList() == null) {
-                Timber.i("init device theme ---" + data.getThemeModelList());
-                hideRilakkumaTheme();
-            }
             if (settingManager != null && data.getDeviceSetUp() != null) {
                 DeviceSetUpDao deviceSetUp = data.getDeviceSetUp();
                 SettingPrefModel setting = settingManager.getSetting();
                 setting.setSilentMode(data.getDeviceSetUp().getSilentMode().equalsIgnoreCase("Y"));
-                setting.setTimeZone(deviceSetUp.getTimeZone());
+                //setting.setTimeZone(deviceSetUp.getTimeZone());
                 setting.setPositionTiming(deviceSetUp.getPositionTiming());
-                setting.setWearerStatus(deviceSetUp.getWearerStatus().equalsIgnoreCase("Y"));
-                setting.setAutoAnswer(deviceSetUp.getAutoAnswer().equalsIgnoreCase("Y"));
-                setting.setAutoTimezone(deviceSetUp.getAutoTimezone().equalsIgnoreCase("Y"));
-                setting.setScreenOffTimer(deviceSetUp.getBrightnessTimeOut());
+                //setting.setWearerStatus(deviceSetUp.getWearerStatus().equalsIgnoreCase("Y"));
+                //setting.setAutoAnswer(deviceSetUp.getAutoAnswer().equalsIgnoreCase("Y"));
+                //setting.setAutoTimezone(deviceSetUp.getAutoTimezone().equalsIgnoreCase("Y"));
+                //setting.setScreenOffTimer(deviceSetUp.getBrightnessTimeOut());
                 setting.setLang(deviceSetUp.getLang());
                 settingManager.addMiniSetting(setting);
             }
@@ -463,18 +455,6 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
             super.configurationChanged();
         } catch (Exception ignore) {
         }
-    }
-
-
-    private void hideRilakkumaTheme() {
-        if (themeManager.getCurrentTheme().getPosition() > themeManager.getDataTheme().size()) {
-            ThemePrefModel theme = themeManager.getDataTheme().get(0).setChanged(true);
-            themeManager.addCurrentTheme(theme);
-            themeManager.getCurrentTheme().setChanged(true);
-        }
-        pagerAdapter.getMainFragment().checkThemeChange();
-        presenter.addNewWatchFaceToSetting(this, false);
-
     }
 
     private void onEventReceived(EventDataInfo eventDataInfo) {
@@ -788,10 +768,10 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
     @Override
     public void onAlarmEventReceived() {
-       /* Timber.e("onAlarmEventReceived Change");
+        Timber.e("onAlarmEventReceived Change");
         Intent i = new Intent(this, AalService.class);
         i.setAction(AalService.ACTION_SET_SILENT_ALARM);
-        startService(i);*/
+        startService(i);
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import com.pomohouse.launcher.R;
 import com.pomohouse.launcher.base.BaseActivity;
 import com.pomohouse.component.viewpagerindicator.CirclePageIndicator;
+import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 
 import java.util.List;
 
@@ -27,8 +28,9 @@ public class AboutActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        TCPSocketServiceProvider.getInstance().screenOn(3000);
         adapter = new MyPageAdapter(getSupportFragmentManager());
-        pager =  findViewById(R.id.pager);
+        pager = findViewById(R.id.pager);
         pager.setAdapter(adapter);
         indicator = findViewById(R.id.indicator);
         indicator.setViewPager(pager);
@@ -53,5 +55,11 @@ public class AboutActivity extends BaseActivity {
     @Override
     protected List<Object> getModules() {
         return null;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TCPSocketServiceProvider.getInstance().screenOn();
     }
 }

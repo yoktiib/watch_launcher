@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import com.pomohouse.launcher.R;
 import com.pomohouse.launcher.base.BaseActivity;
 import com.pomohouse.launcher.fragment.settings.SettingFragment;
+import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 
 import java.util.List;
 
@@ -35,9 +36,7 @@ public class SettingActivity extends BaseActivity {
 
     private void initInstances(Bundle savedInstanceState, @NonNull Fragment main) {
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, main, main.getClass().getName())
-                    .commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, main, main.getClass().getName()).commit();
         }
     }
 

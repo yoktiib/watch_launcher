@@ -40,6 +40,7 @@ public class LocationService extends Service {
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = null;
     private SensorManager mSensorManager;
+    private ISettingManager iSettingManager;
     private final String TAG = LocationService.class.getName();
 
     public class LocalBinder extends Binder {
@@ -62,10 +63,9 @@ public class LocationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        /*if (isInstanceCreated()) {
-            return START_STICKY_COMPATIBILITY;
-        }*/
         super.onStartCommand(intent, flags, startId);
+        iSettingManager = new SettingPrefManager(this);
+        iFitnessPrefManager = new FitnessPrefManagerImpl(this);
         initLocation();
         return START_STICKY;
     }
@@ -73,20 +73,15 @@ public class LocationService extends Service {
     public static boolean isLocationUpdate = true;
 
     private void initLocation() {
-        iSettingManager = new SettingPrefManager(this);
-        iFitnessPrefManager = new FitnessPrefManagerImpl(this);
-        final Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            locationClient = new AMapLocationClient(getApplicationContext());
-            locationOption = getDefaultOption();
-            //设置定位参数
-            locationClient.setLocationOption(locationOption);
-            // 设置定位监听
-            locationClient.setLocationListener(locationListener);
-            locationClient.startLocation();
-
-        }, 3*60*1000);
+        locationClient = new AMapLocationClient(getApplicationContext());
+        locationOption = getDefaultOption();
+        //设置定位参数
+        locationClient.setLocationOption(locationOption);
+        // 设置定位监听
+        locationClient.setLocationListener(locationListener);
+        locationClient.startLocation();
     }
+
 
     private AMapLocationClientOption getDefaultOption() {
 
@@ -117,54 +112,13 @@ public class LocationService extends Service {
             locationData.setLng(location.getLongitude());
             locationData.setLocationType(location.getLocationType());
             requestEventInterval(locationData);
-            initLocation();
-            //TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_LOCATION_UPDATE,"");
-          /*  StringBuffer sb = new StringBuffer();
-            //errCode等于0代表定位成功，其他的为定位失败，具体的可以参照官网定位错误码说明
-            if (location.getErrorCode() == 0) {
-                sb.append("定位成功" + "\n");
-                sb.append("定位类型: " + location.getLocationType() + "\n");
-                sb.append("经    度    : " + location.getLongitude() + "\n");
-                sb.append("纬    度    : " + location.getLatitude() + "\n");
-                sb.append("精    度    : " + location.getAccuracy() + "米" + "\n");
-                sb.append("提供者    : " + location.getProvider() + "\n");
-
-                sb.append("速    度    : " + location.getSpeed() + "米/秒" + "\n");
-                sb.append("角    度    : " + location.getBearing() + "\n");
-                // 获取当前提供定位服务的卫星个数
-                sb.append("星    数    : " + location.getSatellites() + "\n");
-                sb.append("国    家    : " + location.getCountry() + "\n");
-                sb.append("省            : " + location.getProvince() + "\n");
-                sb.append("市            : " + location.getCity() + "\n");
-                sb.append("城市编码 : " + location.getCityCode() + "\n");
-                sb.append("区            : " + location.getDistrict() + "\n");
-                sb.append("区域 码   : " + location.getAdCode() + "\n");
-                sb.append("地    址    : " + location.getAddress() + "\n");
-                sb.append("地    址    : " + location.getDescription() + "\n");
-                sb.append("兴趣点    : " + location.getPoiName() + "\n");
-                //定位完成的时间
-           //     sb.append("定位时间: " + Utils.formatUTC(location.getTime(), "yyyy-MM-dd HH:mm:ss") + "\n");
-            } else {
-                //定位失败
-                sb.append("定位失败" + "\n");
-                sb.append("错误码:" + location.getErrorCode() + "\n");
-                sb.append("错误信息:" + location.getErrorInfo() + "\n");
-                sb.append("错误描述:" + location.getLocationDetail() + "\n");
+            if (locationClient != null) {
+                locationClient.stopLocation();
+                locationClient.disableBackgroundLocation(true);
+                locationClient = null;
             }
-            sb.append("***定位质量报告***").append("\n");
-            sb.append("* WIFI开关：").append(location.getLocationQualityReport().isWifiAble() ? "开启" : "关闭").append("\n");
-            sb.append("* GPS状态：").append(getGPSStatusString(location.getLocationQualityReport().getGPSStatus())).append("\n");
-            sb.append("* GPS星数：").append(location.getLocationQualityReport().getGPSSatellites()).append("\n");
-            sb.append("****************").append("\n");
-            //定位之后的回调时间
-          //  sb.append("回调时间: " + Utils.formatUTC(System.currentTimeMillis(), "yyyy-MM-dd HH:mm:ss") + "\n");
-
-            //解析定位结果，
-            String result = sb.toString();*/
-            //tvResult.setText(result);
-        } /*else {
-            tvResult.setText("定位失败，loc is null");
-        }*/
+            new Handler().postDelayed(this::initLocation, iSettingManager.getSetting().getPositionTiming() * 1000);
+        }
     };
 
     /**
@@ -178,7 +132,6 @@ public class LocationService extends Service {
      */
     private long mLastStepTime = 0;
     private long mLastLocationTime = 0;
-    private ISettingManager iSettingManager;
     private IFitnessPrefManager iFitnessPrefManager;
 
     private void requestEventInterval(LocationUpdateRequest locationInfo) {
@@ -187,14 +140,14 @@ public class LocationService extends Service {
         Timber.e((now - mLastLocationTime) + " : " + (iSettingManager.getSetting().getPositionTiming() - 60) * 1000);
         /*if (now - mLastLocationTime < ((iSettingManager.getSetting().getPositionTiming() - 60) * 1000) && mLastLocationTime != 0)
             return;*/
-        /*if (now - mLastStepTime < (iSettingManager.getSetting().getStepSyncTiming() * 1000)) {
+        if (now - mLastStepTime < (iSettingManager.getSetting().getStepSyncTiming() * 1000)) {
             Timber.e("ignoring STEP_PERIOD until period has elapsed");
             if (locationInfo != null) {
                 locationInfo.setPower(getPowerLevel());
                 TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_LOCATION_UPDATE, new Gson().toJson(locationInfo));
                 mLastLocationTime = now;
             }
-        } else {*/
+        } else {
             Timber.e("updateFitnessService");
             updateFitnessService();
             new Handler().postDelayed(() -> {
@@ -207,7 +160,7 @@ public class LocationService extends Service {
                     mLastLocationTime = now;
                 }
             }, 5000);
-        /*}*/
+        }
     }
 
     private SensorEventListener sensorEventListener = new SensorEventListener() {

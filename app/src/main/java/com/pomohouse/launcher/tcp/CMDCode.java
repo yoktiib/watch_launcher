@@ -10,12 +10,12 @@ public class CMDCode {
     public static final String CMD_ACCIDENT = "IAC";
     public static final String CMD_SOS = "ISS";
     public static final String CMD_SHUTDOWN = "USD";
+    public static final String CMD_PIN_CODE = "QPC";
     public static final String CMD_RESTART = "URT";
     public static final String CMD_TIME_ZONE = "UTZ";
     public static final String CMD_FITNESS = "IFN";
     public static final String CMD_LOCATION_UPDATE = "ILU";
     public static final String CMD_EVENT_AND_SETTING_UPDATE = "UST";
-
 
    /* Here are the CMD for now.
             init device = QID
