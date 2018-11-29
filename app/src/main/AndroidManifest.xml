@@ -16,6 +16,11 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
@@ -51,11 +56,11 @@
     <application
         android:name=".POMOWatchApplication"
         android:allowBackup="true"
-        tools:replace="android:theme"
         android:clearTaskOnLaunch="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:theme">
         <activity
             android:name=".main.LauncherActivity"
             android:excludeFromRecents="true"
@@ -86,7 +91,6 @@
             android:name=".activity.getstarted.GetStartActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".activity.settings.network.NetworkActivity" />
-        <activity android:name=".activity.camera.CameraActivity" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -115,18 +119,21 @@
         <receiver android:name=".broadcast.alarm.receiver.BootReceiver" />
         <service android:name=".broadcast.alarm.receiver.AalService" />-->
 
+        <activity android:name=".activity.camera.AndroidCameraApi" />
+        <activity android:name=".activity.camera.CameraPreviewActivity" />
+
         <service
             android:name=".tcp.TCPSocketServiceProvider"
-            android:enabled="true"
-            tools:replace="android:enabled" />
+            android:enabled="true" />
+
         <service
             android:name=".main.LocationService"
-            android:enabled="true"
-            tools:replace="android:enabled" />
+            android:enabled="true" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="465faab0eb9caa30daa27e31f05b0c59" />
+
     </application>
 
 </manifest>

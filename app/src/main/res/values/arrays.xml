@@ -60,7 +60,7 @@
 
     <string-array name="mainMenuPackageArr" translatable="false">
         <!--<item>com.pomohouse.bff</item>-->
-        <item>com.pomohouse.launcher.activity.camera.CameraActivity</item>
+        <item>com.pomohouse.launcher.activity.camera.AndroidCameraApi</item>
         <item>com.pomohouse.message</item>
         <!--<item>com.pomohouse.groupchat</item>
         <item>com.pomohouse.translate</item>

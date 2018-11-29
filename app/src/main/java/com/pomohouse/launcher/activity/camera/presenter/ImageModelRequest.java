@@ -7,13 +7,13 @@ import java.io.File;
 
 public class ImageModelRequest extends ImeiRequest {
 
-    private byte[] image;
+    private File image;
 
-    public byte[] getImage() {
+    public File getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(File image) {
         this.image = image;
     }
 }

@@ -154,7 +154,6 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
                 dataOnIntent.putExtra("status", "on");
                 if (getActivity() != null) getActivity().sendBroadcast(dataOnIntent);
             }
-            //onCheckGetStart();
         }
     };
 
@@ -191,38 +190,40 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
     @Override
     public void onResume() {
         super.onResume();
-        checkThemeChange();
-        presenter.onBatteryLevelInfo(getContext());
-        context.registerReceiver(simStateReceiver, new IntentFilter(ACTION_SIM_STATE_CHANGED));
-        networkDisposable = ReactiveNetwork.observeNetworkConnectivity(getActivity()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(connectivity -> {
-            Log.d(TAG, connectivity.toString());
-            final NetworkInfo.State state = connectivity.state();
-           // final String name = connectivity.typeName();
-            //tvConnectivityStatus.setText(String.format("state: %s, typeName: %s", state, name));
-            try {
+        try {
+            checkThemeChange();
+            presenter.onBatteryLevelInfo(getContext());
+            context.registerReceiver(simStateReceiver, new IntentFilter(ACTION_SIM_STATE_CHANGED));
+
+            networkDisposable = ReactiveNetwork.observeNetworkConnectivity(getActivity()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(connectivity -> {
+                Log.d(TAG, connectivity.toString());
+                final NetworkInfo.State state = connectivity.state();
+                // final String name = connectivity.typeName();
+                //tvConnectivityStatus.setText(String.format("state: %s, typeName: %s", state, name));
+
                 if (connectivity.typeName().equalsIgnoreCase("WIFI")) {
                     ivInternetType.setVisibility(View.VISIBLE);
                     Timber.e("connectedWiFiAvailable");
                     setImageFromResource(R.drawable.signal_wifi_network, ivInternetType);
                     sendInternetAvailable(true);
-                }else if(connectivity.typeName().equalsIgnoreCase("MOBILE")){
+                } else if (connectivity.typeName().equalsIgnoreCase("MOBILE")) {
                     ivInternetType.setVisibility(View.VISIBLE);
                     Timber.e("connectedMobileNetwork");
                     setImageFromResource(R.drawable.signal_3g_network, ivInternetType);
                     sendInternetAvailable(true);
-                }else{
+                } else {
                     Timber.e("Network - Connection GONE");
                     ivInternetType.setVisibility(View.GONE);
                     sendInternetAvailable(false);
                 }
-            } catch (Exception ignored) {
 
-            }
-        });
+            });
+            internetDisposable = ReactiveNetwork.observeInternetConnectivity().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(isConnected -> {
 
-        internetDisposable = ReactiveNetwork.observeInternetConnectivity().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(isConnected -> {
+            });
+        } catch (Exception ignored) {
 
-        });
+        }
     }
 
     private static final String TAG = "ReactiveNetwork";

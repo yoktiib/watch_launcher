@@ -25,15 +25,15 @@ public class CameraPresenter implements ICameraPresenter {
     }
 
     @Override
-    public void onSendPictureToStore(OnUploadImageListener listener, ImageModelRequest img) {
+    public void onSendPictureToStore( ImageModelRequest img) {
 
         Map<String, RequestBody> map = new HashMap<>();
         map.put("imei", RequestBody.create(MediaType.parse("text/plain"), String.valueOf(img.getImei())));
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), img.getImage());
         MultipartBody.Part body = MultipartBody.Part.createFormData("image", "image.jpg", requestFile);
         service = ServiceApiGenerator.getInstance().createService(WatchService.class);
-        Observable<ResultGenerator> addWatchService = service.callImageService(map, body).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
-        addWatchService.subscribe(new Observer<ResultGenerator>() {
+        Observable<ResultGenerator<UploadModel>> addWatchService = service.callImageService(map, body).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread());
+        addWatchService.subscribe(new Observer<ResultGenerator<UploadModel>>() {
             @Override
             public void onCompleted() {
 
@@ -41,13 +41,13 @@ public class CameraPresenter implements ICameraPresenter {
 
             @Override
             public void onError(Throwable e) {
-                listener.onUploadImageFailure();
+                cameraView.onFailureUploadPicture();
 
             }
 
             @Override
-            public void onNext(ResultGenerator familyModel) {
-                listener.onUploadImageSuccess();
+            public void onNext(ResultGenerator<UploadModel> image) {
+                cameraView.onSuccessUploadPicture();
             }
         });
     }

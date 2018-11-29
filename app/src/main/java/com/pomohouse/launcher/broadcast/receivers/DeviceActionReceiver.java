@@ -9,6 +9,7 @@ import com.pomohouse.launcher.broadcast.callback.DevicePowerListener;
 import com.pomohouse.launcher.broadcast.callback.DeviceStatusListener;
 import com.pomohouse.launcher.broadcast.callback.ScreenOnListener;
 import com.pomohouse.launcher.broadcast.callback.TimeTickChangedListener;
+import com.pomohouse.launcher.broadcast.sensor.SensorService;
 import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 
 import timber.log.Timber;
@@ -126,6 +127,9 @@ public class DeviceActionReceiver extends BaseBroadcast {
                     case Intent.ACTION_TIME_CHANGED:
                         sendToLauncherListener(intent);
                         break;
+                    /*case INTENT.TCP:
+                        context.startService(new Intent(context, TCPSocketServiceProvider.class));
+                        break;*/
 /*
                 sendToLauncherListener(intent);
                 //onRunLockScreen(context);

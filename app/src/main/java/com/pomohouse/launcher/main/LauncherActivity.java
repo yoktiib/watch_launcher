@@ -77,6 +77,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
+import butterknife.ButterKnife;
 import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -190,6 +191,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         super.onSetNotificationManager(notificationManager);
         super.onSetSettingManager(settingManager);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         WearerInfoUtils.getInstance().initWearerInfoUtils(this);
         // startService(new Intent(getBaseContext(), TCPSocketServiceProvider.class));
         doBindService();
@@ -232,6 +234,47 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         SharedPreferences testPrefs = getSharedPreferences
                 ("test_prefs", Context.MODE_WORLD_READABLE);*/
 
+        viewPager.setAdapter(pagerAdapter = new LauncherHorizontalPagerAdapter(getSupportFragmentManager()));
+        viewPager.setCurrentItem(1);
+
+        DeviceActionReceiver.getInstance().setLauncherTimeTickChangedListener(timeTickChangedListener);
+        AlarmReceiver.getInstance().initAlarmListener(alarmListener);
+        EventReceiver.getInstance().initEventLauncherListener(this::onEventReceived);
+
+        presenter.onInitial(this);
+        contactPresenter.onInitial(this);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    if (pagerAdapter.getContactFragment() != null)
+                        pagerAdapter.getContactFragment().notifyDataChangeMissCall();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (!android.provider.Settings.System.canWrite(this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivity(intent);
+            }
+            if (!hasPermissions(this, PERMISSIONS)) {
+                ActivityCompat.requestPermissions(this, PERMISSIONS, MY_PERMISSIONS);
+            } else {
+                presenter.requestInitialDevice();
+            }
+        } else {
+            presenter.requestInitialDevice();
+        }
     }
 
     private boolean mIsBound;
@@ -281,53 +324,6 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
                 }
             });*/
         // }
-    }
-
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-        viewPager.setAdapter(pagerAdapter = new LauncherHorizontalPagerAdapter(getSupportFragmentManager()));
-        viewPager.setCurrentItem(1);
-
-        DeviceActionReceiver.getInstance().setLauncherTimeTickChangedListener(timeTickChangedListener);
-        AlarmReceiver.getInstance().initAlarmListener(alarmListener);
-        EventReceiver.getInstance().initEventLauncherListener(this::onEventReceived);
-
-        presenter.onInitial(this);
-        contactPresenter.onInitial(this);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 0) {
-                    if (pagerAdapter.getContactFragment() != null)
-                        pagerAdapter.getContactFragment().notifyDataChangeMissCall();
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            if (!android.provider.Settings.System.canWrite(this)) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                startActivity(intent);
-            }
-            if (!hasPermissions(this, PERMISSIONS)) {
-                ActivityCompat.requestPermissions(this, PERMISSIONS, MY_PERMISSIONS);
-            } else {
-                presenter.requestInitialDevice();
-            }
-        } else {
-            presenter.requestInitialDevice();
-        }
     }
 
     public boolean hasPermissions(Context context, String... permissions) {

@@ -153,12 +153,6 @@ public abstract class BaseLauncherActivity extends LocalizationActivity {
         sendBroadcast(dataOnIntent);
     }
 
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
     public void onBrightnessChanged(int level) {
         float backLightValue;
         if (level == 1)

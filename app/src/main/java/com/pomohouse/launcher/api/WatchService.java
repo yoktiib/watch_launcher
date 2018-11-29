@@ -1,5 +1,6 @@
 package com.pomohouse.launcher.api;
 
+import com.pomohouse.launcher.activity.camera.presenter.UploadModel;
 import com.pomohouse.launcher.api.requests.ImeiRequest;
 import com.pomohouse.launcher.api.requests.InitDeviceRequest;
 import com.pomohouse.launcher.api.requests.LocationUpdateRequest;
@@ -67,7 +68,7 @@ public interface WatchService {
 
     @Multipart
     @POST("gallery/uploadPhoto")
-    Observable<ResultGenerator> callImageService(@PartMap Map<String, RequestBody> param, @Part MultipartBody.Part file);
+    Observable<ResultGenerator<UploadModel>> callImageService(@PartMap Map<String, RequestBody> param, @Part MultipartBody.Part file);
 
     @POST("location/updateLocation")
     Observable<ResponseDao> callUpdateLocation(@Body RefreshLocationRequest locationInfo);
