@@ -31,7 +31,8 @@ import android.support.v4.app.NotificationCompat;
 import com.pomohouse.launcher.api.requests.ImeiRequest;
 import com.pomohouse.launcher.api.requests.WearerStatusRequest;
 import com.pomohouse.launcher.broadcast.BaseBroadcast;
-import com.pomohouse.launcher.broadcast.sensor.listener.LightSensorListener;
+import com.pomohouse.launcher.broadcast.sensor.interactor.SensorInteractorImpl;
+import com.pomohouse.launcher.broadcast.sensor.interactor.listener.LightSensorListener;
 import com.pomohouse.launcher.broadcast.sensor.presenter.ISensorPresenter;
 import com.pomohouse.launcher.broadcast.sensor.presenter.SensorPresenterImpl;
 import com.pomohouse.launcher.utils.CombineObjectConstance;
@@ -83,7 +84,7 @@ public class SensorService extends Service {
     public void onCreate() {
         super.onCreate();
         Timber.e("Start Sensor");
-        presenter = new SensorPresenterImpl();
+        presenter = new SensorPresenterImpl(new SensorInteractorImpl());
         // Start detecting
         mSensorDetector = new SensorDetector(this);
         mSensorDetector.setLightSensorListener(new LightSensorListener() {
@@ -91,7 +92,7 @@ public class SensorService extends Service {
             public void onWatchOff() {
                 if (!CombineObjectConstance.getInstance().isWatchAlarm()) return;
                 WearerStatusRequest wearerStatusRequest = new WearerStatusRequest();
-               // wearerStatusRequest.setImei(WearerInfoUtils.getInstance().getImei());
+                wearerStatusRequest.setImei(WearerInfoUtils.getInstance().getImei(getApplicationContext()));
                 wearerStatusRequest.setWearerStatus("N");
                 presenter.requestWearerStatus(wearerStatusRequest);
             }
@@ -100,12 +101,12 @@ public class SensorService extends Service {
             public void onWatchOn() {
                 if (!CombineObjectConstance.getInstance().isWatchAlarm()) return;
                 WearerStatusRequest wearerStatusRequest = new WearerStatusRequest();
-                //wearerStatusRequest.setImei(WearerInfoUtils.getInstance().getImei());
+                wearerStatusRequest.setImei(WearerInfoUtils.getInstance().getImei(getApplicationContext()));
                 wearerStatusRequest.setWearerStatus("Y");
                 presenter.requestWearerStatus(wearerStatusRequest);
             }
         });
-        mSensorDetector.setFallSensorListener(() -> presenter.requestFallService());
+        mSensorDetector.setFallSensorListener(() -> presenter.requestFallService(new ImeiRequest(WearerInfoUtils.getInstance().getImei(getApplicationContext()))));
         mSensorDetector.setTwistSensorListener(() -> {
             powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
             fullWakeLock = powerManager.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "Loneworker - FULL WAKE LOCK");

@@ -26,6 +26,7 @@ import com.pomohouse.launcher.di.ApplicationModule;
 import com.pomohouse.launcher.fragment.theme.IThemeFragmentView;
 import com.pomohouse.launcher.fragment.theme.ThemeAnalogFragment;
 import com.pomohouse.launcher.fragment.theme.ThemeDigitalFragment;
+import com.pomohouse.launcher.fragment.theme.interactor.IThemeFragmentInteractor;
 import com.pomohouse.launcher.fragment.theme.presenter.IThemeFragmentPresenter;
 import com.pomohouse.launcher.fragment.theme.presenter.ThemeFragmentPresenterImpl;
 import com.pomohouse.launcher.manager.notifications.INotificationManager;
@@ -57,8 +58,8 @@ public class ThemeFragmentPresenterModule {
 
     @Singleton
     @Provides
-    public IThemeFragmentPresenter providePresenter(IThemeFragmentView view) {
-        return new ThemeFragmentPresenterImpl(view);
+    public IThemeFragmentPresenter providePresenter(IThemeFragmentView view, IThemeFragmentInteractor interactor) {
+        return new ThemeFragmentPresenterImpl(view, interactor);
     }
 
     @Singleton

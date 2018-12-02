@@ -62,6 +62,7 @@ import com.pomohouse.launcher.manager.theme.ThemePrefModel;
 import com.pomohouse.launcher.models.DeviceInfoModel;
 import com.pomohouse.launcher.models.DeviceSetUpDao;
 import com.pomohouse.launcher.models.EventDataInfo;
+import com.pomohouse.launcher.models.settings.AutoAnswerDao;
 import com.pomohouse.launcher.models.settings.InClassDao;
 import com.pomohouse.launcher.tcp.OnTCPStatusListener;
 import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
@@ -84,6 +85,7 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_AUTO_ANSWER_CALL_INTENT;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_KILL_APP;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_EVENT_UPDATE_INTENT;
 import static com.pomohouse.launcher.broadcast.BaseBroadcast.SEND_IN_CLASS_INTENT;
@@ -137,16 +139,6 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     @Override
     public void startLocation() {
         //TODO Location Start
-        /*if (!isLocationStart && googleApiClient != null) {
-            Timber.e("Start googleApiClient");
-            if (!googleApiClient.isConnected())
-                googleApiClient.connect();
-            else
-                this.checkLocationAvailable();
-        }*/
-
-        //startService(new Intent(this, LocationService.class));
-        //TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_LOCATION_UPDATE, "{}");
         Intent locationBroadcast = new Intent(getApplicationContext(), LocationBroadcast.class);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, locationBroadcast, PendingIntent.FLAG_UPDATE_CURRENT);
         long startTime = System.currentTimeMillis(); //alarm starts immediately
@@ -166,7 +158,6 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     protected void onDestroy() {
         presenter.onDestroy();
         super.onDestroy();
-        //Disconnect Socket
     }
 
     @Override
@@ -204,21 +195,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         ButterKnife.bind(this);
         WearerInfoUtils.getInstance().initWearerInfoUtils(this);
         startService(new Intent(getBaseContext(), TCPSocketServiceProvider.class));
-        //doBindService();
-       /* TCPSocketServiceProvider.getInstance().setTCPStatusListener(new OnTCPStatusListener() {
-            @Override
-            public void onConnected() {
-                presenter.initDevice();
-                contactPresenter.requestContact(WearerInfoUtils.getInstance().getImei());
-            }
 
-            @Override
-            public void onDisconnected() {
-
-            }
-        });*/
-
-        this.startDefaultSetting();
         presenter.provideThemeManager(themeManager);
         presenter.provideEventManager(iEventPrefManager);
         presenter.provideSettingManager(settingManager);
@@ -273,56 +250,8 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         } else {
             presenter.requestInitialDevice();
         }
+        presenter.initDevice();
     }
-
-    private boolean mIsBound;
-/*
-    public TCPSocketServiceProvider mBoundService;
-    protected ServiceConnection socketConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mBoundService = ((TCPSocketServiceProvider.LocalBinder) service).getService();
-            mBoundService.IsBendable(new OnTCPStatusListener() {
-                @Override
-                public void onConnected() {
-                    presenter.requestInitialDevice();
-                    contactPresenter.requestContact(*//*WearerInfoUtils.getInstance().getImei(LauncherActivity.this)*//*);
-                }
-
-                @Override
-                public void onDisconnected() {
-
-                }
-            });
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mBoundService = null;
-        }
-    };*//*
-
-    private void doBindService() {
-        //if (mBoundService != null) {
-
-        Intent intent = new Intent(this, TCPSocketServiceProvider.class);
-        //startService(intent);
-        bindService(intent, socketConnection, Context.BIND_AUTO_CREATE);
-        mIsBound = true;
-        //mContext.startService(intent);
-            *//*POMOWatchApplication.mBoundService.IsBendable(new OnLauncherRequestListener() {
-                @Override
-                public void onInitial() {
-                    presenter.initDevice();
-                }
-
-                @Override
-                public void onContactRequest() {
-                    contactPresenter.requestContact(WearerInfoUtils.getInstance().getImei());
-                }
-            });*//*
-        // }
-    }*/
 
     public boolean hasPermissions(Context context, String... permissions) {
         if (context != null && permissions != null) {
@@ -381,36 +310,6 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         DeviceActionReceiver.getInstance().startDeviceActionReceiver(AppContextor.getInstance().getContext());
     }
 
-    private void startDefaultSetting() {
-        /*Intent gpsBatterySavingModeIntent = new Intent("com.pomohouse.waffle.REQUEST_GPS");
-        gpsBatterySavingModeIntent.putExtra("status", "battery_saving");
-        sendIntentToBroadcast(gpsBatterySavingModeIntent);*/
-        Intent gpsHighAccuracyModeIntent = new Intent("com.pomohouse.waffle.REQUEST_GPS");
-        gpsHighAccuracyModeIntent.putExtra("status", "high_accuracy");
-        sendBroadcast(gpsHighAccuracyModeIntent);
-        //for GPS on , there are three mode : default is high_accuracy mode
-        /*Intent gpsHighAccuracyModeIntent = new Intent("com.pomohouse.waffle.REQUEST_GPS");
-        gpsHighAccuracyModeIntent.putExtra("status","high_accuracy");
-
-        sendBroadcast(gpsHighAccuracyModeIntent);
-
-        Intent gpsBatterySavingModeIntent = new Intent("com.pomohouse.waffle.REQUEST_GPS");
-        gpsBatterySavingModeIntent.putExtra("status","battery_saving");
-
-        sendBroadcast(gpsBatterySavingModeIntent);
-
-        Intent gpsOnlyModeIntent = new Intent("com.pomohouse.waffle.REQUEST_GPS");
-        gpsOnlyModeIntent.putExtra("status","gps_only");
-
-        sendBroadcast(gpsOnlyModeIntent);
-
-        for
-        GPS off
-        Intent gpsOffIntent = new Intent("com.pomohouse.waffle.REQUEST_GPS");
-        gpsOffIntent.putExtra("status","off");
-        sendBroadcast(gpsOffIntent);*/
-    }
-
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -463,13 +362,8 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
 //        startRtcRepeatAlarm( this);
         sendBroadcast(new Intent(SEND_EVENT_KILL_APP));
-
-        /*new Handler().postDelayed(() -> {
-            Timber.e("SEND_EVENT_KILL_APP");
-            //Do something after 100ms
-            sendBroadcast(new Intent(SEND_EVENT_KILL_APP));
-        }, 3000);*/
     }
+
    /* private AlarmManager mAlarmManager;
     private Intent mAlarmIntent;
     private PendingIntent mPI;
@@ -498,7 +392,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
             }
             if (!CombineObjectConstance.getInstance().getContactEntity().isContactSynced()) {
                 Timber.e("Call Contact");
-                contactPresenter.requestContact(/*WearerInfoUtils.getInstance(this).getImei()*/);
+                contactPresenter.requestContact(WearerInfoUtils.getInstance().getImei(this));
             }
         } else {
             if (settingManager != null && settingManager.getSetting().isMobileData() && !isMobileDataConnect()) {
@@ -659,18 +553,18 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
     @Override
     public void onEventPairReceived(EventDataInfo eventData) {
-        contactPresenter.requestContact(/*WearerInfoUtils.getInstance().getImei()*/);
+        contactPresenter.requestContact(WearerInfoUtils.getInstance().getImei(this));
         startActivity(new Intent(this, EventAlertActivity.class).putExtra(EventAlertActivity.EVENT_EXTRA, eventData));
     }
 
     @Override
     public void onBestFriendForeverReceived(EventDataInfo eventData) {
-        contactPresenter.requestContact(/*WearerInfoUtils.getInstance(this).getImei()*/);
+        contactPresenter.requestContact(WearerInfoUtils.getInstance().getImei(this));
     }
 
     @Override
     public void onSyncContact(EventDataInfo eventData) {
-        contactPresenter.requestContact(/*WearerInfoUtils.getInstance(this).getImei()*/);
+        contactPresenter.requestContact(WearerInfoUtils.getInstance().getImei(this));
     }
 
     @Override
@@ -723,7 +617,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     /**
      * Auto answer : watch must answer call auto
      */
- /*   @Override
+    @Override
     public void enableAutoAnswer() {
         CombineObjectConstance.getInstance().setAutoAnswer(true);
         Settings.System.putInt(this.getContentResolver(), "AUTO_ANSWER_ON", 1);
@@ -742,7 +636,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         intent.putExtra(EVENT_EXTRA, new Gson().toJson(new AutoAnswerDao().setAutoAnswer("N")));
         sendBroadcast(intent);
         modifyVolumeChanged(settingManager.getSetting());
-    }*/
+    }
 
     /**
      * Update Watch off alarm : modify mode when have event put/off

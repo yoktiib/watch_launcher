@@ -25,6 +25,7 @@ import android.app.Application;
 import com.pomohouse.launcher.di.ApplicationModule;
 import com.pomohouse.launcher.fragment.main.IMainFragmentView;
 import com.pomohouse.launcher.fragment.main.MainFragment;
+import com.pomohouse.launcher.fragment.main.interactor.IMainFragmentInteractor;
 import com.pomohouse.launcher.fragment.main.presenter.IMainFragmentPresenter;
 import com.pomohouse.launcher.fragment.main.presenter.MainFragmentPresenterImpl;
 import com.pomohouse.launcher.manager.settings.ISettingManager;
@@ -71,8 +72,8 @@ public class MainFragmentPresenterModule {
 
     @Singleton
     @Provides
-    public IMainFragmentPresenter providePresenter(IMainFragmentView mainView) {
-        return new MainFragmentPresenterImpl(mainView);
+    public IMainFragmentPresenter providePresenter(IMainFragmentView mainView, IMainFragmentInteractor iMainInteractor) {
+        return new MainFragmentPresenterImpl(mainView, iMainInteractor);
     }
 
 }

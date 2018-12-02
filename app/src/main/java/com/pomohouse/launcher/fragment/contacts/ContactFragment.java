@@ -90,7 +90,7 @@ public class ContactFragment extends BaseFragment {
     final Handler handler = new Handler();
     private boolean isCanCall = true;
     Runnable runnable = () -> isCanCall = true;
-    ContactFragment.OnContactItemClickListener contactItemClickListener = contactModel -> {
+    OnContactItemClickListener contactItemClickListener = contactModel -> {
         try {
             Timber.e("callType : " + contactModel.getCallType() + " & ID : " + contactModel.getContactId() + " & Phone : " + contactModel.getPhone() + " isCall = " + isCanCall);
             if (isCanCall) {
@@ -105,13 +105,13 @@ public class ContactFragment extends BaseFragment {
                     Timber.e("family : " + (!contactModel.getContactType().equalsIgnoreCase("family")));
                     if (!contactModel.getContactType().equalsIgnoreCase("family")) {
                         AllowCallingRequest callingRequest = new AllowCallingRequest();
-                        callingRequest.setFromContactId(WearerInfoUtils.newInstance(getContext()).getImei(getActivity()));
+                        callingRequest.setFromContactId(WearerInfoUtils.newInstance(getContext()).getImei(getContext()));
                         callingRequest.setToContactId(contactModel.getContactId());
                         presenter.requestCheckAllowCalling(callingRequest);
                     } else {
                         CallContact callContact = new CallContact();
                         callContact.setToContactId(contactModel.getContactId());
-                        callContact.setFromContactId(WearerInfoUtils.newInstance(getContext()).getImei(getActivity()));
+                        callContact.setFromContactId(WearerInfoUtils.newInstance(getContext()).getImei(getContext()));
                         callContact.setIsAutoAnswer("N");
                         presenter.sendCalling(callContact);
                     }

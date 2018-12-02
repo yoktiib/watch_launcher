@@ -12,6 +12,7 @@ import com.pomohouse.launcher.api.requests.WearerStatusRequest;
 import com.pomohouse.launcher.models.DeviceInfoModel;
 import com.pomohouse.launcher.models.EventDataListModel;
 import com.pomohouse.launcher.models.PinCodeModel;
+import com.pomohouse.launcher.models.QRCodeModel;
 import com.pomohouse.launcher.models.contacts.ContactCollection;
 import com.pomohouse.launcher.models.events.CallContact;
 import com.pomohouse.library.networks.ResponseDao;
@@ -35,22 +36,22 @@ import rx.Observable;
  */
 public interface WatchService {
 
-    /*@POST("initDevice")
-    Observable<ResultGenerator<DeviceInfoModel>> callInitialDevice(@Body InitDeviceRequest param);*/
+    @POST("initDevice")
+    Observable<ResultGenerator<DeviceInfoModel>> callInitialDevice(@Body InitDeviceRequest param);
 
-    /*@POST("pair/pinCode")
-    Observable<ResultGenerator<PinCodeModel>> callPinCode(@Body ImeiRequest param);*/
+    @POST("pair/pinCode")
+    Observable<ResultGenerator<PinCodeModel>> callPinCode(@Body ImeiRequest param);
 
-    /*@POST("contact/requestAllContacts")
-    Observable<ContactCollection> callReadyRequestFriend(@Body ImeiRequest param);*/
+    @POST("contact/requestAllContacts")
+    Observable<ContactCollection> callReadyRequestFriend(@Body ImeiRequest param);
 
     @POST("requestEventAndUpdateInfo")
     Observable<EventDataListModel> callUpdateInfoAndGetEventService(@Body LocationUpdateRequest request);
 
-    /*@POST("requestUpdateWearerStatus")
-    Observable<ResponseDao> callSenderWearerStatusService(@Body WearerStatusRequest request);*/
+    @POST("requestUpdateWearerStatus")
+    Observable<ResponseDao> callSenderWearerStatusService(@Body WearerStatusRequest request);
 
-    /*@POST("requestAccident")
+    @POST("requestAccident")
     Observable<ResponseDao> callFallStatusService(@Body ImeiRequest request);
 
     @POST("requestSOS")
@@ -64,7 +65,6 @@ public interface WatchService {
 
     @POST("fitness/sendFitness")
     Observable<ResponseDao> callUpdateStep(@Body StepRequest param);
-*/
 
     @Multipart
     @POST("gallery/uploadPhoto")
@@ -72,6 +72,9 @@ public interface WatchService {
 
     @POST("location/updateLocation")
     Observable<ResponseDao> callUpdateLocation(@Body RefreshLocationRequest locationInfo);
+
+    @POST("location/requestQRCode")
+    Observable<ResultGenerator<QRCodeModel>> callRequestQRCode(@Body ImeiRequest param);
 
     /*@GET("contact/checkAllowCalling")
     Observable<ResultGenerator<CallContact>> callCheckAllowCalling(@Query("to") String toContactId, @Query("from") String fromContactId);*/

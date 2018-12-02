@@ -3,6 +3,7 @@ package com.pomohouse.launcher.di.module;
 import com.pomohouse.launcher.di.ApplicationModule;
 import com.pomohouse.launcher.fragment.settings.ISettingView;
 import com.pomohouse.launcher.fragment.settings.SettingFragment;
+import com.pomohouse.launcher.fragment.settings.interactor.ISettingInteractor;
 import com.pomohouse.launcher.fragment.settings.presenter.ISettingPresenter;
 import com.pomohouse.launcher.fragment.settings.presenter.SettingPresenterImpl;
 
@@ -34,8 +35,8 @@ public class SettingPresenterModule {
 
     @Singleton
     @Provides
-    public ISettingPresenter providePresenter(ISettingView view) {
-        return new SettingPresenterImpl(view);
+    public ISettingPresenter providePresenter(ISettingView view, ISettingInteractor interactor) {
+        return new SettingPresenterImpl(view, interactor);
 
     }
 }

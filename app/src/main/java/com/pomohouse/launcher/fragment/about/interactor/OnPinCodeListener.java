@@ -1,4 +1,4 @@
-package com.pomohouse.launcher.fragment.about.presenter;
+package com.pomohouse.launcher.fragment.about.interactor;
 
 import com.pomohouse.launcher.models.PinCodeModel;
 import com.pomohouse.library.base.interfaces.presenter.IBaseInteractorListener;

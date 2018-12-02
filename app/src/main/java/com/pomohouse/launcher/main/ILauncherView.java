@@ -33,9 +33,8 @@ public interface ILauncherView {
     void setUpTimeZone(String timeZone);
 
     void onEnableSilentMode();
-/*
+
     void enableAutoAnswer();
-    void disableAutoAnswer();*/
 
     void onUpdateWearerStatus();
 
@@ -55,6 +54,7 @@ public interface ILauncherView {
 
     void onSetUpBrightnessTimeOut(int timeOut);
 
+    void disableAutoAnswer();
 
     void inClassModeSetUpEventReceived(EventDataInfo eventData);
 

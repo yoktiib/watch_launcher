@@ -21,6 +21,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.pomohouse.launcher.api.requests.ImeiRequest;
 import com.pomohouse.launcher.api.requests.InitDeviceRequest;
 import com.pomohouse.launcher.api.requests.TimezoneUpdateRequest;
 import com.pomohouse.launcher.broadcast.alarm.model.AlarmDatabase;
@@ -29,6 +30,10 @@ import com.pomohouse.launcher.content_provider.POMOContentProvider;
 import com.pomohouse.launcher.content_provider.POMOContract;
 import com.pomohouse.launcher.main.ILauncherView;
 import com.pomohouse.launcher.main.OnLauncherCallbackListener;
+import com.pomohouse.launcher.main.interactor.ILauncherInteractor;
+import com.pomohouse.launcher.main.interactor.listener.OnEventListener;
+import com.pomohouse.launcher.main.interactor.listener.OnInitialDeviceListener;
+import com.pomohouse.launcher.main.interactor.listener.OnSOSListener;
 import com.pomohouse.launcher.manager.event.IEventPrefManager;
 import com.pomohouse.launcher.manager.fitness.IFitnessPrefManager;
 import com.pomohouse.launcher.manager.in_class_mode.IInClassModePrefManager;
@@ -116,8 +121,9 @@ import static com.pomohouse.launcher.utils.EventConstant.EventSetting.EVENT_NOTI
 /**
  * Created by Admin on 8/18/16 AD.
  */
-public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILauncherPresenter, OnLauncherCallbackListener/*, OnSOSListener, OnEventListener*/ {
+public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILauncherPresenter, OnInitialDeviceListener, OnLauncherCallbackListener, OnSOSListener, OnEventListener {
     private ILauncherView view;
+    private ILauncherInteractor interactor;
     private IThemePrefManager themeManager;
     private LockScreenEnum lockBy = LockScreenEnum.NONE;
     private boolean isInClassModeEnable = false, isSleepMode = false;
@@ -139,8 +145,10 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     public final static String EVENT_STATUS_EXTRA = "EVENT_STATUS_EXTRA";
     public final static String EVENT_EXTRA = "EVENT_EXTRA";
 
-    public LauncherPresenterImpl(ILauncherView mainView) {
+
+    public LauncherPresenterImpl(ILauncherView mainView, ILauncherInteractor iMainInteractor) {
         view = mainView;
+        this.interactor = iMainInteractor;
         isInClassModeEnable = false;
     }
 
@@ -218,7 +226,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                 btName = mBluetoothAdapter.getName();
             }
             InitDeviceRequest deviceRequest = new InitDeviceRequest();
-            //deviceRequest.setImei(WearerInfoUtils.getInstance().getImei());
+            deviceRequest.setImei(WearerInfoUtils.getInstance().getImei(AppContextor.getInstance().getContext()));
             deviceRequest.setFirmwareVersion(Build.DISPLAY);
             if (iSettingManager != null && iSettingManager.getSetting() != null) {
                 String token = iSettingManager.getSetting().getFCMToken();
@@ -238,7 +246,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                 Timber.i("Timezone :: " + tz.getDisplayName(false, TimeZone.SHORT) + " Timezone id :: " + tz.getID());
                 deviceRequest.setTimeZone(tz.getID());
             }
-            TCPSocketServiceProvider.getInstance().sendMessageFromLauncher(this, CMDCode.CMD_INIT_DEVICE, new Gson().toJson(deviceRequest));
+            interactor.callInitialDevice(deviceRequest, this);
         } catch (Exception ignore) {
 
         }
@@ -299,7 +307,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
         /*timeTickCount++;
         if (timeTickCount % 3 == 0) {
             timeTickCount = 0;
-            //view.startLocation();
+
         }*/
     }
 
@@ -628,7 +636,8 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                 TimezoneUpdateRequest timezoneUpdateRequest = new TimezoneUpdateRequest();
                 timezoneUpdateRequest.setTimeZone(tz.getID());
                 //timezoneUpdateRequest.setImei(WearerInfoUtils.getInstance().getImei());
-                TCPSocketServiceProvider.getInstance().sendMessageFromLauncher(this, CMDCode.CMD_TIME_ZONE, new Gson().toJson(timezoneUpdateRequest));
+                //TCPSocketServiceProvider.getInstance().sendMessageFromLauncher(this, CMDCode.CMD_TIME_ZONE, new Gson().toJson(timezoneUpdateRequest));
+                interactor.callTimezoneChanged(timezoneUpdateRequest);
             }
             EventDataInfo eventContent = new EventDataInfo();
             eventContent.setEventCode(EVENT_APP_TIMEZONE_CODE);
@@ -668,7 +677,8 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
 
     @Override
     public void requestSOS() {
-        TCPSocketServiceProvider.getInstance().sendMessageFromLauncher(this, CMDCode.CMD_LOCATION_UPDATE, "");
+        //TCPSocketServiceProvider.getInstance().sendMessageFromLauncher(this, CMDCode.CMD_LOCATION_UPDATE, "");
+        interactor.callSOS(this, new ImeiRequest(WearerInfoUtils.getInstance().getImei(AppContextor.getInstance().getContext())));
         EventDataInfo eventContent = new EventDataInfo();
         eventContent.setEventCode(EVENT_SOS_CODE);
         view.onSendEventToBroadcast(eventContent);

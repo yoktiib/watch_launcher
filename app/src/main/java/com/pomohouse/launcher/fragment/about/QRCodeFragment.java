@@ -17,23 +17,26 @@ import com.google.zxing.WriterException;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.pomohouse.launcher.R;
 import com.pomohouse.launcher.base.BaseFragment;
-import com.pomohouse.launcher.fragment.about.presenter.OnQRCodeListener;
-import com.pomohouse.launcher.models.PinCodeModel;
+import com.pomohouse.launcher.di.module.PinCodePresenterModule;
+import com.pomohouse.launcher.fragment.about.presenter.IQRCodePresenter;
 import com.pomohouse.launcher.models.QRCodeModel;
-import com.pomohouse.launcher.tcp.CMDCode;
-import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
-import com.pomohouse.library.WearerInfoUtils;
 import com.pomohouse.launcher.utils.QrGenerator;
+import com.pomohouse.library.WearerInfoUtils;
 import com.pomohouse.library.networks.MetaDataNetwork;
 
+import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 
 /**
  * Created by Admin on 9/20/16 AD.
  */
-public class QRCodeFragment extends BaseFragment implements OnQRCodeListener {
+public class QRCodeFragment extends BaseFragment implements IQRCodeView {
+    @Inject
+    IQRCodePresenter presenter;
     @BindView(R.id.img_qr_generated)
     ImageView img_qr_generated;
     private String code = null;
@@ -47,7 +50,7 @@ public class QRCodeFragment extends BaseFragment implements OnQRCodeListener {
 
     @Override
     protected List<Object> injectModules() {
-        return null;
+        return Collections.singletonList(new PinCodePresenterModule(this));
     }
 
     public static QRCodeFragment newInstance() {
@@ -69,7 +72,8 @@ public class QRCodeFragment extends BaseFragment implements OnQRCodeListener {
         if (code == null || code.isEmpty()) {
             spin_kit.setVisibility(View.VISIBLE);
             boxQRCode.setVisibility(View.GONE);
-            TCPSocketServiceProvider.getInstance().sendMessageQRCode(this, CMDCode.CMD_QR_CODE, "{}");
+            presenter.requestQRCode(WearerInfoUtils.getInstance().getImei(getContext()));
+            //TCPSocketServiceProvider.getInstance().sendMessageQRCode(this, CMDCode.CMD_QR_CODE, "{}");
         } else {
             boxQRCode.setVisibility(View.VISIBLE);
             spin_kit.setVisibility(View.GONE);
@@ -94,34 +98,14 @@ public class QRCodeFragment extends BaseFragment implements OnQRCodeListener {
         }
     }
 
-/*
-    private boolean checkEmpty(EditText e) {
-        return TextUtils.isEmpty(e.getText());
-    }
-
-    private int getInputtedInt(EditText edt, int def) {
-        try {
-            String s = edt.getText().toString();
-
-            if (TextUtils.isEmpty(s))
-                return def;
-            else
-                return Integer.parseInt(s);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return def;
-        }
-    }*/
-
     @Override
-    public void onQRCodeFailure(MetaDataNetwork error) {
+    public void onFailureQRCode(MetaDataNetwork error) {
         spin_kit.setVisibility(View.GONE);
         boxQRCode.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onQRCodeSuccess(MetaDataNetwork metaData, QRCodeModel readyModel) {
+    public void onSuccessQRCode(MetaDataNetwork metaData, QRCodeModel readyModel) {
         spin_kit.setVisibility(View.GONE);
         boxQRCode.setVisibility(View.VISIBLE);
         onGenerateClick(code = readyModel.getCode());

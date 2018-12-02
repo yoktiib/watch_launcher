@@ -24,14 +24,15 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.gson.Gson;
 import com.pomohouse.launcher.api.requests.AllowCallingRequest;
+import com.pomohouse.launcher.api.requests.ImeiRequest;
 import com.pomohouse.launcher.content_provider.POMOContract;
 import com.pomohouse.launcher.fragment.avatar.AvatarCollection;
-
+import com.pomohouse.launcher.fragment.contacts.interactor.IContactInteractor;
+import com.pomohouse.launcher.fragment.contacts.interactor.OnCheckAllowCallingListener;
+import com.pomohouse.launcher.fragment.contacts.interactor.OnContactListener;
 import com.pomohouse.launcher.models.contacts.ContactCollection;
 import com.pomohouse.launcher.models.contacts.ContactModel;
 import com.pomohouse.launcher.models.events.CallContact;
-import com.pomohouse.launcher.tcp.CMDCode;
-import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 import com.pomohouse.launcher.utils.CombineObjectConstance;
 import com.pomohouse.library.base.BaseRetrofitPresenter;
 import com.pomohouse.library.manager.AppContextor;
@@ -55,18 +56,24 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
     public static final String ACTION_REGISTER_TWILIO_TOKEN = "ACTION_REGISTER_TWILIO_TOKEN";
     private static final int UPDATE_CONTACT = 2;
     private static final int DELETE_CONTACT = 3;
+    private IContactInteractor interactor;
     private Context mContext;
     private ContactCollection currentContactCollection;
 
-    public ContactPresenterImpl(){ }
+    public ContactPresenterImpl(IContactInteractor interactor) {
+        this.interactor = interactor;
+    }
 
     @Override
     public void onInitial(Object... param) {
         super.onInitial(param);
         try {
-            if (param == null) return;
-            if (param.length < 1) return;
-            if (param[0] == null) return;
+            if (param == null)
+                return;
+            if (param.length < 1)
+                return;
+            if (param[0] == null)
+                return;
             mContext = (Context) param[0];
             currentContactCollection = CombineObjectConstance.getInstance().getContactEntity().getContactCollection();
         } catch (Exception ignore) {
@@ -85,8 +92,10 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
     }
 
     @Override
-    public void requestContact() {
-        TCPSocketServiceProvider.getInstance().sendMessageFromContact(this, CMDCode.CMD_CONTACT, "{}");
+    public void requestContact(String imei) {
+        if (imei == null || imei.isEmpty())
+            return;
+        interactor.callContactService(this, new ImeiRequest(imei));
     }
 
     @Override
@@ -122,8 +131,10 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
      */
     @Override
     public void onDeleteContact(ContactModel contact) throws Exception {
-        if (mContext == null) mContext = AppContextor.getInstance().getContext();
-        if (mContext == null) return;
+        if (mContext == null)
+            mContext = AppContextor.getInstance().getContext();
+        if (mContext == null)
+            return;
         mContext.getContentResolver().delete(POMOContract.ContactEntry.CONTENT_URI, POMOContract.ContactEntry.CONTACT_ID + " = ? ", new String[]{String.valueOf(contact.getContactId())});
     }
 
@@ -132,15 +143,16 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
      */
     @Override
     public void onDeleteAllContact() {
-        if (mContext == null) mContext = AppContextor.getInstance().getContext();
-        if (mContext == null) return;
+        if (mContext == null)
+            mContext = AppContextor.getInstance().getContext();
+        if (mContext == null)
+            return;
         mContext.getContentResolver().delete(POMOContract.ContactEntry.CONTENT_URI, null, new String[]{});
     }
 
     @Override
     public void requestCheckAllowCalling(AllowCallingRequest callingRequest) {
-        //TODO requestCheckAllowCalling WHEN CALL
-      //  interactor.callCheckAllowCalling(callingRequest, this);
+        interactor.callCheckAllowCalling(callingRequest, this);
     }
 
     /**
@@ -159,8 +171,10 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
         values.put(POMOContract.ContactEntry.GENDER, contact.getGender());
         values.put(POMOContract.ContactEntry.PHONE, contact.getPhone());
         values.put(POMOContract.ContactEntry.CONTACT_TYPE, contact.getContactType());
-        if (mContext == null) mContext = AppContextor.getInstance().getContext();
-        if (mContext == null) return;
+        if (mContext == null)
+            mContext = AppContextor.getInstance().getContext();
+        if (mContext == null)
+            return;
         mContext.getContentResolver().update(POMOContract.ContactEntry.CONTENT_URI, values, POMOContract.ContactEntry.CONTACT_ID + " = ? ", new String[]{contact.getContactId()});
     }
 
@@ -180,8 +194,10 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
         values.put(POMOContract.ContactEntry.ROLE, contact.getRole());
         values.put(POMOContract.ContactEntry.PHONE, contact.getPhone());
         values.put(POMOContract.ContactEntry.CONTACT_TYPE, contact.getContactType());
-        if (mContext == null) mContext = AppContextor.getInstance().getContext();
-        if (mContext == null) return;
+        if (mContext == null)
+            mContext = AppContextor.getInstance().getContext();
+        if (mContext == null)
+            return;
         mContext.getContentResolver().insert(POMOContract.ContactEntry.CONTENT_URI, values);
     }
 
@@ -209,12 +225,14 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
         switch (msg.what) {
             case UPDATE_CONTACT:
                 try {
-                    if (mContext == null) mContext = AppContextor.getInstance().getContext();
+                    if (mContext == null)
+                        mContext = AppContextor.getInstance().getContext();
                     if (mContext != null)
                         mContext.getContentResolver().delete(ContactsContract.Data.CONTENT_URI, null, null);
                     Timber.e("Update : Contact ");
                     ContactCollection contactCorrectData = (ContactCollection) msg.obj;
-                    if (contactCorrectData == null) return true;
+                    if (contactCorrectData == null)
+                        return true;
                     syncDataBeforeInsertOrUpdate(contactCorrectData);
                     for (ContactModel contact : contactCorrectData.getContactModelList()) {
                         boolean found = false;
@@ -275,7 +293,8 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
 
     private AvatarCollection avatarCollection = AvatarCollection.getInstance();
 
-    private void insertContacts(String given_name, String mobile_number, String avatar, int avatarType) {
+    private void insertContacts(String given_name, String mobile_number,
+                                String avatar, int avatarType) {
         try {
             given_name = getAvailableName(given_name);
 
@@ -290,7 +309,8 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
 
             // Add name.
             builder = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI);
-            builder.withValueBackReference(ContactsContract.CommonDataKinds.StructuredName.RAW_CONTACT_ID, rawContactIndex);
+            builder.withValueBackReference(ContactsContract.CommonDataKinds.StructuredName.RAW_CONTACT_ID,
+                    rawContactIndex);
 
             builder.withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE);
             builder.withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, given_name);
@@ -299,7 +319,8 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
             // Add phone number.
             if (mobile_number != null && !TextUtils.isEmpty(mobile_number)) {
                 builder = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI);
-                builder.withValueBackReference(ContactsContract.CommonDataKinds.Phone.RAW_CONTACT_ID, rawContactIndex);
+                builder.withValueBackReference(ContactsContract.CommonDataKinds.Phone.RAW_CONTACT_ID,
+                        rawContactIndex);
                 builder.withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
                 builder.withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE);
                 builder.withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, mobile_number);
@@ -307,32 +328,38 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
                 operationList.add(builder.build());
             }
             //add avatar photo
-            if (mContext == null) mContext = AppContextor.getInstance().getContext();
-            mContext.getContentResolver().applyBatch(ContactsContract.AUTHORITY, operationList);
+            if (mContext == null)
+                mContext = AppContextor.getInstance().getContext();
+            mContext.getContentResolver().applyBatch(ContactsContract.AUTHORITY,
+                    operationList);
             // Get raw_contact_i
             Thread.sleep(100);
-            Cursor cc = mContext.getContentResolver().query(ContactsContract.RawContacts.CONTENT_URI, null, "display_name=?", new String[]{given_name}, null);
+            Cursor cc = mContext.getContentResolver().query(ContactsContract.RawContacts.CONTENT_URI,
+                    null, "display_name=?", new String[]{given_name}, null);
             if (cc != null && cc.moveToFirst()) {
                 //Insert photo for the contact.
                 //Log.i("", "cc.getCount()=" + cc.getCount());
                 if (avatarType == 0) {
                     Bitmap profilePhoto = getBitmapFromVectorDrawable(mContext, avatarCollection.getAvatarMap().get(avatar));
                     boolean result = saveUpdatedPhoto(cc.getLong(cc.getColumnIndex("_id")), profilePhoto);
-                    if (!result) {
+                    if(!result){
                         saveUpdatePhotoForSpare(cc.getLong(cc.getColumnIndex("_id")), profilePhoto);
                     }
                     cc.close();
                 } else {
-                    Glide.with(mContext).load(avatar).asBitmap().into(new SimpleTarget<Bitmap>(100, 100) {
-                        @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
-                            boolean result = saveUpdatedPhoto(cc.getLong(cc.getColumnIndex("_id")), resource);
-                            if (!result) {
-                                saveUpdatePhotoForSpare(cc.getLong(cc.getColumnIndex("_id")), resource);
-                            }
-                            cc.close();
-                        }
-                    });
+                    Glide.with(mContext)
+                            .load(avatar)
+                            .asBitmap()
+                            .into(new SimpleTarget<Bitmap>(100, 100) {
+                                @Override
+                                public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
+                                    boolean result = saveUpdatedPhoto(cc.getLong(cc.getColumnIndex("_id")), resource);
+                                    if(!result){
+                                        saveUpdatePhotoForSpare(cc.getLong(cc.getColumnIndex("_id")), resource);
+                                    }
+                                    cc.close();
+                                }
+                            });
                 }
             }
         } catch (InterruptedException | RemoteException | OperationApplicationException ignored) {
@@ -342,10 +369,14 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
     }
 
     private boolean saveUpdatedPhoto(long rawContactId, Bitmap avatar) {
-        final Uri outputUri = Uri.withAppendedPath(ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, rawContactId), ContactsContract.RawContacts.DisplayPhoto.CONTENT_DIRECTORY);
+        final Uri outputUri = Uri.withAppendedPath(ContentUris.withAppendedId(
+                ContactsContract.RawContacts.CONTENT_URI, rawContactId),
+                ContactsContract.RawContacts.DisplayPhoto.CONTENT_DIRECTORY);
         boolean result;
         try {
-            try (FileOutputStream outputStream = mContext.getContentResolver().openAssetFileDescriptor(outputUri, "rw").createOutputStream()) {
+            try (FileOutputStream outputStream = mContext.getContentResolver()
+                    .openAssetFileDescriptor(outputUri, "rw")
+                    .createOutputStream()) {
                 final ByteArrayOutputStream os = new ByteArrayOutputStream();
                 // 将Bitmap压缩成PNG编码，质量为100%存储
                 avatar.compress(Bitmap.CompressFormat.PNG, 100, os);
@@ -364,14 +395,15 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
 
     private static Bitmap getBitmapFromVectorDrawable(Context context, int drawableId) {
         Drawable drawable = AppCompatDrawableManager.get().getDrawable(context, drawableId);
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
         return bitmap;
     }
 
-    private void saveUpdatePhotoForSpare(long rawContactId, Bitmap avatarBitmap) {
+    private void saveUpdatePhotoForSpare(long rawContactId, Bitmap avatarBitmap){
         try {
             final ByteArrayOutputStream os = new ByteArrayOutputStream();
             avatarBitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
@@ -382,23 +414,23 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
             values.put(ContactsContract.CommonDataKinds.Photo.PHOTO, avatar);
             mContext.getContentResolver().insert(ContactsContract.Data.CONTENT_URI, values);
             os.close();
-        } catch (Exception ignored) {
+        }catch(Exception ignored){
 
         }
     }
 
-    private String getAvailableName(String org_name) {
+    private String getAvailableName(String org_name){
         String tempName = org_name.trim();
         StringBuilder nameBuilder = new StringBuilder();
         char[] namebytes = tempName.toCharArray();
         int spaceCount = 0;
-        for (int i = 0; i < namebytes.length; i++) {
-            if (Character.isWhitespace(namebytes[i])) {
-                spaceCount++;
-            } else {
+        for(int i = 0 ; i < namebytes.length ; i++){
+            if(Character.isWhitespace(namebytes[i])){
+                spaceCount ++;
+            }else{
                 spaceCount = 0;
             }
-            if (spaceCount < 2) {
+            if(spaceCount < 2){
                 nameBuilder.append(namebytes[i]);
             }
         }

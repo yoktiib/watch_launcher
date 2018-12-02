@@ -29,9 +29,9 @@ import android.hardware.SensorManager;
 import android.os.Environment;
 import android.os.Handler;
 
-import com.pomohouse.launcher.broadcast.sensor.listener.FallSensorListener;
-import com.pomohouse.launcher.broadcast.sensor.listener.LightSensorListener;
-import com.pomohouse.launcher.broadcast.sensor.listener.TwistSensorListener;
+import com.pomohouse.launcher.broadcast.sensor.interactor.listener.FallSensorListener;
+import com.pomohouse.launcher.broadcast.sensor.interactor.listener.LightSensorListener;
+import com.pomohouse.launcher.broadcast.sensor.interactor.listener.TwistSensorListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -253,7 +253,7 @@ public class SensorDetector implements SensorEventListener {
                 if (handler != null && !isHandlerProcess) {
                     isHandlerProcess = true;
                     handler.removeCallbacks(run);
-                    handler.postDelayed(run, 5000);
+                    handler.postDelayed(run, 1000);
 //                  sendWatchOnOffStatus();
 //                    saveProximityValue("event", lightValue);
 //                    mAlarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), mPI );

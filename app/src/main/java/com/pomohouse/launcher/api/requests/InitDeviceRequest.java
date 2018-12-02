@@ -8,7 +8,9 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class InitDeviceRequest {
-
+    @SerializedName("imei")
+    @Expose
+    private String imei;
     @SerializedName("simOperator")
     @Expose
     private String simOperator;
@@ -43,6 +45,14 @@ public class InitDeviceRequest {
 
     public void setFireBaseWatchToken(String fireBaseWatchToken) {
         this.fireBaseWatchToken = fireBaseWatchToken;
+    }
+
+    public String getImei() {
+        return imei;
+    }
+
+    public void setImei(String imei) {
+        this.imei = imei;
     }
 
     public String getSimOperator() {

@@ -24,9 +24,11 @@ import android.app.Application;
 
 import com.pomohouse.launcher.main.ILauncherView;
 import com.pomohouse.launcher.main.LauncherActivity;
+import com.pomohouse.launcher.main.interactor.ILauncherInteractor;
 import com.pomohouse.launcher.main.presenter.ILauncherPresenter;
 import com.pomohouse.launcher.main.presenter.LauncherPresenterImpl;
 import com.pomohouse.launcher.di.ApplicationModule;
+import com.pomohouse.launcher.fragment.contacts.interactor.IContactInteractor;
 import com.pomohouse.launcher.fragment.contacts.presenter.ContactPresenterImpl;
 import com.pomohouse.launcher.fragment.contacts.presenter.IContactPresenter;
 import com.pomohouse.launcher.manager.event.EventPrefManagerImpl;
@@ -70,14 +72,14 @@ public class LauncherPresenterModule {
 
     @Singleton
     @Provides
-    public ILauncherPresenter providePresenter(ILauncherView mainView) {
-        return new LauncherPresenterImpl(mainView);
+    public ILauncherPresenter providePresenter(ILauncherView mainView, ILauncherInteractor iMainInteractor) {
+        return new LauncherPresenterImpl(mainView, iMainInteractor);
     }
 
     @Singleton
     @Provides
-    IContactPresenter provideContactPresenter() {
-        return new ContactPresenterImpl();
+    IContactPresenter provideContactPresenter(IContactInteractor interactor) {
+        return new ContactPresenterImpl(interactor);
     }
 
     @Singleton

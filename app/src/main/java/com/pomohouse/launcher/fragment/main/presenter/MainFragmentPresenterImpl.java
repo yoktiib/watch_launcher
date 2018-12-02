@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.telephony.CellSignalStrength;
 import com.pomohouse.launcher.R;
 import com.pomohouse.launcher.fragment.main.IMainFragmentView;
+import com.pomohouse.launcher.fragment.main.interactor.IMainFragmentInteractor;
 import com.pomohouse.launcher.models.EventDataInfo;
 import com.pomohouse.launcher.utils.CombineObjectConstance;
 import com.pomohouse.library.base.BaseRetrofitPresenter;
@@ -38,12 +39,12 @@ public class MainFragmentPresenterImpl extends BaseRetrofitPresenter implements 
     private static final int NO_SIM_MESSAGE = 3;
     private static final int EVENT_MESSAGE = 4;
     private IMainFragmentView view;
-    //private IMainFragmentInteractor interactor;
+    private IMainFragmentInteractor interactor;
     private Context mContext;
 
-    public MainFragmentPresenterImpl(IMainFragmentView view) {
+    public MainFragmentPresenterImpl(IMainFragmentView view,IMainFragmentInteractor interactor) {
         this.view = view;
-        //this.interactor = interactor;
+        this.interactor = interactor;
     }
 
     @Override

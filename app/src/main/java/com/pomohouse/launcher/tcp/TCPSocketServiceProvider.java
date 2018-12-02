@@ -18,8 +18,8 @@ import com.google.gson.reflect.TypeToken;
 import com.pomohouse.launcher.POMOWatchApplication;
 import com.pomohouse.launcher.activity.pincode.PinCodeActivity;
 import com.pomohouse.launcher.content_provider.POMOContract;
-import com.pomohouse.launcher.fragment.about.presenter.OnPinCodeListener;
-import com.pomohouse.launcher.fragment.about.presenter.OnQRCodeListener;
+import com.pomohouse.launcher.fragment.about.interactor.OnPinCodeListener;
+import com.pomohouse.launcher.fragment.about.interactor.OnQRCodeListener;
 import com.pomohouse.launcher.fragment.contacts.presenter.OnContactListener;
 import com.pomohouse.launcher.main.OnLauncherCallbackListener;
 import com.pomohouse.launcher.manager.event.EventPrefManagerImpl;
@@ -33,6 +33,7 @@ import com.pomohouse.launcher.models.contacts.ContactCollection;
 import com.pomohouse.library.WearerInfoUtils;
 import com.pomohouse.library.manager.AppContextor;
 import com.pomohouse.library.networks.MetaDataNetwork;
+import com.pomohouse.library.networks.ResponseDao;
 import com.pomohouse.library.networks.ResultGenerator;
 
 import java.io.UnsupportedEncodingException;
@@ -186,6 +187,10 @@ public class TCPSocketServiceProvider extends Service {
                 isConnecting = false;
                 clearSocket();
                 if (tcpStatusListener != null) tcpStatusListener.onDisconnected();
+
+                if (isConnecting) return;
+                isConnecting = true;
+                connectConnection();
             }
 
             @Override
@@ -382,7 +387,7 @@ public class TCPSocketServiceProvider extends Service {
     }
 
     public boolean checkDataIsNotError(String data) {
-        ResultGenerator pinCode = new GsonBuilder().create().fromJson(data, ResultGenerator.class);
+        ResponseDao pinCode = new GsonBuilder().create().fromJson(data, ResponseDao.class);
         return pinCode.getResCode() == 0;
     }
 
