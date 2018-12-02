@@ -1,5 +1,6 @@
 package com.pomohouse.launcher.main;
 
+import android.app.IntentService;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocationClient;
@@ -22,6 +24,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.AMapLocationQualityReport;
 import com.google.gson.Gson;
 import com.pomohouse.launcher.api.requests.LocationUpdateRequest;
+import com.pomohouse.launcher.broadcast.LocationBroadcast;
 import com.pomohouse.launcher.manager.fitness.FitnessPrefManagerImpl;
 import com.pomohouse.launcher.manager.fitness.FitnessPrefModel;
 import com.pomohouse.launcher.manager.fitness.IFitnessPrefManager;
@@ -36,38 +39,52 @@ import com.pomohouse.library.manager.ActivityContextor;
 import timber.log.Timber;
 
 public class LocationService extends Service {
-    private final IBinder myBinder = new LocationService.LocalBinder();
+    //private final IBinder myBinder = new LocationService.LocalBinder();
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = null;
     private SensorManager mSensorManager;
     private ISettingManager iSettingManager;
     private final String TAG = LocationService.class.getName();
 
-    public class LocalBinder extends Binder {
+  /*//  public LocationService() {
+        super(LocationService.class.getName());
+    }*/
+
+    /*public class LocalBinder extends Binder {
         public LocationService getService() {
             return LocationService.this;
         }
-    }
+    }*/
 
-    @Override
+    /*@Override
     public IBinder onBind(Intent intent) {
         return myBinder;
-    }
+    }*/
+
+    /*@Override
+    protected void onHandleIntent(@Nullable Intent intent) {
+        Log.i("backgroundService","Service running");
+
+    }*/
 
     @Override
     public void onCreate() {
         super.onCreate();
         Log.e(TAG, "Start Location");
-
+        iSettingManager = new SettingPrefManager(this);
+        initLocation();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
-        iSettingManager = new SettingPrefManager(this);
-        iFitnessPrefManager = new FitnessPrefManagerImpl(this);
-        initLocation();
         return START_STICKY;
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     public static boolean isLocationUpdate = true;
@@ -88,7 +105,7 @@ public class LocationService extends Service {
         AMapLocationClientOption mOption = new AMapLocationClientOption();
         mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
         mOption.setGpsFirst(true);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
-        mOption.setHttpTimeOut(15000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
+        mOption.setHttpTimeOut(20000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
         //mOption.setInterval(3 * (60 * 1000));//可选，设置定位间隔。默认为2秒
         mOption.setNeedAddress(false);//可选，设置是否返回逆地理地址信息。默认是true
         mOption.setOnceLocation(true);//可选，设置是否单次定位。默认是false
@@ -117,7 +134,7 @@ public class LocationService extends Service {
                 locationClient.disableBackgroundLocation(true);
                 locationClient = null;
             }
-            new Handler().postDelayed(this::initLocation, iSettingManager.getSetting().getPositionTiming() * 1000);
+            new Handler().postDelayed(this::initLocation, 60 * 1000);
         }
     };
 
@@ -146,6 +163,7 @@ public class LocationService extends Service {
                 locationInfo.setPower(getPowerLevel());
                 TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_LOCATION_UPDATE, new Gson().toJson(locationInfo));
                 mLastLocationTime = now;
+                stopSelf();
             }
         } else {
             Timber.e("updateFitnessService");
@@ -158,6 +176,7 @@ public class LocationService extends Service {
                     TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_LOCATION_UPDATE, new Gson().toJson(locationInfo));
                     mLastStepTime = now;
                     mLastLocationTime = now;
+                    stopSelf();
                 }
             }, 5000);
         }

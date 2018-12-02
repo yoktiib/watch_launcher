@@ -128,7 +128,9 @@
 
         <service
             android:name=".main.LocationService"
+            android:exported="false"
             android:enabled="true" />
+        <receiver android:name=".broadcast.LocationBroadcast"/>
 
         <meta-data
             android:name="com.amap.api.v2.apikey"

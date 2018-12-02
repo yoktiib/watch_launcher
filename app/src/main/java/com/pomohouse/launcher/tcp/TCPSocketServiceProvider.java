@@ -200,7 +200,7 @@ public class TCPSocketServiceProvider extends Service {
         }, throwable -> {
             //onError
             isConnecting = false;
-            messageReceiver("\n" + "on Error : " + throwable.toString());
+            //  messageReceiver("\n" + "on Error : " + throwable.toString());
             Log.e(TAG, "\n ERROR : " + throwable.toString());
 
         });
@@ -258,6 +258,7 @@ public class TCPSocketServiceProvider extends Service {
     private void disconnectConnection() {
         instance = null;
         if (mSocket != null && mSocket.isConnecting()) mSocket.disconnect();
+        mSocket = null;
     }
 
     void messageReceiver(String messenger) {
@@ -300,56 +301,63 @@ public class TCPSocketServiceProvider extends Service {
             Log.e(TAG, "CMD : " + messengerModel.getCMD());
             Log.e(TAG, "Data : " + messengerModel.getData());
             //Log.e(TAG, "Sum : " + messengerModel.getSum());
-            MetaDataNetwork network;
-            if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_EVENT_AND_SETTING_UPDATE)) {
-                Log.e(TAG, "TCPMessengerModel.CMD_EVENT_AND_LOCATION_UPDATE");
-                onConvertEventAndSetting(messengerModel.getData());
 
-            } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_CONTACT)) {
+            if (checkDataIsNotError(messengerModel.getData())) {
+                MetaDataNetwork network;
+                if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_EVENT_AND_SETTING_UPDATE)) {
+                    Log.e(TAG, "TCPMessengerModel.CMD_EVENT_AND_LOCATION_UPDATE");
+                    onConvertEventAndSetting(messengerModel.getData());
 
-                Log.e(TAG, "TCPMessengerModel.CMD_CONTACT");
-                ContactCollection contact = new GsonBuilder().create().fromJson(messengerModel.getData(), ContactCollection.class);
-                network = new MetaDataNetwork(contact.getResCode(), contact.getResDesc());
-                if (onContactListener == null) return;
-                if (contact.getResCode() == 0) onContactListener.onContactSuccess(network, contact);
-                else onContactListener.onContactFailure(network);
+                } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_CONTACT)) {
 
-            } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_INIT_DEVICE)) {
-                Log.e(TAG, "TCPMessengerModel.CMD_INIT_DEVICE");
-                ResultGenerator<DeviceInfoModel> deviceInfoModel = new GsonBuilder().create().fromJson(messengerModel.getData(), new TypeToken<ResultGenerator<DeviceInfoModel>>() {
-                }.getType());
-                network = new MetaDataNetwork(deviceInfoModel.getResCode(), deviceInfoModel.getResDesc());
-                if (tcpCallbackListener == null) return;
-                if (deviceInfoModel.getResCode() == 0)
-                    tcpCallbackListener.onInitialDeviceSuccess(network, deviceInfoModel.getData());
-                else tcpCallbackListener.onInitialDeviceFailure(network);
+                    Log.e(TAG, "TCPMessengerModel.CMD_CONTACT");
+                    ContactCollection contact = new GsonBuilder().create().fromJson(messengerModel.getData(), ContactCollection.class);
+                    network = new MetaDataNetwork(contact.getResCode(), contact.getResDesc());
+                    if (onContactListener == null) return;
+                    if (contact.getResCode() == 0)
+                        onContactListener.onContactSuccess(network, contact);
+                    else onContactListener.onContactFailure(network);
 
-            } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_PAIR_CODE)) {
-                Log.e(TAG, "TCPMessengerModel.CMD_PAIR_CODE");
-                ResultGenerator<PinCodeModel> pinCodeModel = new GsonBuilder().create().fromJson(messengerModel.getData(), new TypeToken<ResultGenerator<PinCodeModel>>() {
-                }.getType());
-                network = new MetaDataNetwork(pinCodeModel.getResCode(), pinCodeModel.getResDesc());
-                if (onPinCodeListener == null) return;
-                if (pinCodeModel.getResCode() == 0)
-                    onPinCodeListener.onPinCodeSuccess(network, pinCodeModel.getData());
-                else onPinCodeListener.onPinCodeFailure(network);
+                } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_INIT_DEVICE)) {
 
-            } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_QR_CODE)) {
-                Log.e(TAG, "TCPMessengerModel.CMD_QR_CODE");
-                ResultGenerator<QRCodeModel> QRCodeModel = new GsonBuilder().create().fromJson(messengerModel.getData(), new TypeToken<ResultGenerator<QRCodeModel>>() {
-                }.getType());
-                network = new MetaDataNetwork(QRCodeModel.getResCode(), QRCodeModel.getResDesc());
-                if (onQRCodeListener == null) return;
-                if (QRCodeModel.getResCode() == 0)
-                    onQRCodeListener.onQRCodeSuccess(network, QRCodeModel.getData());
-                else onQRCodeListener.onQRCodeFailure(network);
-            } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_PIN_CODE)) {
-                Log.e(TAG, "TCPMessengerModel.CMD_PIN_CODE");
-                PinCodeModel pinCode = new GsonBuilder().create().fromJson(messengerModel.getData(), PinCodeModel.class);
-                Intent intent = new Intent(AppContextor.getInstance().getContext(), PinCodeActivity.class);
-                intent.putExtra(PinCodeActivity.EXTRA_PIN_CODE, pinCode.getCode());
-                AppContextor.getInstance().getContext().startActivity(intent);
-            }
+                    Log.e(TAG, "TCPMessengerModel.CMD_INIT_DEVICE");
+                    ResultGenerator<DeviceInfoModel> deviceInfoModel = new GsonBuilder().create().fromJson(messengerModel.getData(), new TypeToken<ResultGenerator<DeviceInfoModel>>() {
+                    }.getType());
+                    network = new MetaDataNetwork(deviceInfoModel.getResCode(), deviceInfoModel.getResDesc());
+                    if (tcpCallbackListener == null) return;
+                    if (deviceInfoModel.getResCode() == 0)
+                        tcpCallbackListener.onInitialDeviceSuccess(network, deviceInfoModel.getData());
+                    else tcpCallbackListener.onInitialDeviceFailure(network);
+
+                } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_PAIR_CODE)) {
+
+                    Log.e(TAG, "TCPMessengerModel.CMD_PAIR_CODE");
+                    ResultGenerator<PinCodeModel> pinCodeModel = new GsonBuilder().create().fromJson(messengerModel.getData(), new TypeToken<ResultGenerator<PinCodeModel>>() {
+                    }.getType());
+                    network = new MetaDataNetwork(pinCodeModel.getResCode(), pinCodeModel.getResDesc());
+                    if (onPinCodeListener == null) return;
+                    if (pinCodeModel.getResCode() == 0)
+                        onPinCodeListener.onPinCodeSuccess(network, pinCodeModel.getData());
+                    else onPinCodeListener.onPinCodeFailure(network);
+
+                } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_QR_CODE)) {
+
+                    Log.e(TAG, "TCPMessengerModel.CMD_QR_CODE");
+                    ResultGenerator<QRCodeModel> QRCodeModel = new GsonBuilder().create().fromJson(messengerModel.getData(), new TypeToken<ResultGenerator<QRCodeModel>>() {
+                    }.getType());
+                    network = new MetaDataNetwork(QRCodeModel.getResCode(), QRCodeModel.getResDesc());
+                    if (onQRCodeListener == null) return;
+                    if (QRCodeModel.getResCode() == 0)
+                        onQRCodeListener.onQRCodeSuccess(network, QRCodeModel.getData());
+                    else onQRCodeListener.onQRCodeFailure(network);
+                } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_PIN_CODE)) {
+
+                    Log.e(TAG, "TCPMessengerModel.CMD_PIN_CODE");
+                    PinCodeModel pinCode = new GsonBuilder().create().fromJson(messengerModel.getData(), PinCodeModel.class);
+                    Intent intent = new Intent(AppContextor.getInstance().getContext(), PinCodeActivity.class);
+                    intent.putExtra(PinCodeActivity.EXTRA_PIN_CODE, pinCode.getCode());
+                    AppContextor.getInstance().getContext().startActivity(intent);
+                }
             /* else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_LOCATION_UPDATE)) {
 
                 Log.e(TAG, "TCPMessengerModel.CMD_LOCATION_UPDATE");
@@ -361,64 +369,71 @@ public class TCPSocketServiceProvider extends Service {
                 else tcpCallbackListener.onCallEventFailure(netwo*//*rk);
 
             } */
-            else{
+                else {
 
                     Log.e(TAG, "Else TCPMessengerModel." + messengerModel.getCMD());
                     new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(AppContextor.getInstance().getContext(), "Else TCPMessengerModel." + messengerModel.getCMD(), Toast.LENGTH_SHORT).show());
 
                 }
-            } catch(Exception ignore){
-                Log.e(TAG, "Error ClassifyMessage : " + ignore.getLocalizedMessage());
             }
-        }
-
-        public void onConvertEventAndSetting (String data){
-            if (data != null && !data.isEmpty()) {
-                try {
-                    EventDataInfo dataEvent = new Gson().fromJson(data, EventDataInfo.class);
-                    if (dataEvent != null) {
-                        IEventPrefManager iEventPrefManager = new EventPrefManagerImpl(this);
-                        EventPrefModel eventPrefModel = iEventPrefManager.getEvent();
-                        if (eventPrefModel != null) {
-                            eventPrefModel.getListEvent().add(String.valueOf(dataEvent.getEventId()));
-                            iEventPrefManager.addEvent(eventPrefModel);
-                        }
-                        Timber.e("Parser Okay");
-                        final Intent intent = new Intent(SEND_EVENT_UPDATE_INTENT, null);
-                        MetaDataNetwork network = new MetaDataNetwork(0, "", MetaDataNetwork.MetaType.SUCCESS);
-                        intent.putExtra(EVENT_STATUS_EXTRA, network);
-                        intent.putExtra(EVENT_EXTRA, dataEvent);
-                        sendBroadcast(intent);
-                        insertEventContentProvider(dataEvent);
-                    } else {
-                        Timber.e("Message data Event : Error Null");
-                    }
-                } catch (Exception ignore) {
-                    Timber.e("Exception : " + ignore.toString());
-                }
-            }
-        }
-
-        void insertEventContentProvider (EventDataInfo event){
-            if (AppContextor.getInstance().getContext() != null) {
-                ContentValues values = new ContentValues();
-                values.put(POMOContract.EventEntry.EVENT_ID, event.getEventId());
-                values.put(POMOContract.EventEntry.EVENT_CODE, event.getEventCode());
-                values.put(POMOContract.EventEntry.EVENT_TYPE, event.getEventType());
-                values.put(POMOContract.EventEntry.SENDER, event.getSenderId());
-                values.put(POMOContract.EventEntry.RECEIVE, event.getReceiveId());
-                values.put(POMOContract.EventEntry.SENDER_INFO, event.getSenderInfo());
-                values.put(POMOContract.EventEntry.RECEIVE_INFO, event.getReceiverInfo());
-                values.put(POMOContract.EventEntry.CONTENT, event.getContent());
-                values.put(POMOContract.EventEntry.STATUS, event.getStatus());
-                values.put(POMOContract.EventEntry.TIME_STAMP, event.getTimeStamp());
-                AppContextor.getInstance().getContext().getContentResolver().insert(POMOContract.EventEntry.CONTENT_URI, values);
-            }
-        }
-
-        @Override public void onDestroy () {
-            super.onDestroy();
-            disconnectConnection();
-            if (ref != null) ref.dispose();
+        } catch (Exception ignore) {
+            Log.e(TAG, "Error ClassifyMessage : " + ignore.getLocalizedMessage());
         }
     }
+
+    public boolean checkDataIsNotError(String data) {
+        ResultGenerator pinCode = new GsonBuilder().create().fromJson(data, ResultGenerator.class);
+        return pinCode.getResCode() == 0;
+    }
+
+    public void onConvertEventAndSetting(String data) {
+        if (data != null && !data.isEmpty()) {
+            try {
+                EventDataInfo dataEvent = new Gson().fromJson(data, EventDataInfo.class);
+                if (dataEvent != null) {
+                    IEventPrefManager iEventPrefManager = new EventPrefManagerImpl(this);
+                    EventPrefModel eventPrefModel = iEventPrefManager.getEvent();
+                    if (eventPrefModel != null) {
+                        eventPrefModel.getListEvent().add(String.valueOf(dataEvent.getEventId()));
+                        iEventPrefManager.addEvent(eventPrefModel);
+                    }
+                    Timber.e("Parser Okay");
+                    final Intent intent = new Intent(SEND_EVENT_UPDATE_INTENT, null);
+                    MetaDataNetwork network = new MetaDataNetwork(0, "", MetaDataNetwork.MetaType.SUCCESS);
+                    intent.putExtra(EVENT_STATUS_EXTRA, network);
+                    intent.putExtra(EVENT_EXTRA, dataEvent);
+                    sendBroadcast(intent);
+                    insertEventContentProvider(dataEvent);
+                } else {
+                    Timber.e("Message data Event : Error Null");
+                }
+            } catch (Exception ignore) {
+                Timber.e("Exception : " + ignore.toString());
+            }
+        }
+    }
+
+    void insertEventContentProvider(EventDataInfo event) {
+        if (AppContextor.getInstance().getContext() != null) {
+            ContentValues values = new ContentValues();
+            values.put(POMOContract.EventEntry.EVENT_ID, event.getEventId());
+            values.put(POMOContract.EventEntry.EVENT_CODE, event.getEventCode());
+            values.put(POMOContract.EventEntry.EVENT_TYPE, event.getEventType());
+            values.put(POMOContract.EventEntry.SENDER, event.getSenderId());
+            values.put(POMOContract.EventEntry.RECEIVE, event.getReceiveId());
+            values.put(POMOContract.EventEntry.SENDER_INFO, event.getSenderInfo());
+            values.put(POMOContract.EventEntry.RECEIVE_INFO, event.getReceiverInfo());
+            values.put(POMOContract.EventEntry.CONTENT, event.getContent());
+            values.put(POMOContract.EventEntry.STATUS, event.getStatus());
+            values.put(POMOContract.EventEntry.TIME_STAMP, event.getTimeStamp());
+            AppContextor.getInstance().getContext().getContentResolver().insert(POMOContract.EventEntry.CONTENT_URI, values);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disconnectConnection();
+        if (ref != null) ref.dispose();
+    }
+}

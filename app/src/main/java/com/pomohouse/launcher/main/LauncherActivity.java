@@ -1,6 +1,8 @@
 package com.pomohouse.launcher.main;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -33,6 +35,7 @@ import com.pomohouse.launcher.R;
 import com.pomohouse.launcher.activity.pair.EventAlertActivity;
 import com.pomohouse.launcher.activity.pincode.PinCodeActivity;
 import com.pomohouse.launcher.base.BaseLauncherActivity;
+import com.pomohouse.launcher.broadcast.LocationBroadcast;
 import com.pomohouse.launcher.broadcast.alarm.AlarmReceiver;
 import com.pomohouse.launcher.broadcast.alarm.model.AlarmDatabase;
 import com.pomohouse.launcher.broadcast.alarm.model.AlarmItem;
@@ -142,8 +145,15 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
                 this.checkLocationAvailable();
         }*/
 
-        startService(new Intent(this, LocationService.class));
+        //startService(new Intent(this, LocationService.class));
         //TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_LOCATION_UPDATE, "{}");
+        Intent locationBroadcast = new Intent(getApplicationContext(), LocationBroadcast.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, locationBroadcast, PendingIntent.FLAG_UPDATE_CURRENT);
+        long startTime = System.currentTimeMillis(); //alarm starts immediately
+        AlarmManager backupAlarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        if (backupAlarmMgr != null) {
+            backupAlarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, startTime,  60*1000, alarmIntent); // alarm will repeat after every 15 minutes
+        }
     }
 
     @Override
@@ -193,8 +203,8 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         WearerInfoUtils.getInstance().initWearerInfoUtils(this);
-        // startService(new Intent(getBaseContext(), TCPSocketServiceProvider.class));
-        doBindService();
+        startService(new Intent(getBaseContext(), TCPSocketServiceProvider.class));
+        //doBindService();
        /* TCPSocketServiceProvider.getInstance().setTCPStatusListener(new OnTCPStatusListener() {
             @Override
             public void onConnected() {
@@ -220,19 +230,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         presenter.initContactCallsProvider(this);
         presenter.initContactListContentProvider(this);
         presenter.initMessageContentProvider(this);
-        //String fcmToken = FirebaseInstanceId.getInstance().getToken();
-        //Timber.e("Token  : " + fcmToken);
-        /*presenter.updateFCMTokenManager(fcmToken);
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-        Intent i = new Intent();*/
-        //startService(i.setComponent(new ComponentName("com.pomohouse.contact", "com.pomohouse.contact.VoIPService")));
-/*
-        SharedPreferences testPrefs = getSharedPreferences
-                ("test_prefs", Context.MODE_WORLD_READABLE);*/
+
 
         viewPager.setAdapter(pagerAdapter = new LauncherHorizontalPagerAdapter(getSupportFragmentManager()));
         viewPager.setCurrentItem(1);
@@ -278,7 +276,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     }
 
     private boolean mIsBound;
-
+/*
     public TCPSocketServiceProvider mBoundService;
     protected ServiceConnection socketConnection = new ServiceConnection() {
         @Override
@@ -288,7 +286,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
                 @Override
                 public void onConnected() {
                     presenter.requestInitialDevice();
-                    contactPresenter.requestContact(/*WearerInfoUtils.getInstance().getImei(LauncherActivity.this)*/);
+                    contactPresenter.requestContact(*//*WearerInfoUtils.getInstance().getImei(LauncherActivity.this)*//*);
                 }
 
                 @Override
@@ -302,7 +300,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         public void onServiceDisconnected(ComponentName name) {
             mBoundService = null;
         }
-    };
+    };*//*
 
     private void doBindService() {
         //if (mBoundService != null) {
@@ -312,7 +310,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         bindService(intent, socketConnection, Context.BIND_AUTO_CREATE);
         mIsBound = true;
         //mContext.startService(intent);
-            /*POMOWatchApplication.mBoundService.IsBendable(new OnLauncherRequestListener() {
+            *//*POMOWatchApplication.mBoundService.IsBendable(new OnLauncherRequestListener() {
                 @Override
                 public void onInitial() {
                     presenter.initDevice();
@@ -322,9 +320,9 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
                 public void onContactRequest() {
                     contactPresenter.requestContact(WearerInfoUtils.getInstance().getImei());
                 }
-            });*/
+            });*//*
         // }
-    }
+    }*/
 
     public boolean hasPermissions(Context context, String... permissions) {
         if (context != null && permissions != null) {
