@@ -144,7 +144,7 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
         @Override
         public void onNoSimCard() {
             presenter.onNoSimCardPlugin();
-            //onCheckGetStart();
+           // onCheckGetStart();
         }
 
         @Override

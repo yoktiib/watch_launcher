@@ -32,7 +32,7 @@ public class CameraPreviewActivity extends BaseActivity implements ICameraView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera);
+        setContentView(R.layout.activity_camera_preview);
         ButterKnife.bind(this);
         File myFile = new File(getIntent().getStringExtra("PICTURE"));
         Timber.e(myFile.getAbsolutePath());

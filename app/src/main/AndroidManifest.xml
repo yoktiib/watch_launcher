@@ -119,7 +119,7 @@
         <receiver android:name=".broadcast.alarm.receiver.BootReceiver" />
         <service android:name=".broadcast.alarm.receiver.AalService" />-->
 
-        <activity android:name=".activity.camera.AndroidCameraApi" />
+        <activity android:name=".activity.camera.CameraActivity" />
         <activity android:name=".activity.camera.CameraPreviewActivity" />
 
         <service

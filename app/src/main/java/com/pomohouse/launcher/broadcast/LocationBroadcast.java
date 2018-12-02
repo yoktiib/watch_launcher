@@ -54,7 +54,7 @@ public class LocationBroadcast extends BroadcastReceiver {
     public static boolean isLocationUpdate = true;
 
     private void initLocation(Context context) {
-        locationClient = new AMapLocationClient(context);
+        if (locationClient == null) locationClient = new AMapLocationClient(context);
         locationOption = getDefaultOption();
         //设置定位参数
         locationClient.setLocationOption(locationOption);
@@ -69,8 +69,9 @@ public class LocationBroadcast extends BroadcastReceiver {
         AMapLocationClientOption mOption = new AMapLocationClientOption();
         mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
         mOption.setGpsFirst(true);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
-        mOption.setHttpTimeOut(20000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
+        mOption.setHttpTimeOut(30000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
         //mOption.setInterval(3 * (60 * 1000));//可选，设置定位间隔。默认为2秒
+        //mOption.setInterval(2000);//可选，设置定位间隔。默认为2秒
         mOption.setNeedAddress(false);//可选，设置是否返回逆地理地址信息。默认是true
         mOption.setOnceLocation(true);//可选，设置是否单次定位。默认是false
         mOption.setOnceLocationLatest(true);//可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
@@ -89,11 +90,17 @@ public class LocationBroadcast extends BroadcastReceiver {
             Log.e(TAG, "Location :: " + location.getLatitude() + " : " + location.getLongitude());
 
             //   <PMHStart><147><K8><357450080116409><1.1><ILU><{"accuracy":25.0,"lat":19.039446,"lng":99.931521,"locationType":5,"power":45.0,"step":0}><234><PMHEnd>"
+            if (location.getLatitude() == 0.0 || location.getLongitude() == 0.0) return;
+
             LocationUpdateRequest locationData = new LocationUpdateRequest();
-            locationData.setAccuracy(25.0f);//location.getAccuracy());
+            /*locationData.setAccuracy(25.0f);//location.getAccuracy());
             locationData.setLat(19.039446);//location.getLatitude());
             locationData.setLng(99.931521);//location.getLongitude());
-            locationData.setLocationType(5);//location.getLocationType());
+            locationData.setLocationType(5);//location.getLocationType());*/
+            locationData.setAccuracy(location.getAccuracy());
+            locationData.setLat(location.getLatitude());
+            locationData.setLng(location.getLongitude());
+            locationData.setLocationType(location.getLocationType());
             requestEventInterval(locationData);
             //if (locationClient != null) {
                 /*locationClient.stopLocation();

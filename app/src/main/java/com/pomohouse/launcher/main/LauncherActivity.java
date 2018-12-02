@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
@@ -73,6 +76,7 @@ import com.pomohouse.library.manager.AppContextor;
 import com.pomohouse.library.networks.MetaDataNetwork;
 import com.pomohouse.library.networks.ResponseDao;
 
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -144,7 +148,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         long startTime = System.currentTimeMillis(); //alarm starts immediately
         AlarmManager backupAlarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         if (backupAlarmMgr != null) {
-            backupAlarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, startTime,  60*1000, alarmIntent); // alarm will repeat after every 15 minutes
+            backupAlarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, startTime, settingManager.getSetting().getPositionTiming() * 1000, alarmIntent); // alarm will repeat after every 15 minutes
         }
     }
 
@@ -184,7 +188,21 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     }
 
     private final int MY_PERMISSIONS = 1010;
-    String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_SETTINGS, Manifest.permission.MODIFY_AUDIO_SETTINGS, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CALL_PHONE, Manifest.permission.PROCESS_OUTGOING_CALLS, Manifest.permission.WRITE_CONTACTS, Manifest.permission.WAKE_LOCK, Manifest.permission.SET_TIME_ZONE};
+    String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.WRITE_SETTINGS,
+            Manifest.permission.MODIFY_AUDIO_SETTINGS,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CALL_PHONE,
+            Manifest.permission.PROCESS_OUTGOING_CALLS,
+            Manifest.permission.WRITE_CONTACTS,
+            Manifest.permission.WAKE_LOCK,
+            Manifest.permission.SET_TIME_ZONE};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -251,7 +269,62 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
             presenter.requestInitialDevice();
         }
         presenter.initDevice();
+        //Timber.e("GPS OPEN ? = " + isOPen(this));
+        if (!isOPen(this)) openGPS(this);
     }
+
+
+    public static boolean isOPen(final Context context) {
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        return gps /*|| network*/;
+    }
+
+    public static void openGPS(Context context) {
+        Intent GPSIntent = new Intent();
+        GPSIntent.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
+        GPSIntent.addCategory("android.intent.category.ALTERNATIVE");
+        GPSIntent.setData(Uri.parse("custom:3"));
+        try {
+            PendingIntent.getBroadcast(context, 0, GPSIntent, 0).send();
+        } catch (PendingIntent.CanceledException e) {
+            e.printStackTrace();
+        }
+    }
+
+/*
+
+    public static void setDataEnabled(int slotIdx, boolean enable, Context context) throws Exception {
+        try {
+            int subid = SubscriptionManager.from(context).getActiveSubscriptionInfoForSimSlotIndex(slotIdx).getSubscriptionId();
+            TelephonyManager telephonyService = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            Method setDataEnabled = telephonyService.getClass().getDeclaredMethod("setDataEnabled", int.class, boolean.class);
+            if (null != setDataEnabled) {
+                setDataEnabled.invoke(telephonyService, subid, enable);
+                LogUtil.LOGD(TAG, "setDataEnabled suc", false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtil.LOGD(TAG, "setDataEnabled exception", false);
+        }
+    }
+
+    public static boolean getDataEnabled(int slotIdx, Context context) throws Exception {
+        boolean enabled = false;
+        try {
+            int subid = SubscriptionManager.from(context).getActiveSubscriptionInfoForSimSlotIndex(slotIdx).getSubscriptionId();
+            TelephonyManager telephonyService = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            Method getDataEnabled = telephonyService.getClass().getDeclaredMethod("getDataEnabled", int.class);
+            if (null != getDataEnabled) {
+                enabled = (Boolean) getDataEnabled.invoke(telephonyService, subid);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return enabled;
+    }
+*/
 
     public boolean hasPermissions(Context context, String... permissions) {
         if (context != null && permissions != null) {

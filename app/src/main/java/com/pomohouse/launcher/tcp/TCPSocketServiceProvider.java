@@ -60,8 +60,9 @@ public class TCPSocketServiceProvider extends Service {
     private static final long INTERVAL_KEEP_ALIVE = 1000 * 60 * 4;
     private static final int INTERVAL_TIME_OUT = 1000 * 20;
     private static final long INTERVAL_INCREASE = 1000;
-    private static final long INTERVAL_INITIAL_RETRY = 1000 * 7;
-    private static final long INTERVAL_MAXIMUM_RETRY = 1000 * 20;
+    private static final long INTERVAL_INITIAL_RETRY_ON = 1000 * 5;
+    private static final long INTERVAL_INITIAL_RETRY_OFF = 1000 * 7;
+    private static final long INTERVAL_MAXIMUM_RETRY = 1000 * 25;
     private static final String IP = "13.228.58.26";
     //private static final String IP = "178.128.27.215";
     //private static final String IP = "203.151.93.176";
@@ -105,14 +106,14 @@ public class TCPSocketServiceProvider extends Service {
     public void screenOff() {
         if (mSocket != null && mSocket.isConnecting()) {
             if (mSocket.getMObservable() instanceof SocketObservable)
-                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(INTERVAL_INITIAL_RETRY, isDelayUp = true);
+                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(INTERVAL_INITIAL_RETRY_OFF, isDelayUp = true);
         }
     }
 
     public void screenOn() {
         if (mSocket != null && mSocket.isConnecting()) {
             if (mSocket.getMObservable() instanceof SocketObservable)
-                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(INTERVAL_INITIAL_RETRY, isDelayUp = false);
+                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(INTERVAL_INITIAL_RETRY_ON, isDelayUp = false);
         }
     }
 
@@ -171,7 +172,7 @@ public class TCPSocketServiceProvider extends Service {
     public void connectConnection() {
         Log.e(TAG, "connectConnection");
         isConnecting = true;
-        mSocket = RxSocketClient.create(new SocketConfig.Builder().setIp(IP).setPort(PORT).setCharset(Charset.forName("UTF-8")).setThreadStrategy(ThreadStrategy.ASYNC).setTimeout(INTERVAL_TIME_OUT).setDelayTime(INTERVAL_INITIAL_RETRY).setMaxDelayTime(INTERVAL_MAXIMUM_RETRY).setIncreaseDelayTime(INTERVAL_INCREASE).build()).option(new SocketOption.Builder().setHeartBeat(HEART_BEAT, 60 * 1000)/*.setHead(HEAD).setTail(TAIL)*/.build());
+        mSocket = RxSocketClient.create(new SocketConfig.Builder().setIp(IP).setPort(PORT).setCharset(Charset.forName("UTF-8")).setThreadStrategy(ThreadStrategy.ASYNC).setTimeout(INTERVAL_TIME_OUT).setDelayTime(INTERVAL_INITIAL_RETRY_ON).setMaxDelayTime(INTERVAL_MAXIMUM_RETRY).setIncreaseDelayTime(INTERVAL_INCREASE).build()).option(new SocketOption.Builder().setHeartBeat(HEART_BEAT, 60 * 1000)/*.setHead(HEAD).setTail(TAIL)*/.build());
         ref = mSocket.connect().observeOn(AndroidSchedulers.mainThread()).subscribe(new SocketSubscriber() {
 
             @Override
