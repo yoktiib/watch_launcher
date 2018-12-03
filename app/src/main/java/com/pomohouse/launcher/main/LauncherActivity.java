@@ -208,7 +208,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
                 remainingPermissions.add(permission);
             }
         }
-        requestPermissions(remainingPermissions.toArray(new String[remainingPermissions.size()]), 101);
+        requestPermissions(remainingPermissions.toArray(new String[remainingPermissions.size()]), MY_PERMISSIONS);
     }
 
     @Override

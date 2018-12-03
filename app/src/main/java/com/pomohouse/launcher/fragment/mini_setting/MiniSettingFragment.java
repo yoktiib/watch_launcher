@@ -218,20 +218,47 @@ public class MiniSettingFragment extends BaseFragment implements IMiniSettingVie
         else if (level == 2)
             volume = 10;
         this.onUpdateMuteNotification(true);
+        SoundPoolManager soundPoolManager = SoundPoolManager.getInstance(activity);
+        if (soundPoolManager == null)
+        soundPoolManager = SoundPoolManager.getInstance(activity);
+        if (soundPoolManager == null)
+            return;
+        if (CombineObjectConstance.getInstance().isInClassTime()) {
+            soundPoolManager.silentMode(activity);
+            return;
+        }
+        if (CombineObjectConstance.getInstance().isSilentMode()) {
+            soundPoolManager.silentMode(activity);
+        } else {
+            if (level == 0) {
+                soundPoolManager.vibrateOnly(activity);
+            } else {
+                this.onUpdateMuteNotification(false);
+                soundPoolManager.vibrateAndSound(activity, volume);
+            }
+            if (CombineObjectConstance.getInstance().isAutoAnswer())
+                soundPoolManager.ringingMode(activity, volume);
+        }
+      /*  int volume = 15;
+        if (level == 1)
+            volume = 5;
+        else if (level == 2)
+            volume = 10;
+        this.onUpdateMuteNotification(true);
 
         AudioManager am=(AudioManager) Objects.requireNonNull(getContext()).getSystemService(Context.AUDIO_SERVICE);
         //Objects.requireNonNull(am).adjustStreamVolume (AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
         //am.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
         //Timber.e("Length Of STREAM_MUSIC : "+am.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-        /*Timber.e("Length Of STREAM_RING : "+am.getStreamMaxVolume(AudioManager.STREAM_RING));
-        Timber.e("Length Of STREAM_ALARM : "+am.getStreamMaxVolume(AudioManager.STREAM_ALARM));*/
+        *//*Timber.e("Length Of STREAM_RING : "+am.getStreamMaxVolume(AudioManager.STREAM_RING));
+        Timber.e("Length Of STREAM_ALARM : "+am.getStreamMaxVolume(AudioManager.STREAM_ALARM));*//*
         //am.getStreamVolume(AudioManager.STREAM_MUSIC);
-        Objects.requireNonNull(am).setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.STREAM_MUSIC);/*
+        Objects.requireNonNull(am).setStreamVolume(AudioManager.STREAM_MUSIC, volume, 0);*//*
         am.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.STREAM_ALARM);
-        am.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.STREAM_RING);*/
+        am.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.STREAM_RING);*//*
         //SoundPoolManager soundPoolManager = SoundPoolManager.getInstance(activity);
-        /*if (soundPoolManager == null)
-            return;*/
+        *//*if (soundPoolManager == null)
+            return;*//*
         if (CombineObjectConstance.getInstance().isInClassTime()) {
             am.setRingerMode(AudioManager.RINGER_MODE_SILENT);
             return;
@@ -244,11 +271,11 @@ public class MiniSettingFragment extends BaseFragment implements IMiniSettingVie
             } else {
                 this.onUpdateMuteNotification(false);
                 am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                Objects.requireNonNull(am).setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.STREAM_MUSIC);
+                Objects.requireNonNull(am).setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.STREAM_VOICE_CALL);
             }
             if (CombineObjectConstance.getInstance().isAutoAnswer())
                 am.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-        }
+        }*/
     }
 
     @Override
