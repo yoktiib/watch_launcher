@@ -12,28 +12,54 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true" />
 
-    <TextView
-        android:id="@+id/tvSave"
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="8dp"
-        android:background="@color/waffle_white_color"
-        android:padding="14dp"
-        android:text=" SAVE "
-        android:textSize="16sp" />
+        android:layout_margin="8dp">
 
-    <TextView
-        android:id="@+id/tvNo"
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_save" />
+
+        <TextView
+
+            android:id="@+id/tvSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="14dp"
+            android:text=" SAVE "
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="8dp"
-        android:background="@color/waffle_white_color"
-        android:padding="14dp"
-        android:text=" CANCEL "
-        android:textSize="16sp" />
+        android:layout_margin="8dp">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_cancel" />
+
+        <TextView
+            android:id="@+id/tvNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="14dp"
+            android:layout_centerInParent="true"
+            android:text=" CANCEL "
+            android:textSize="20sp" />
+    </RelativeLayout>
 </RelativeLayout>

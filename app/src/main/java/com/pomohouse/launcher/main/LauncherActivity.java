@@ -21,6 +21,7 @@ import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
@@ -77,6 +78,7 @@ import com.pomohouse.library.networks.MetaDataNetwork;
 import com.pomohouse.library.networks.ResponseDao;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -148,7 +150,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         long startTime = System.currentTimeMillis(); //alarm starts immediately
         AlarmManager backupAlarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         if (backupAlarmMgr != null) {
-            backupAlarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, startTime, settingManager.getSetting().getPositionTiming() * 1000, alarmIntent); // alarm will repeat after every 15 minutes
+            backupAlarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, startTime, 60/*settingManager.getSetting().getPositionTiming()*/ * 1000, alarmIntent); // alarm will repeat after every 15 minutes
         }
     }
 
@@ -188,21 +190,26 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     }
 
     private final int MY_PERMISSIONS = 1010;
-    String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.WRITE_SETTINGS,
-            Manifest.permission.MODIFY_AUDIO_SETTINGS,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CALL_PHONE,
-            Manifest.permission.PROCESS_OUTGOING_CALLS,
-            Manifest.permission.WRITE_CONTACTS,
-            Manifest.permission.WAKE_LOCK,
-            Manifest.permission.SET_TIME_ZONE};
+    String[] PERMISSIONS = {Manifest.permission.RECORD_AUDIO, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_SETTINGS, Manifest.permission.MODIFY_AUDIO_SETTINGS, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CALL_PHONE, Manifest.permission.PROCESS_OUTGOING_CALLS, Manifest.permission.WRITE_CONTACTS, Manifest.permission.WAKE_LOCK, Manifest.permission.SET_TIME_ZONE};
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean arePermissionsEnabled() {
+        for (String permission : PERMISSIONS) {
+            if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) return false;
+        }
+        return true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void requestMultiplePermissions() {
+        List<String> remainingPermissions = new ArrayList<>();
+        for (String permission : PERMISSIONS) {
+            if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+                remainingPermissions.add(permission);
+            }
+        }
+        requestPermissions(remainingPermissions.toArray(new String[remainingPermissions.size()]), 101);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -254,7 +261,21 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
             }
         });
 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!android.provider.Settings.System.canWrite(this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivity(intent);
+            }
+            if (arePermissionsEnabled()) {
+                presenter.requestInitialDevice();
+            } else requestMultiplePermissions();
+
+        } else {
+            presenter.requestInitialDevice();
+        }
+
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!android.provider.Settings.System.canWrite(this)) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
                 intent.setData(Uri.parse("package:" + getPackageName()));
@@ -267,7 +288,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
             }
         } else {
             presenter.requestInitialDevice();
-        }
+        }*/
         presenter.initDevice();
         //Timber.e("GPS OPEN ? = " + isOPen(this));
         if (!isOPen(this)) openGPS(this);

@@ -37,8 +37,8 @@ public class WearerInfoUtils {
         try {
             TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
             if (telephonyManager != null) {
-                haveSimCard = telephonyManager.getSimState() == TelephonyManager.SIM_STATE_READY;
-                imei = telephonyManager.getDeviceId();
+                haveSimCard = telephonyManager.getSimState() != TelephonyManager.SIM_STATE_ABSENT;
+                imei = telephonyManager.getImei();
             }
         } catch (Exception ignore) {
         }

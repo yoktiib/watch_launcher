@@ -34,14 +34,14 @@ public class TelephoneState {
 
     public void init(SignalInfoListener signalListener) {
         try {
-            if (!isSimCardChecked) {
+           /* if (!isSimCardChecked) {
                 new Handler().postDelayed(() -> {
                     isSimCardChecked = true;
-                    if (WearerInfoUtils.newInstance(mContext).isHaveSimCard())
+                    if (WearerInfoUtils.getInstance().isHaveSimCard(mContext))
                         signalListener.onSimCardReady();
                     else signalListener.onNoSimCard();
                 }, 10000);
-            }
+            }*/
             PhoneStateListener phoneStateListener = new PhoneStateListener() {
                 public void onSignalStrengthsChanged(SignalStrength signal) {
                     try {

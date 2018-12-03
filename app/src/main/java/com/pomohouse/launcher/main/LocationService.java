@@ -8,6 +8,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.BatteryManager;
@@ -72,8 +74,9 @@ public class LocationService extends Service {
         super.onCreate();
         Log.e(TAG, "Start Location");
         iSettingManager = new SettingPrefManager(this);
-        initLocation();
+        //initLocation();
     }
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {

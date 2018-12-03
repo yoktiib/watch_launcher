@@ -73,7 +73,7 @@ public interface WatchService {
     @POST("location/updateLocation")
     Observable<ResponseDao> callUpdateLocation(@Body RefreshLocationRequest locationInfo);
 
-    @POST("location/requestQRCode")
+    @POST("requestQRCode")
     Observable<ResultGenerator<QRCodeModel>> callRequestQRCode(@Body ImeiRequest param);
 
     /*@GET("contact/checkAllowCalling")

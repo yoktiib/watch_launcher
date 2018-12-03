@@ -114,6 +114,8 @@ public class TCPSocketServiceProvider extends Service {
         if (mSocket != null && mSocket.isConnecting()) {
             if (mSocket.getMObservable() instanceof SocketObservable)
                 ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(INTERVAL_INITIAL_RETRY_ON, isDelayUp = false);
+        } else {
+            connectConnection();
         }
     }
 
@@ -121,6 +123,8 @@ public class TCPSocketServiceProvider extends Service {
         if (mSocket != null && mSocket.isConnecting()) {
             if (mSocket.getMObservable() instanceof SocketObservable)
                 ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(time, isDelayUp = false);
+        } else {
+            if (mSocket != null) mSocket.disconnect();
         }
     }
 
@@ -179,7 +183,7 @@ public class TCPSocketServiceProvider extends Service {
             public void onConnected() {
                 messageReceiver("\n" + "onConnected " + (tcpStatusListener != null));
                 isConnecting = false;
-                if (tcpStatusListener != null) tcpStatusListener.onConnected();
+                // if (tcpStatusListener != null) tcpStatusListener.onConnected();
             }
 
             @Override
@@ -187,11 +191,11 @@ public class TCPSocketServiceProvider extends Service {
                 messageReceiver("\n" + "onDisconnected");
                 isConnecting = false;
                 clearSocket();
-                if (tcpStatusListener != null) tcpStatusListener.onDisconnected();
-
+                // if (tcpStatusListener != null) tcpStatusListener.onDisconnected();
+/*
                 if (isConnecting) return;
                 isConnecting = true;
-                connectConnection();
+                connectConnection();*/
             }
 
             @Override
@@ -356,6 +360,7 @@ public class TCPSocketServiceProvider extends Service {
                     if (QRCodeModel.getResCode() == 0)
                         onQRCodeListener.onQRCodeSuccess(network, QRCodeModel.getData());
                     else onQRCodeListener.onQRCodeFailure(network);
+
                 } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_PIN_CODE)) {
 
                     Log.e(TAG, "TCPMessengerModel.CMD_PIN_CODE");

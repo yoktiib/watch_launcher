@@ -13,11 +13,11 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/btn_takepicture"
-        android:layout_width="40dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="20dp"
         android:adjustViewBounds="true"
         app:srcCompat="@drawable/ic_capture" />
 </RelativeLayout>

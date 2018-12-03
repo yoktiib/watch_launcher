@@ -16,11 +16,11 @@ repositories {
 }
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.pomohouse.bff"
-        minSdkVersion 22
-        targetSdkVersion 27
+        minSdkVersion rootProject.ext.minSdkVersionApps
+        targetSdkVersion rootProject.ext.compileSdkVersion
         versionCode 2
         versionName "1.0.1"
         vectorDrawables.useSupportLibrary = true
