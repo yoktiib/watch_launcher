@@ -214,9 +214,9 @@ public class MiniSettingFragment extends BaseFragment implements IMiniSettingVie
             return;
         int volume = 15;
         if (level == 1)
-            volume = 5;
+            volume = 2;
         else if (level == 2)
-            volume = 10;
+            volume = 5;
         this.onUpdateMuteNotification(true);
         SoundPoolManager soundPoolManager = SoundPoolManager.getInstance(activity);
         if (soundPoolManager == null)

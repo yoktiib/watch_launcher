@@ -307,11 +307,10 @@ public class LocationBroadcast extends BroadcastReceiver {
 
 
     private AMapLocationClientOption getDefaultOption() {
-
         AMapLocationClientOption mOption = new AMapLocationClientOption();
-        mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
-        mOption.setGpsFirst(false);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
-        mOption.setHttpTimeOut(60000 * 5);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
+        mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
+        mOption.setGpsFirst(true);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
+        mOption.setHttpTimeOut(30000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
         //mOption.setInterval(3 * (60 * 1000));//可选，设置定位间隔。默认为2秒
         //mOption.setInterval(2000);//可选，设置定位间隔。默认为2秒
         mOption.setNeedAddress(false);//可选，设置是否返回逆地理地址信息。默认是true

@@ -32,6 +32,7 @@ import com.pomohouse.launcher.manager.settings.ISettingManager;
 import com.pomohouse.launcher.manager.theme.IThemePrefManager;
 import com.pomohouse.launcher.manager.theme.ThemePrefModel;
 import com.pomohouse.launcher.models.EventDataInfo;
+import com.pomohouse.launcher.utils.CombineObjectConstance;
 import com.pomohouse.launcher.utils.SoundPoolManager;
 import com.pomohouse.launcher.utils.TelephoneState;
 import com.pomohouse.launcher.utils.VibrateManager;
@@ -144,7 +145,7 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
         @Override
         public void onNoSimCard() {
             presenter.onNoSimCardPlugin();
-           // onCheckGetStart();
+            // onCheckGetStart();
         }
 
         @Override
@@ -287,7 +288,9 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
     public void onBatteryChanged(int battery, long level) {
         try {
             if (getActivity() != null) {
-                ivBattery.setImageResource(battery);
+                if (CombineObjectConstance.getInstance().isBatteryStatusCharging())
+                    ivBattery.setImageResource(R.drawable.battery_charging);
+                else ivBattery.setImageResource(battery);
                 tvBattery.setText(String.format(getString(R.string.battery_format), level));
             }
         } catch (Exception ignored) {

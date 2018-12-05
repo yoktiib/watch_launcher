@@ -259,9 +259,9 @@ public abstract class BaseLauncherActivity extends LocalizationActivity {
         int level = settingPrefModel.getVolumeLevel();
         int volume = 15;
         if (level == 1)
-            volume = 5;
+            volume = 2;
         else if (level == 2)
-            volume = 10;
+            volume = 5;
         this.onUpdateMuteNotification(true);
         soundPoolManager = SoundPoolManager.getInstance(this);
         if (soundPoolManager == null)

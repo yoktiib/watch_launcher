@@ -5,6 +5,8 @@ import android.location.Location;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 /**
  * Created by Admin on 9/5/16 AD.
  */
@@ -40,7 +42,29 @@ public class LocationUpdateRequest{
     @SerializedName("eventList")
     @Expose
     private String eventList;
+    /*@SerializedName("wifiAccessPoints")
+    @Expose
+    private ArrayList<WifiAccessPoint> wifiAccessPoint;
+    @SerializedName("cellTowers")
+    @Expose
+    private ArrayList<CellTowers> cellTower;
 
+    public ArrayList<CellTowers> getCellTower() {
+        return cellTower;
+    }
+
+    public void setCellTower(ArrayList<CellTowers> cellTower) {
+        this.cellTower = cellTower;
+    }
+
+    public ArrayList<WifiAccessPoint> getWifiAccessPoint() {
+        return wifiAccessPoint;
+    }
+
+    public void setWifiAccessPoint(ArrayList<WifiAccessPoint> wifiAccessPoint) {
+        this.wifiAccessPoint = wifiAccessPoint;
+    }
+*/
     public LocationUpdateRequest() {
     }
 

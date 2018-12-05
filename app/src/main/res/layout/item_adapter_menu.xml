@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -17,8 +18,9 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/ivIcon"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:srcCompat="@drawable/setting_restart"
             android:layout_marginStart="8dp" />
 
         <TextView

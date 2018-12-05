@@ -146,18 +146,25 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     public void startLocation() {
         //TODO Location Start
         Intent locationBroadcast = new Intent(getApplicationContext(), LocationBroadcast.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, locationBroadcast, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, locationBroadcast, PendingIntent.FLAG_UPDATE_CURRENT);
         long startTime = System.currentTimeMillis(); //alarm starts immediately
         AlarmManager backupAlarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         if (backupAlarmMgr != null) {
-            backupAlarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, startTime, 60/*settingManager.getSetting().getPositionTiming()*/ * 1000, alarmIntent); // alarm will repeat after every 15 minutes
+            backupAlarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, startTime, settingManager.getSetting().getPositionTiming() * 1000, alarmIntent); // alarm will repeat after every 15 minutes
         }
     }
+
+
+    PendingIntent alarmIntent;
 
     @Override
     public void stopLocation() {
         //TODO Location End
-        stopService(new Intent(this, LocationService.class));
+        if (alarmIntent != null) {
+            AlarmManager backupAlarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+            if (backupAlarmMgr != null) backupAlarmMgr.cancel(alarmIntent);
+            alarmIntent = null;
+        }
     }
 
     @Override
