@@ -132,22 +132,13 @@
       <file leaf-file-name="LauncherActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="145" column="37" lean-forward="true" selection-start-line="145" selection-start-column="37" selection-end-line="145" selection-end-column="37" />
+            <state relative-caret-position="280">
+              <caret line="158" column="46" selection-start-line="158" selection-start-column="46" selection-end-line="158" selection-end-column="46" />
               <folding>
                 <element signature="e#27661#27662#0" expanded="true" />
                 <element signature="e#27710#27711#0" expanded="true" />
                 <element signature="e#30716#30754#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LauncherPresenterImpl.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/presenter/LauncherPresenterImpl.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="333">
-              <caret line="960" column="26" selection-start-line="960" selection-start-column="13" selection-end-line="960" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -7253,6 +7244,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="0" weight="0.32941177" />
       <window_info anchor="bottom" id="TODO" order="0" />
@@ -7264,7 +7256,7 @@
       <window_info anchor="bottom" id="Run" order="0" />
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Terminal" order="0" weight="0.32941177" />
-      <window_info active="true" anchor="bottom" id="Logcat" order="0" visible="true" weight="0.51617646" />
+      <window_info anchor="bottom" id="Logcat" order="0" weight="0.51617646" />
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" order="0" />
       <window_info id="Designer" order="0" />
@@ -7632,8 +7624,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="145" column="37" lean-forward="true" selection-start-line="145" selection-start-column="37" selection-end-line="145" selection-end-column="37" />
+        <state relative-caret-position="280">
+          <caret line="158" column="46" selection-start-line="158" selection-start-column="46" selection-end-line="158" selection-end-column="46" />
           <folding>
             <element signature="e#27661#27662#0" expanded="true" />
             <element signature="e#27710#27711#0" expanded="true" />
