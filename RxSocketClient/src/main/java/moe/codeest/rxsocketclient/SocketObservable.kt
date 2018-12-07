@@ -132,7 +132,7 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
     fun socketRunAlways() {
         doAsync {
             try {
-                while (mSocket.isConnected)
+                while (mSocket.isConnected && !mSocket.isClosed)
                     periodicTask.run()
             } catch (e: SocketException) {
                 observerWrapper.onNext(DataWrapper(SocketState.CLOSE, ByteArray(0)))

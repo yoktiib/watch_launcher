@@ -65,13 +65,15 @@ public class CameraPreviewActivity extends BaseActivity implements ICameraView {
 
     @Override
     public void onSuccessUploadPicture() {
-        Toast.makeText(mContext, "Upload Photo Successful", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(mContext, "Upload Photo Successful", Toast.LENGTH_SHORT).show();
         finish();
     }
 
     @Override
     public void onFailureUploadPicture() {
-        Toast.makeText(mContext, "Upload Photo Not Success", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(mContext, "Upload Photo Not Success", Toast.LENGTH_SHORT).show();
+
+
         finish();
     }
 }

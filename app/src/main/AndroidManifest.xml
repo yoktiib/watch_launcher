@@ -122,11 +122,7 @@
 
         <service android:name=".tcp.TCPSocketServiceProvider" />
 
-        <service
-            android:name=".main.LocationService"
-            android:exported="false" />
-
-        <receiver android:name=".broadcast.LocationBroadcast" />
+        <receiver android:name=".main.LocationBroadcast" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"

@@ -35,6 +35,7 @@ import com.pomohouse.library.manager.AppContextor;
 import com.pomohouse.library.networks.MetaDataNetwork;
 import com.pomohouse.library.networks.ResponseDao;
 import com.pomohouse.library.networks.ResultGenerator;
+import com.pomohouse.library.networks.ResultModel;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
@@ -60,9 +61,8 @@ public class TCPSocketServiceProvider extends Service {
     private static final long INTERVAL_KEEP_ALIVE = 1000 * 60 * 4;
     private static final int INTERVAL_TIME_OUT = 1000 * 20;
     private static final long INTERVAL_INCREASE = 1000;
-    private static final long INTERVAL_INITIAL_RETRY_ON = 1000 * 5;
-    private static final long INTERVAL_INITIAL_RETRY_OFF = 1000 * 7;
-    private static final long INTERVAL_MAXIMUM_RETRY = 1000 * 25;
+    private static final long INTERVAL_INITIAL_RETRY = 1000 * 7;
+    private static final long INTERVAL_MAXIMUM_RETRY = 1000 * 20;
     private static final String IP = "13.228.58.26";
     //private static final String IP = "178.128.27.215";
     //private static final String IP = "203.151.93.176";
@@ -106,16 +106,14 @@ public class TCPSocketServiceProvider extends Service {
     public void screenOff() {
         if (mSocket != null && mSocket.isConnecting()) {
             if (mSocket.getMObservable() instanceof SocketObservable)
-                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(INTERVAL_INITIAL_RETRY_OFF, isDelayUp = true);
+                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(INTERVAL_INITIAL_RETRY, isDelayUp = true);
         }
     }
 
     public void screenOn() {
         if (mSocket != null && mSocket.isConnecting()) {
             if (mSocket.getMObservable() instanceof SocketObservable)
-                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(INTERVAL_INITIAL_RETRY_ON, isDelayUp = false);
-        } else {
-            connectConnection();
+                ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(INTERVAL_INITIAL_RETRY, isDelayUp = false);
         }
     }
 
@@ -123,9 +121,11 @@ public class TCPSocketServiceProvider extends Service {
         if (mSocket != null && mSocket.isConnecting()) {
             if (mSocket.getMObservable() instanceof SocketObservable)
                 ((SocketObservable) mSocket.getMObservable()).updateTimeSleep(time, isDelayUp = false);
-        } else {
-            if (mSocket != null) mSocket.disconnect();
         }
+    }
+
+    public void setTCPStatusListener(OnTCPStatusListener onTCPStatusListener) {
+        this.tcpStatusListener = onTCPStatusListener;
     }
 
 
@@ -138,8 +138,6 @@ public class TCPSocketServiceProvider extends Service {
     public void IsBendable(OnTCPStatusListener launcherRequestListener) {
         this.tcpStatusListener = launcherRequestListener;
         Log.e(TAG, "Set tcpStatusListener");
-        if (mSocket != null && mSocket.isConnecting())
-            if (tcpStatusListener != null) tcpStatusListener.onConnected();
     }
 
     @Override
@@ -165,55 +163,6 @@ public class TCPSocketServiceProvider extends Service {
         super.onStartCommand(intent, flags, startId);
         connectConnection();
         return START_STICKY;
-    }
-
-    public void clearSocket() {
-        if (mSocket != null && mSocket.isConnecting()) mSocket.disconnect();
-        mSocket = null;
-        //createTCPSocket();
-    }
-
-    public void connectConnection() {
-        Log.e(TAG, "connectConnection");
-        isConnecting = true;
-        mSocket = RxSocketClient.create(new SocketConfig.Builder().setIp(IP).setPort(PORT).setCharset(Charset.forName("UTF-8")).setThreadStrategy(ThreadStrategy.ASYNC).setTimeout(INTERVAL_TIME_OUT).setDelayTime(INTERVAL_INITIAL_RETRY_ON).setMaxDelayTime(INTERVAL_MAXIMUM_RETRY).setIncreaseDelayTime(INTERVAL_INCREASE).build()).option(new SocketOption.Builder().setHeartBeat(HEART_BEAT, 60 * 1000)/*.setHead(HEAD).setTail(TAIL)*/.build());
-        ref = mSocket.connect().observeOn(AndroidSchedulers.mainThread()).subscribe(new SocketSubscriber() {
-
-            @Override
-            public void onConnected() {
-                messageReceiver("\n" + "onConnected " + (tcpStatusListener != null));
-                isConnecting = false;
-                // if (tcpStatusListener != null) tcpStatusListener.onConnected();
-            }
-
-            @Override
-            public void onDisconnected() {
-                messageReceiver("\n" + "onDisconnected");
-                isConnecting = false;
-                clearSocket();
-                // if (tcpStatusListener != null) tcpStatusListener.onDisconnected();
-/*
-                if (isConnecting) return;
-                isConnecting = true;
-                connectConnection();*/
-            }
-
-            @Override
-            public void onResponse(@NonNull byte[] data) {
-                try {
-                    Log.e(TAG, "Received : " + new String(data, "UTF-8"));
-                    messageReceiver(new String(data, "UTF-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, throwable -> {
-            //onError
-            isConnecting = false;
-            //  messageReceiver("\n" + "on Error : " + throwable.toString());
-            Log.e(TAG, "\n ERROR : " + throwable.toString());
-
-        });
     }
 
     public void sendLocation(String cmd, String data) {
@@ -265,10 +214,57 @@ public class TCPSocketServiceProvider extends Service {
         }
     }
 
+    public void connectConnection() {
+        Log.e(TAG, "create Connection");
+        isConnecting = true;
+        mSocket = RxSocketClient.create(new SocketConfig.Builder().setIp(IP).setPort(PORT).setCharset(Charset.forName("UTF-8")).setThreadStrategy(ThreadStrategy.ASYNC).setTimeout(INTERVAL_TIME_OUT).setDelayTime(INTERVAL_INITIAL_RETRY).setMaxDelayTime(INTERVAL_MAXIMUM_RETRY).setIncreaseDelayTime(INTERVAL_INCREASE).build()).option(new SocketOption.Builder().setHeartBeat(HEART_BEAT, 60 * 1000)/*.setHead(HEAD).setTail(TAIL)*/.build());
+        ref = mSocket.connect().observeOn(AndroidSchedulers.mainThread()).subscribe(new SocketSubscriber() {
+
+            @Override
+            public void onConnected() {
+                Log.e(TAG, "onConnected " + (tcpStatusListener != null));
+                isConnecting = false;
+                if (tcpStatusListener != null) tcpStatusListener.onConnected();
+            }
+
+            @Override
+            public void onDisconnected() {
+                Log.e(TAG, "onDisconnected");
+                isConnecting = false;
+                if (mSocket.isConnecting()) mSocket.disconnect();
+                mSocket = null;
+                if (tcpStatusListener != null) tcpStatusListener.onDisconnected();
+                connectConnection();
+            }
+
+            @Override
+            public void onResponse(@NonNull byte[] data) {
+                try {
+                    Log.e(TAG, "Received : " + new String(data, "UTF-8"));
+                    messageReceiver(new String(data, "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, throwable -> {
+            //onError
+            isConnecting = false;
+            //  messageReceiver("\n" + "on Error : " + throwable.toString());
+            Log.e(TAG, "\n ERROR : " + throwable.toString());
+
+        });
+    }
+
     private void disconnectConnection() {
         instance = null;
         if (mSocket != null && mSocket.isConnecting()) mSocket.disconnect();
         mSocket = null;
+    }
+
+    public void clearSocket() {
+        if (mSocket != null && mSocket.isConnecting()) mSocket.disconnect();
+        mSocket = null;
+        //createTCPSocket();
     }
 
     void messageReceiver(String messenger) {
@@ -360,7 +356,6 @@ public class TCPSocketServiceProvider extends Service {
                     if (QRCodeModel.getResCode() == 0)
                         onQRCodeListener.onQRCodeSuccess(network, QRCodeModel.getData());
                     else onQRCodeListener.onQRCodeFailure(network);
-
                 } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_PIN_CODE)) {
 
                     Log.e(TAG, "TCPMessengerModel.CMD_PIN_CODE");

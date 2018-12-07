@@ -34,6 +34,7 @@ import com.pomohouse.launcher.models.contacts.ContactCollection;
 import com.pomohouse.launcher.models.contacts.ContactModel;
 import com.pomohouse.launcher.models.events.CallContact;
 import com.pomohouse.launcher.utils.CombineObjectConstance;
+import com.pomohouse.library.WearerInfoUtils;
 import com.pomohouse.library.base.BaseRetrofitPresenter;
 import com.pomohouse.library.manager.AppContextor;
 import com.pomohouse.library.networks.MetaDataNetwork;
@@ -92,10 +93,8 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
     }
 
     @Override
-    public void requestContact(String imei) {
-        if (imei == null || imei.isEmpty())
-            return;
-        interactor.callContactService(this, new ImeiRequest(imei));
+    public void requestContact() {
+        interactor.callContactService(this, new ImeiRequest(WearerInfoUtils.getInstance().getImei(mContext)));
     }
 
     @Override

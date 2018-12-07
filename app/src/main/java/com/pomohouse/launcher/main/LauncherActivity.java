@@ -20,13 +20,10 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.multidex.MultiDex;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
-import android.telephony.SubscriptionManager;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
@@ -39,7 +36,6 @@ import com.pomohouse.launcher.R;
 import com.pomohouse.launcher.activity.pair.EventAlertActivity;
 import com.pomohouse.launcher.activity.pincode.PinCodeActivity;
 import com.pomohouse.launcher.base.BaseLauncherActivity;
-import com.pomohouse.launcher.broadcast.LocationBroadcast;
 import com.pomohouse.launcher.broadcast.alarm.AlarmReceiver;
 import com.pomohouse.launcher.broadcast.alarm.model.AlarmDatabase;
 import com.pomohouse.launcher.broadcast.alarm.model.AlarmItem;
@@ -62,7 +58,6 @@ import com.pomohouse.launcher.manager.settings.ISettingManager;
 import com.pomohouse.launcher.manager.settings.SettingPrefModel;
 import com.pomohouse.launcher.manager.sleep_time.ISleepTimeManager;
 import com.pomohouse.launcher.manager.theme.IThemePrefManager;
-import com.pomohouse.launcher.manager.theme.ThemePrefModel;
 import com.pomohouse.launcher.models.DeviceInfoModel;
 import com.pomohouse.launcher.models.DeviceSetUpDao;
 import com.pomohouse.launcher.models.EventDataInfo;
@@ -77,7 +72,6 @@ import com.pomohouse.library.manager.AppContextor;
 import com.pomohouse.library.networks.MetaDataNetwork;
 import com.pomohouse.library.networks.ResponseDao;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -226,7 +220,8 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         WearerInfoUtils.getInstance().initWearerInfoUtils(this);
-        startService(new Intent(getBaseContext(), TCPSocketServiceProvider.class));
+        startService(new Intent(this, TCPSocketServiceProvider.class));
+        //doBindService();
 
         presenter.provideThemeManager(themeManager);
         presenter.provideEventManager(iEventPrefManager);
@@ -242,7 +237,6 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
 
         viewPager.setAdapter(pagerAdapter = new LauncherHorizontalPagerAdapter(getSupportFragmentManager()));
-        viewPager.setCurrentItem(1);
 
         DeviceActionReceiver.getInstance().setLauncherTimeTickChangedListener(timeTickChangedListener);
         AlarmReceiver.getInstance().initAlarmListener(alarmListener);
@@ -301,6 +295,34 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         if (!isOPen(this)) openGPS(this);
     }
 
+   /* public TCPSocketServiceProvider mBoundService;
+
+    private void doBindService() {
+        Intent intent = new Intent(this, TCPSocketServiceProvider.class);
+        startService(intent);
+        bindService(intent, socketConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    protected ServiceConnection socketConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mBoundService = ((TCPSocketServiceProvider.LocalBinder) service).getService();
+            mBoundService.IsBendable(new OnTCPStatusListener() {
+                @Override
+                public void onConnected() {
+                }
+
+                @Override
+                public void onDisconnected() {
+                }
+            });
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mBoundService = null;
+        }
+    };*/
 
     public static boolean isOPen(final Context context) {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
@@ -460,6 +482,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         super.onResume();
         ActivityContextor.getInstance().initActivity(this);
         ActivityContextor.getInstance().init(this);
+        if (viewPager != null) viewPager.setCurrentItem(1);
 
 //        startRtcRepeatAlarm( this);
         sendBroadcast(new Intent(SEND_EVENT_KILL_APP));
@@ -493,7 +516,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
             }
             if (!CombineObjectConstance.getInstance().getContactEntity().isContactSynced()) {
                 Timber.e("Call Contact");
-                contactPresenter.requestContact(WearerInfoUtils.getInstance().getImei(this));
+                contactPresenter.requestContact();
             }
         } else {
             if (settingManager != null && settingManager.getSetting().isMobileData() && !isMobileDataConnect()) {
@@ -654,18 +677,18 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
     @Override
     public void onEventPairReceived(EventDataInfo eventData) {
-        contactPresenter.requestContact(WearerInfoUtils.getInstance().getImei(this));
+        contactPresenter.requestContact();
         startActivity(new Intent(this, EventAlertActivity.class).putExtra(EventAlertActivity.EVENT_EXTRA, eventData));
     }
 
     @Override
     public void onBestFriendForeverReceived(EventDataInfo eventData) {
-        contactPresenter.requestContact(WearerInfoUtils.getInstance().getImei(this));
+        contactPresenter.requestContact();
     }
 
     @Override
     public void onSyncContact(EventDataInfo eventData) {
-        contactPresenter.requestContact(WearerInfoUtils.getInstance().getImei(this));
+        contactPresenter.requestContact();
     }
 
     @Override

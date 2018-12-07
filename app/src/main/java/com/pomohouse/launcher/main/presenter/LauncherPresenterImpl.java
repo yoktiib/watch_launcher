@@ -157,7 +157,6 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
         super.onInitial(param);
         view.initializeServiceAndReceiver();
         this.setUpDevice();
-        view.startLocation();
     }
 
     @Override
@@ -959,6 +958,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
     @Override
     public void onInitialDeviceSuccess(MetaDataNetwork metaData, DeviceInfoModel data) {
         view.onInitialSuccess(metaData, data);
+        view.startLocation();
     }
 
     @Override
