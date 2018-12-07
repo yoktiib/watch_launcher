@@ -234,7 +234,7 @@ public class TCPSocketServiceProvider extends Service {
                 if (mSocket.isConnecting()) mSocket.disconnect();
                 mSocket = null;
                 if (tcpStatusListener != null) tcpStatusListener.onDisconnected();
-                connectConnection();
+               // connectConnection();
             }
 
             @Override

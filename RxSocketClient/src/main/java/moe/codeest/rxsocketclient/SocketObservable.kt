@@ -40,7 +40,7 @@ import java.net.SocketException
 class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observable<DataWrapper>() {
 
     var detectUserListener: OnDetectUserListener? = null
-    //val mReadThread: ReadThread = ReadThread()
+    val mReadThread: ReadThread = ReadThread()
     lateinit var observerWrapper: SocketObserver
     var mHeartBeatRef: Disposable? = null
 
@@ -59,7 +59,7 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
                         ?: 1080), mConfig.mTimeout ?: 0)
                 observer?.onNext(DataWrapper(SocketState.OPEN, ByteArray(0)))
                 //mReadThread.start()
-                socketRunAlways()
+                mReadThread.start()
             } catch (e: IOException) {
                 println(e.toString())
                 observer?.onNext(DataWrapper(SocketState.CLOSE, ByteArray(0)))
@@ -90,7 +90,7 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
         }
 
         override fun dispose() {
-            //mReadThread.interrupt()
+            mReadThread.interrupt()
             mHeartBeatRef?.dispose()
             mSocket.close()
             observer?.onNext(DataWrapper(SocketState.CLOSE, ByteArray(0)))
@@ -112,67 +112,49 @@ class SocketObservable(val mConfig: SocketConfig, val mSocket: Socket) : Observa
         this.defaultSleep = defaultSleep
         this.timeSleep = defaultSleep
         this.isDelayUp = isDelayUp
-        /*try {
-            periodicTask.run()
-        }catch (ex : Exception){}*/
     }
 
-    /*fun subscribeMessage() {
-        this.isSendMessage = true
-        Thread.interrupted()
-        //periodicTask.run()
-    }*/
-
-    /*fun unsubscribeMessage() {
-        this.isSendMessage = false
-        Thread.interrupted()
-        //periodicTask.run()
-    }*/
-
-    fun socketRunAlways() {
-        doAsync {
+    inner class ReadThread : Thread() {
+        override fun run() {
+            super.run()
             try {
-                while (mSocket.isConnected && !mSocket.isClosed)
-                    periodicTask.run()
-            } catch (e: SocketException) {
-                observerWrapper.onNext(DataWrapper(SocketState.CLOSE, ByteArray(0)))
-            }
-        }
-    }
-
-    var periodicTask = Runnable {
-        try {
-            println(" Log Socket : $timeSleep")
-            val input = DataInputStream(mSocket.getInputStream())
-            val buffer = ByteArray(input.available())
-            if (buffer.isNotEmpty()) {
-                timeSleep = defaultSleep
-                input.read(buffer)
-                observerWrapper.onNext(buffer)
-            }
-            /*if (isSendMessage) {
-                Thread.sleep(2000)
-            } else {*/
-                if (isDelayUp) {
-                    if (isMaxInterval) {
-                        if (timeSleep <= defaultSleep)
-                            isMaxInterval = false
-                        timeSleep -= increaseSleep
-                    } else {
-                        if (timeSleep >= maxSleep)
-                            isMaxInterval = true
-                        timeSleep += increaseSleep
+                while (!mReadThread.isInterrupted && mSocket.isConnected) {
+                    try {
+                        println(" Log Socket : $timeSleep")
+                        val input = DataInputStream(mSocket.getInputStream())
+                        val buffer = ByteArray(input.available())
+                        if (buffer.isNotEmpty()) {
+                            timeSleep = defaultSleep
+                            input.read(buffer)
+                            observerWrapper.onNext(buffer)
+                        }
+                        /*if (isSendMessage) {
+                            Thread.sleep(2000)
+                        } else {*/
+                        if (isDelayUp) {
+                            if (isMaxInterval) {
+                                if (timeSleep <= defaultSleep)
+                                    isMaxInterval = false
+                                timeSleep -= increaseSleep
+                            } else {
+                                if (timeSleep >= maxSleep)
+                                    isMaxInterval = true
+                                timeSleep += increaseSleep
+                            }
+                        } else {
+                            timeSleep = defaultSleep
+                        }
+                        if (timeSleep >= 1000)
+                            Thread.sleep(timeSleep)
+                        /*}*/
+                    } catch (e: InterruptedException) {
                     }
-                } else {
-                    timeSleep = defaultSleep
                 }
-                if (timeSleep >= 1000)
-                    Thread.sleep(timeSleep)
-            /*}*/
-        } catch (e: InterruptedException) {
+            } catch (e: Exception) {
+
+            }
         }
     }
-
     /*inner class ReadThread : Thread() {
         override fun run() {
             super.run()

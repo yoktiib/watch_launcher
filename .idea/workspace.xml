@@ -31,20 +31,11 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RxSocketClient/src/main/java/moe/codeest/rxsocketclient/SocketObservable.kt" beforeDir="false" afterPath="$PROJECT_DIR$/RxSocketClient/src/main/java/moe/codeest/rxsocketclient/SocketObservable.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/activity/camera/CameraPreviewActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/activity/camera/CameraPreviewActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/broadcast/LocationBroadcast.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LocationBroadcast.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/contacts/presenter/ContactPresenterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/contacts/presenter/ContactPresenterImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/contacts/presenter/IContactPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/contacts/presenter/IContactPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LocationService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/presenter/LauncherPresenterImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/presenter/LauncherPresenterImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/tcp/TCPSocketServiceProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/tcp/TCPSocketServiceProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/component/component.iml" beforeDir="false" afterPath="$PROJECT_DIR$/component/component.iml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -120,8 +111,8 @@
       <file leaf-file-name="TCPSocketServiceProvider.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/tcp/TCPSocketServiceProvider.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="226" column="64" selection-start-line="226" selection-start-column="47" selection-end-line="226" selection-end-column="64" />
+            <state relative-caret-position="155">
+              <caret line="115" column="71" selection-start-line="115" selection-start-column="71" selection-end-line="115" selection-end-column="71" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -129,15 +120,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LauncherActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SocketObservable.kt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RxSocketClient/src/main/java/moe/codeest/rxsocketclient/SocketObservable.kt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="158">
+              <caret line="86" column="32" selection-start-line="86" selection-start-column="32" selection-end-line="86" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LauncherActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="158" column="46" selection-start-line="158" selection-start-column="46" selection-end-line="158" selection-end-column="46" />
+            <state relative-caret-position="227">
+              <caret line="141" column="83" selection-start-line="141" selection-start-column="83" selection-end-line="141" selection-end-column="83" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LocationBroadcast.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LocationBroadcast.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="199">
+              <caret line="60" column="50" lean-forward="true" selection-start-line="60" selection-start-column="50" selection-end-line="60" selection-end-column="50" />
               <folding>
-                <element signature="e#27661#27662#0" expanded="true" />
-                <element signature="e#27710#27711#0" expanded="true" />
-                <element signature="e#30716#30754#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -155,8 +162,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>socket</find>
-      <find>dis</find>
       <find>checkContainer</find>
       <find>connectConnection</find>
       <find>TCP</find>
@@ -185,6 +190,8 @@
       <find>initD</find>
       <find>onRes</find>
       <find>LocationService</find>
+      <find>mReadThread</find>
+      <find>dispo</find>
     </findStrings>
   </component>
   <component name="GenerateSignedApkSettings">
@@ -6889,12 +6896,12 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/presenter/LauncherPresenterImpl.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/contacts/presenter/IContactPresenter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/contacts/presenter/ContactPresenterImpl.java" />
-        <option value="$PROJECT_DIR$/RxSocketClient/src/main/java/moe/codeest/rxsocketclient/SocketObservable.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LocationBroadcast.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/activity/camera/CameraPreviewActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/tcp/TCPSocketServiceProvider.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/tcp/TCPSocketServiceProvider.java" />
+        <option value="$PROJECT_DIR$/RxSocketClient/src/main/java/moe/codeest/rxsocketclient/SocketObservable.kt" />
       </list>
     </option>
   </component>
@@ -6908,9 +6915,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -7015,6 +7019,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -7244,7 +7251,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="0" weight="0.32941177" />
       <window_info anchor="bottom" id="TODO" order="0" />
@@ -7256,13 +7262,12 @@
       <window_info anchor="bottom" id="Run" order="0" />
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Terminal" order="0" weight="0.32941177" />
-      <window_info anchor="bottom" id="Logcat" order="0" weight="0.51617646" />
+      <window_info active="true" anchor="bottom" id="Logcat" order="0" visible="true" weight="0.51617646" />
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" order="0" />
       <window_info id="Designer" order="0" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.32956383" />
       <window_info anchor="bottom" id="Build" order="0" weight="0.32941177" />
-      <window_info anchor="bottom" id="Find" weight="0.32941177" />
       <window_info anchor="right" id="Gradle" order="0" sideWeight="0.4985294" weight="0.32956383" />
       <window_info id="Structure" order="0" side_tool="true" />
       <window_info anchor="right" id="Fabric" order="1" sideWeight="0.4985294" weight="0.32956383" />
@@ -7271,6 +7276,7 @@
       <window_info anchor="bottom" id="Debug" order="0" />
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info anchor="right" id="Preview" order="0" visible="true" weight="0.32956383" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32941177" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -7289,14 +7295,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/library/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state />
-      </provider>
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/library/src/main/java/com/pomohouse/library/manager/AppContextor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -7553,20 +7551,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LocationService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RxSocketClient/src/main/java/moe/codeest/rxsocketclient/SocketObservable.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="133" column="17" lean-forward="true" selection-start-line="133" selection-start-column="17" selection-end-line="133" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LocationService.java" />
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="468">
@@ -7588,26 +7573,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/tcp/TCPSocketServiceProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="226" column="64" selection-start-line="226" selection-start-column="47" selection-end-line="226" selection-end-column="64" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LocationBroadcast.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="44" column="39" selection-start-line="44" selection-start-column="24" selection-end-line="44" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherHorizontalPagerAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -7622,14 +7587,43 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/tcp/TCPSocketServiceProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="115" column="71" selection-start-line="115" selection-start-column="71" selection-end-line="115" selection-end-column="71" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/RxSocketClient-master/RxSocketClient/src/main/java/moe/codeest/rxsocketclient/SocketObservable.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="97">
+          <caret line="81" column="23" selection-start-line="81" selection-start-column="12" selection-end-line="81" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RxSocketClient/src/main/java/moe/codeest/rxsocketclient/SocketObservable.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="158">
+          <caret line="86" column="32" selection-start-line="86" selection-start-column="32" selection-end-line="86" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="158" column="46" selection-start-line="158" selection-start-column="46" selection-end-line="158" selection-end-column="46" />
+        <state relative-caret-position="227">
+          <caret line="141" column="83" selection-start-line="141" selection-start-column="83" selection-end-line="141" selection-end-column="83" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LocationBroadcast.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="60" column="50" lean-forward="true" selection-start-line="60" selection-start-column="50" selection-end-line="60" selection-end-column="50" />
           <folding>
-            <element signature="e#27661#27662#0" expanded="true" />
-            <element signature="e#27710#27711#0" expanded="true" />
-            <element signature="e#30716#30754#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
