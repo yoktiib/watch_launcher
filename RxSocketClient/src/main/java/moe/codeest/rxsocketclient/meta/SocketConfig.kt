@@ -32,7 +32,7 @@ class SocketConfig(
         val mThreadStrategy: Int?,
         val delayReadBuffer: Long? = 7000,
         val maxDelayReadBuffer: Long? = 20000,
-        val increaseSleep: Long? = 1000
+        val increaseSleep: Long? = 2000
 ) {
 
     private constructor(builder: Builder) : this(builder.mIp, builder.mPort,

@@ -63,6 +63,7 @@ import com.pomohouse.launcher.models.DeviceSetUpDao;
 import com.pomohouse.launcher.models.EventDataInfo;
 import com.pomohouse.launcher.models.settings.AutoAnswerDao;
 import com.pomohouse.launcher.models.settings.InClassDao;
+import com.pomohouse.launcher.tcp.CMDCode;
 import com.pomohouse.launcher.tcp.OnTCPStatusListener;
 import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 import com.pomohouse.launcher.utils.CombineObjectConstance;
@@ -220,8 +221,8 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         WearerInfoUtils.getInstance().initWearerInfoUtils(this);
-        startService(new Intent(this, TCPSocketServiceProvider.class));
-        //doBindService();
+        //startService(new Intent(this, TCPSocketServiceProvider.class));
+        doBindService();
 
         presenter.provideThemeManager(themeManager);
         presenter.provideEventManager(iEventPrefManager);
@@ -295,7 +296,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         if (!isOPen(this)) openGPS(this);
     }
 
-   /* public TCPSocketServiceProvider mBoundService;
+    public TCPSocketServiceProvider mBoundService;
 
     private void doBindService() {
         Intent intent = new Intent(this, TCPSocketServiceProvider.class);
@@ -307,9 +308,11 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mBoundService = ((TCPSocketServiceProvider.LocalBinder) service).getService();
+            mBoundService.connectConnection();
             mBoundService.IsBendable(new OnTCPStatusListener() {
                 @Override
                 public void onConnected() {
+                    TCPSocketServiceProvider.getInstance().sendMessage(CMDCode.CMD_REGISTER_SOCKET, "{}");
                 }
 
                 @Override
@@ -322,7 +325,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         public void onServiceDisconnected(ComponentName name) {
             mBoundService = null;
         }
-    };*/
+    };
 
     public static boolean isOPen(final Context context) {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);

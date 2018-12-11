@@ -105,13 +105,13 @@ public class ContactFragment extends BaseFragment {
                     Timber.e("family : " + (!contactModel.getContactType().equalsIgnoreCase("family")));
                     if (!contactModel.getContactType().equalsIgnoreCase("family")) {
                         AllowCallingRequest callingRequest = new AllowCallingRequest();
-                        callingRequest.setFromContactId(WearerInfoUtils.newInstance(getContext()).getImei(getContext()));
+                        callingRequest.setFromContactId(WearerInfoUtils.newInstance(getContext()).getImei(getActivity()));
                         callingRequest.setToContactId(contactModel.getContactId());
                         presenter.requestCheckAllowCalling(callingRequest);
                     } else {
                         CallContact callContact = new CallContact();
                         callContact.setToContactId(contactModel.getContactId());
-                        callContact.setFromContactId(WearerInfoUtils.newInstance(getContext()).getImei(getContext()));
+                        callContact.setFromContactId(WearerInfoUtils.newInstance(getContext()).getImei(getActivity()));
                         callContact.setIsAutoAnswer("N");
                         presenter.sendCalling(callContact);
                     }

@@ -275,7 +275,7 @@ public class MainFragment extends BaseFragment implements IMainFragmentView {
     protected void replaceFragment(BaseThemeFragment fragment) {
         if (fragment != null) {
             currentTheme = fragment;
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
+            getChildFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
         }
     }
 
