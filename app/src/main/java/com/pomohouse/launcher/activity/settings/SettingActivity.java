@@ -26,6 +26,8 @@ public class SettingActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        if (TCPSocketServiceProvider.getInstance() != null)
+            TCPSocketServiceProvider.getInstance().checkSocketIsRunning();
     }
 
     @Override

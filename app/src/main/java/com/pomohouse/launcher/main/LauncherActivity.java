@@ -308,7 +308,6 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mBoundService = ((TCPSocketServiceProvider.LocalBinder) service).getService();
-            mBoundService.connectConnection();
             mBoundService.IsBendable(new OnTCPStatusListener() {
                 @Override
                 public void onConnected() {
@@ -486,6 +485,8 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         ActivityContextor.getInstance().initActivity(this);
         ActivityContextor.getInstance().init(this);
         if (viewPager != null) viewPager.setCurrentItem(1);
+        if (TCPSocketServiceProvider.getInstance() != null)
+            TCPSocketServiceProvider.getInstance().checkSocketIsRunning();
 
 //        startRtcRepeatAlarm( this);
         sendBroadcast(new Intent(SEND_EVENT_KILL_APP));
