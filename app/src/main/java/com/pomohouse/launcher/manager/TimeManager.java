@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import timber.log.Timber;
+
 /**
  * Created by Admin on 6/11/2017 AD.
  */
@@ -15,7 +17,8 @@ public class TimeManager {
 
     protected boolean validateDays(String days) {
         try {
-            return days.contains((new SimpleDateFormat("EE", Locale.getDefault())).format(new Date()));
+            //Timber.e("Days = "+days +"=>"+(new SimpleDateFormat("EE", Locale.ENGLISH)).format(new Date()));
+            return days.contains((new SimpleDateFormat("EE", Locale.ENGLISH)).format(new Date()));
         } catch (Exception ignore) {
             return false;
         }

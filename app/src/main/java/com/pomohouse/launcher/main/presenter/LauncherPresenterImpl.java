@@ -318,9 +318,10 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
 
     private void validateSleepMode() {
         try {
+
             if (sleepTimePrefModel == null || sleepTimePrefModel.getBegin() == null || sleepTimePrefModel.getEnd() == null)
                 return;
-            Timber.e(sleepTimePrefModel.getBegin() + "-" + sleepTimePrefModel.getEnd() + " = " + sleepTimePrefModel.isSleepTime());
+            //Timber.e(sleepTimePrefModel.isSleepTimeOn()+" = "+sleepTimePrefModel.getBegin() + "-" + sleepTimePrefModel.getEnd() + " = " + sleepTimePrefModel.isSleepTime()+" day = "+sleepTimePrefModel.isTodayHaveSleepTime());
             if (!sleepTimePrefModel.isSleepTimeOn() || !sleepTimePrefModel.isTodayHaveSleepTime() || !sleepTimePrefModel.isSleepTime()) {
                 this.checkSleepTimeIsOn();
                 return;
@@ -355,7 +356,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
         try {
             if (inClassModePrefModel == null || inClassModePrefModel.getBegin() == null || inClassModePrefModel.getEnd() == null)
                 return;
-            Timber.e(inClassModePrefModel.getBegin() + "-" + inClassModePrefModel.getEnd() + " = " + inClassModePrefModel.isInClassTime());
+            //Timber.e(inClassModePrefModel.isInClassOn()+" = "+inClassModePrefModel.getBegin() + "-" + inClassModePrefModel.getEnd() + " = " + inClassModePrefModel.isInClassTime()+" day = "+inClassModePrefModel.isTodayHaveInClass());
             if (!inClassModePrefModel.isInClassOn() || !inClassModePrefModel.isTodayHaveInClass() || !inClassModePrefModel.isInClassTime()) {
                 this.checkInClassIsOn();
                 return;
@@ -422,6 +423,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                     view.setupSuccess();
                     break;
                 case EVENT_IN_CLASS_MODE_SET_UP_CODE:
+                    Timber.e("EVENT_IN_CLASS_MODE_SET_UP_CODE");
                     this.setUpInClassMode(_eventData);
                     view.inClassModeSetUpEventReceived(_eventData);
                     view.setupSuccess();
@@ -463,12 +465,12 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                     final Intent shutdown = new Intent("com.pomohouse.waffle.REQUEST_SHUTDOWN");
                     ActivityContextor.getInstance().getContext().sendBroadcast(shutdown);
                     break;
-                /*case EVENT_BRIGHTNESS_TIME_OUT_CODE:
+                case EVENT_BRIGHTNESS_TIME_OUT_CODE:
                     BrightnessTimeOutDao brightnessTimeOut = new Gson().fromJson(_eventData.getContent(), BrightnessTimeOutDao.class);
                     if (brightnessTimeOut != null)
                         view.onSetUpBrightnessTimeOut(brightnessTimeOut.getBrightnessTimeOut());
                     view.setupSuccess();
-                    break;*/
+                    break;
                 case EVENT_LOCATION_REQUEST_CODE:
                     // TODO REQUEST LOCATION
                  /*   RefreshLocationDao refreshLocation = new Gson().fromJson(_eventData.getContent(), RefreshLocationDao.class);
@@ -517,7 +519,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                         }
                     }
                     break;
-             /*   case EVENT_TIMEZONE_CODE:
+                case EVENT_TIMEZONE_CODE:
                     TimeZoneDao timeZoneDao = new Gson().fromJson(_eventData.getContent(), TimeZoneDao.class);
                     if (timeZoneDao != null && !timeZoneDao.getAutoTimezone().isEmpty() && !timeZoneDao.getTimeZone().isEmpty()) {
                         Timber.e(String.valueOf("Timezone : " + timeZoneDao.getAutoTimezone()));
@@ -531,7 +533,7 @@ public class LauncherPresenterImpl extends BaseRetrofitPresenter implements ILau
                             view.setAutoTimezone();
                         else view.setUpTimeZone(timeZoneDao.getTimeZone());
                     }
-                    break;*/
+                    break;
             /*    case EVENT_AUTO_ANSWER_CODE:
                     AutoAnswerDao autoAnswer = new Gson().fromJson(_eventData.getContent(), AutoAnswerDao.class);
                     if (autoAnswer != null) {

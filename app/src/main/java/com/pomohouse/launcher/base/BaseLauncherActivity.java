@@ -73,8 +73,7 @@ public abstract class BaseLauncherActivity extends LocalizationActivity {
 
     protected boolean isNetworkAvailable() {
         try {
-            ConnectivityManager connectivityManager
-                    = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
             return activeNetworkInfo != null && activeNetworkInfo.isConnected();
         } catch (Exception ignore) {
@@ -148,19 +147,18 @@ public abstract class BaseLauncherActivity extends LocalizationActivity {
     }
 
     public void onSetupAutoTimeZone(boolean stateOn) {
-        Intent dataOnIntent = new Intent("com.pomohouse.waffle.REQUEST_AUTO_TIMEZONE");
+        /*Intent dataOnIntent = new Intent("com.pomohouse.waffle.REQUEST_AUTO_TIMEZONE");
         dataOnIntent.putExtra("status", stateOn ? "on" : "off");
-        sendBroadcast(dataOnIntent);
+        sendBroadcast(dataOnIntent);*/
+        Timber.e("Set Timezone = " + stateOn);
+        Settings.Global.putInt(getContentResolver(), Settings.Global.AUTO_TIME_ZONE, stateOn ? 1 : 0);
     }
 
     public void onBrightnessChanged(int level) {
         float backLightValue;
-        if (level == 1)
-            backLightValue = 5;
-        else if (level == 2)
-            backLightValue = 50;
-        else
-            backLightValue = 150;
+        if (level == 1) backLightValue = 5;
+        else if (level == 2) backLightValue = 50;
+        else backLightValue = 150;
         WindowManager.LayoutParams layoutParams = getWindow().getAttributes();
         layoutParams.screenBrightness = backLightValue;
         getWindow().setAttributes(layoutParams);
@@ -220,20 +218,16 @@ public abstract class BaseLauncherActivity extends LocalizationActivity {
     public void onUpdateMuteNotification(boolean isMute) {
         if (notificationManager != null) {
             NotificationPrefModel notificationPrefModel = notificationManager.getNotification();
-            if (notificationPrefModel != null)
-                notificationPrefModel.setHaveMute(isMute);
+            if (notificationPrefModel != null) notificationPrefModel.setHaveMute(isMute);
             notificationManager.addNotification(notificationPrefModel);
         }
     }
 
     public void modifyBrightnessChanged(int level) {
         int backLightValue;
-        if (level == 1)
-            backLightValue = 2;
-        else if (level == 2)
-            backLightValue = 50;
-        else
-            backLightValue = 150;
+        if (level == 1) backLightValue = 2;
+        else if (level == 2) backLightValue = 50;
+        else backLightValue = 150;
         {
             ContentResolver cResolver = getContentResolver();
             Settings.System.putInt(cResolver, Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
@@ -258,14 +252,11 @@ public abstract class BaseLauncherActivity extends LocalizationActivity {
     public void modifyVolumeChanged(SettingPrefModel settingPrefModel) {
         int level = settingPrefModel.getVolumeLevel();
         int volume = 15;
-        if (level == 1)
-            volume = 2;
-        else if (level == 2)
-            volume = 5;
+        if (level == 1) volume = 2;
+        else if (level == 2) volume = 5;
         this.onUpdateMuteNotification(true);
         soundPoolManager = SoundPoolManager.getInstance(this);
-        if (soundPoolManager == null)
-            return;
+        if (soundPoolManager == null) return;
         if (CombineObjectConstance.getInstance().isInClassTime()) {
             soundPoolManager.silentMode(this);
             return;

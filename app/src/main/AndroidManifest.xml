@@ -117,7 +117,9 @@
         <receiver android:name=".broadcast.alarm.receiver.BootReceiver" />
         <service android:name=".broadcast.alarm.receiver.AalService" />-->
 
-        <activity android:name=".activity.camera.CameraActivity" />
+        <activity
+            android:name=".activity.camera.CameraActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.camera.CameraPreviewActivity" />
 
         <service android:name=".tcp.TCPSocketServiceProvider" />

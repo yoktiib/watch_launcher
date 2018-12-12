@@ -489,6 +489,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
             TCPSocketServiceProvider.getInstance().checkSocketIsRunning();
 
 //        startRtcRepeatAlarm( this);
+        configurationChanged();
         sendBroadcast(new Intent(SEND_EVENT_KILL_APP));
     }
 
