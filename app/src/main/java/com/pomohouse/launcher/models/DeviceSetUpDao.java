@@ -35,7 +35,7 @@ public class DeviceSetUpDao extends ResultModel {
     @SerializedName("timeZone")
     @Expose
     private String timeZone;
-    @SerializedName("autoTimezone")
+    @SerializedName("autoTimeZone")
     @Expose
     private String autoTimezone = "N";
     @SerializedName("currentTime")

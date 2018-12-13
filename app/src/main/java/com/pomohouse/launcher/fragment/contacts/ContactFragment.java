@@ -96,11 +96,13 @@ public class ContactFragment extends BaseFragment {
             if (isCanCall) {
                 isCanCall = false;
                 OutGoingCallReceiver.isSOS = false;
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setData(Uri.parse("tel:" + contactModel.getPhone()));
+                getActivity().startActivity(intent);
+                /*
                 if (contactModel.getCallType().equalsIgnoreCase("C")) {
-                    Intent intent = new Intent(Intent.ACTION_CALL);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setData(Uri.parse("tel:" + contactModel.getPhone()));
-                    getActivity().startActivity(intent);
+
                 } else if (contactModel.getCallType().equalsIgnoreCase("V")) {
                     Timber.e("family : " + (!contactModel.getContactType().equalsIgnoreCase("family")));
                     if (!contactModel.getContactType().equalsIgnoreCase("family")) {
@@ -115,10 +117,11 @@ public class ContactFragment extends BaseFragment {
                         callContact.setIsAutoAnswer("N");
                         presenter.sendCalling(callContact);
                     }
-                }
+                }*/
+/*
                 if (runnable != null)
                     handler.removeCallbacks(runnable);
-                handler.postDelayed(runnable, 5000);
+                handler.postDelayed(runnable, 5000);*/
             }
         } catch (Exception ignore) {
             Timber.e(ignore.getMessage());

@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 public class EventPrefModel {
     public ArrayList<String> listEvent = new ArrayList<>();
+
     public EventPrefModel() {
     }
 
@@ -17,4 +18,13 @@ public class EventPrefModel {
     public void setListEvent(ArrayList<String> listEvent) {
         this.listEvent = listEvent;
     }
+/*
+    public String getEventListToData() {
+        String eventList = "";
+        if (listEvent != null) {
+            for (String event : listEvent)
+                eventList
+                return
+        } return "";
+    }*/
 }

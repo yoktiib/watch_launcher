@@ -460,12 +460,12 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
                 DeviceSetUpDao deviceSetUp = data.getDeviceSetUp();
                 SettingPrefModel setting = settingManager.getSetting();
                 setting.setSilentMode(data.getDeviceSetUp().getSilentMode().equalsIgnoreCase("Y"));
-                //setting.setTimeZone(deviceSetUp.getTimeZone());
+                setting.setTimeZone(deviceSetUp.getTimeZone());
                 setting.setPositionTiming(deviceSetUp.getPositionTiming());
                 //setting.setWearerStatus(deviceSetUp.getWearerStatus().equalsIgnoreCase("Y"));
                 //setting.setAutoAnswer(deviceSetUp.getAutoAnswer().equalsIgnoreCase("Y"));
-                //setting.setAutoTimezone(deviceSetUp.getAutoTimezone().equalsIgnoreCase("Y"));
-                //setting.setScreenOffTimer(deviceSetUp.getBrightnessTimeOut());
+                setting.setAutoTimezone(deviceSetUp.getAutoTimezone().equalsIgnoreCase("Y"));
+                setting.setScreenOffTimer(deviceSetUp.getBrightnessTimeOut());
                 setting.setLang(deviceSetUp.getLang());
                 settingManager.addMiniSetting(setting);
             }
@@ -676,8 +676,8 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         /**
          * Send Broadcast to setup Sound after reset factory
          */
-        if (settingManager != null)
-            onBrightnessChanged(settingManager.getSetting().getBrightLevel());
+        /*if (settingManager != null)
+            onBrightnessChanged(settingManager.getSetting().getBrightLevel());*/
     }
 
     @Override

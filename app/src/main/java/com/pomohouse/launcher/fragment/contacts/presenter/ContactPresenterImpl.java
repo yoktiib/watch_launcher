@@ -120,7 +120,7 @@ public class ContactPresenterImpl extends BaseRetrofitPresenter implements ICont
         Timber.e("Content : " + data);
         final Intent intentEvent = new Intent(ACTION_SYNC_CONTACT);
         intentEvent.putExtra(EVENT_EXTRA, data);
-        mContext.sendBroadcast(new Intent(ACTION_REGISTER_TWILIO_TOKEN));
+        //mContext.sendBroadcast(new Intent(ACTION_REGISTER_TWILIO_TOKEN));
         mContext.sendBroadcast(intentEvent);
     }
 

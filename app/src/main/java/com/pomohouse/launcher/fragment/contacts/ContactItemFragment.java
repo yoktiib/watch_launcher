@@ -49,6 +49,8 @@ public class ContactItemFragment extends Fragment {
     ImageView ivCall;
     @BindView(R.id.boxNotification)
     RelativeLayout boxNotification;
+    @BindView(R.id.boxAvatarIcon)
+    RelativeLayout boxAvatarIcon;
 
     @BindView(R.id.boxAvatarUrl)
     RelativeLayout boxAvatarUrl;
@@ -88,12 +90,12 @@ public class ContactItemFragment extends Fragment {
                 boxNotification.setVisibility(View.GONE);
             }
             if (contactModel.getAvatarType() == 0 && contactModel.getAvatar() != null && !contactModel.getAvatar().isEmpty()) {
-                ivContactAvatarIcon.setVisibility(View.VISIBLE);
                 boxAvatarUrl.setVisibility(View.GONE);
+                boxAvatarIcon.setVisibility(View.VISIBLE);
                 ivContactAvatarIcon.setImageResource(avatarCollection.getAvatarMap().get(contactModel.getAvatar()));
             } else {
                 boxAvatarUrl.setVisibility(View.VISIBLE);
-                ivContactAvatarIcon.setVisibility(View.GONE);
+                boxAvatarIcon.setVisibility(View.GONE);
                 Glide.with(this).load(contactModel.getAvatar()).error(R.drawable.placeholder).transform(new CircleTransform(getContext())).into(ivContactAvatar);
             }
             if (contactModel.getContactType() != null && !contactModel.getContactType().isEmpty())

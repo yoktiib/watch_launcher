@@ -150,7 +150,7 @@ public abstract class BaseLauncherActivity extends LocalizationActivity {
         /*Intent dataOnIntent = new Intent("com.pomohouse.waffle.REQUEST_AUTO_TIMEZONE");
         dataOnIntent.putExtra("status", stateOn ? "on" : "off");
         sendBroadcast(dataOnIntent);*/
-        Timber.e("Set Timezone = " + stateOn);
+        //Timber.e("Set Timezone = " + stateOn);
         Settings.Global.putInt(getContentResolver(), Settings.Global.AUTO_TIME_ZONE, stateOn ? 1 : 0);
     }
 

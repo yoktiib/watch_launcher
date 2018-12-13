@@ -17,6 +17,8 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.google.gson.Gson;
 import com.pomohouse.launcher.api.requests.LocationUpdateRequest;
+import com.pomohouse.launcher.manager.event.EventPrefManagerImpl;
+import com.pomohouse.launcher.manager.event.IEventPrefManager;
 import com.pomohouse.launcher.manager.fitness.FitnessPrefManagerImpl;
 import com.pomohouse.launcher.manager.fitness.FitnessPrefModel;
 import com.pomohouse.launcher.manager.fitness.IFitnessPrefManager;
@@ -25,6 +27,8 @@ import com.pomohouse.launcher.manager.settings.SettingPrefManager;
 import com.pomohouse.launcher.tcp.CMDCode;
 import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 import com.pomohouse.library.manager.ActivityContextor;
+
+import java.util.ArrayList;
 
 import timber.log.Timber;
 
@@ -45,6 +49,7 @@ public class LocationBroadcast extends BroadcastReceiver {
         Log.d("Start", "LocationService");
         iSettingManager = new SettingPrefManager(context);
         iFitnessPrefManager = new FitnessPrefManagerImpl(context);
+        iEventPrefManager = new EventPrefManagerImpl(context);
         initLocation(context);
         /*Intent serviceIntent = new Intent(context, LocationService.class);
         context.startService(serviceIntent);*/
@@ -88,7 +93,7 @@ public class LocationBroadcast extends BroadcastReceiver {
             //   <PMHStart><147><K8><357450080116409><1.1><ILU><{"accuracy":25.0,"lat":19.039446,"lng":99.931521,"locationType":5,"power":45.0,"step":0}><234><PMHEnd>"
             LocationUpdateRequest locationData = new LocationUpdateRequest();
             locationData.setAccuracy(location.getAccuracy());
-            locationData.setLat( location.getLatitude());
+            locationData.setLat(location.getLatitude());
             locationData.setLng(location.getLongitude());
             locationData.setLocationType(location.getLocationType());
             requestEventInterval(locationData);
@@ -113,32 +118,40 @@ public class LocationBroadcast extends BroadcastReceiver {
     private long mLastStepTime = 0;
     private long mLastLocationTime = 0;
     private IFitnessPrefManager iFitnessPrefManager;
+    private IEventPrefManager iEventPrefManager;
 
     private void requestEventInterval(LocationUpdateRequest locationInfo) {
+        if (locationInfo == null) return;
+
         final long now = SystemClock.elapsedRealtime();// + (30 * 1000);
         if (iSettingManager == null) return;
         Timber.e((now - mLastLocationTime) + " : " + (iSettingManager.getSetting().getPositionTiming() - 60) * 1000);
         /*if (now - mLastLocationTime < ((iSettingManager.getSetting().getPositionTiming() - 60) * 1000) && mLastLocationTime != 0)
             return;*/
+        if (iEventPrefManager != null)
+            locationInfo.setEventList(new Gson().toJson(iEventPrefManager.getEvent().getListEvent()));
+        locationInfo.setCellTower(new ArrayList<>());
+        locationInfo.setWifiAccessPoint(new ArrayList<>());
         if (now - mLastStepTime < (iSettingManager.getSetting().getStepSyncTiming() * 1000)) {
+
+            //wifiAccessPoints
+            //cellTowers
+            //eventlist
             Timber.e("ignoring STEP_PERIOD until period has elapsed");
-            if (locationInfo != null) {
-                locationInfo.setPower(getPowerLevel());
-                TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_EVENT_AND_SETTING_UPDATE, new Gson().toJson(locationInfo));
-                mLastLocationTime = now;
-            }
+            locationInfo.setPower(getPowerLevel());
+            TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_EVENT_AND_LOCATION, new Gson().toJson(locationInfo));
+            mLastLocationTime = now;
+
         } else {
             Timber.e("updateFitnessService");
             updateFitnessService();
             new Handler().postDelayed(() -> {
-                if (locationInfo != null) {
-                    Timber.e("Get STEP_PERIOD");
-                    locationInfo.setPower(getPowerLevel());
-                    locationInfo.setStep(iFitnessPrefManager.getFitness().getStepForSync());
-                    TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_EVENT_AND_SETTING_UPDATE, new Gson().toJson(locationInfo));
-                    mLastStepTime = now;
-                    mLastLocationTime = now;
-                }
+                Timber.e("Get STEP_PERIOD");
+                locationInfo.setPower(getPowerLevel());
+                locationInfo.setStep(iFitnessPrefManager.getFitness().getStepForSync());
+                TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_EVENT_AND_LOCATION, new Gson().toJson(locationInfo));
+                mLastStepTime = now;
+                mLastLocationTime = now;
             }, 5000);
         }
     }

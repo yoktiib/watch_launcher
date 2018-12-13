@@ -72,7 +72,6 @@ public class TCPSocketServiceProvider extends Service {
 
     private final String START_TAG = "<PMHStart>";
     private final String END_TAG = "<PMHEnd>";
-    private static final byte[] HEART_BEAT = "HELLO".getBytes();
     /*private static final byte[] HEAD = {1, 2};
     private static final byte[] TAIL = {5, 7};*/
 
@@ -211,39 +210,40 @@ public class TCPSocketServiceProvider extends Service {
         packageSender.setSum(digits1[0] + digits1[1] + digits1[2]);
         packageSender.setModel(WearerInfoUtils.getInstance().getPlatform());
         packageSender.setLength(packageSender.convertModelToValue().length());
-        Timber.e( "Data Sender : " + packageSender.convertModelToValue());
+        Timber.e("Data Sender : " + packageSender.convertModelToValue());
         if (checkSocketIsRunning()) mSocket.sendData(packageSender.convertModelToValue());
     }
 
     public void connectConnection() {
-        Timber.e( "create Connection");
+        Timber.e("create Connection");
         isConnecting = true;
+        final byte[] HEART_BEAT = ("<PMHStart><00109><K8><" + WearerInfoUtils.getInstance().getImei(this) + "><1.0><UTH><{}><168><PMHEnd>").getBytes();
         mSocket = RxSocketClient.create(new SocketConfig.Builder().setIp(IP).setPort(PORT).setCharset(Charset.forName("UTF-8")).setThreadStrategy(ThreadStrategy.ASYNC).setTimeout(INTERVAL_TIME_OUT).setDelayTime(INTERVAL_INITIAL_RETRY).setMaxDelayTime(INTERVAL_MAXIMUM_RETRY).setIncreaseDelayTime(INTERVAL_INCREASE).build()).option(new SocketOption.Builder().setHeartBeat(HEART_BEAT, INTERVAL_KEEP_ALIVE)/*.setHead(HEAD).setTail(TAIL)*/.build());
         if (ref != null && !ref.isDisposed()) ref.dispose();
         ref = mSocket.connect().observeOn(AndroidSchedulers.mainThread()).subscribe(new SocketSubscriber() {
 
             @Override
             public void onConnected() {
-                Timber.e( "onConnected " + (tcpStatusListener != null));
+                Timber.e("onConnected " + (tcpStatusListener != null));
                 isConnecting = false;
                 if (tcpStatusListener != null) tcpStatusListener.onConnected();
             }
 
             @Override
             public void onDisconnected() {
-                Timber.e( "onDisconnected");
+                Timber.e("onDisconnected");
                 isConnecting = false;
                 if (ref != null && !ref.isDisposed()) ref.dispose();
                 if (mSocket.isConnecting()) mSocket.disconnect();
                 mSocket = null;
                 if (tcpStatusListener != null) tcpStatusListener.onDisconnected();
-                new Handler().postDelayed(() -> connectConnection(),20000);
+                new Handler().postDelayed(() -> connectConnection(), 20000);
             }
 
             @Override
             public void onResponse(@NonNull byte[] data) {
                 try {
-                    Timber.e(  "Received : " + new String(data, "UTF-8"));
+                    Timber.e("Received : " + new String(data, "UTF-8"));
                     messageReceiver(new String(data, "UTF-8"));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -253,7 +253,7 @@ public class TCPSocketServiceProvider extends Service {
             //onError
             isConnecting = false;
             //  messageReceiver("\n" + "on Error : " + throwable.toString());
-            Timber.e(  "\n ERROR : " + throwable.toString());
+            Timber.e("\n ERROR : " + throwable.toString());
 
         });
     }
@@ -289,16 +289,16 @@ public class TCPSocketServiceProvider extends Service {
                                 checkContainer[i] = START_TAG + checkContainer[i];
                             else checkContainer[i] = START_TAG + checkContainer[i] + END_TAG;
                         }
-                        Timber.e( "checkContainer : " + checkContainer[i]);
+                        Timber.e("checkContainer : " + checkContainer[i]);
                         String[] dataEvent = checkContainer[i].split("><");
-                        Timber.e(  "Data Length : " + dataEvent.length);
+                        Timber.e("Data Length : " + dataEvent.length);
                         if (dataEvent.length > 0 && dataEvent.length == 9)
                             classifyMessage(new TCPMessenger().convertValueToModel(dataEvent));
                     }
                     /*}*/
                 }
             } catch (Exception ignore) {
-                Timber.e(  "Error messageReceiver: " + ignore.getLocalizedMessage());
+                Timber.e("Error messageReceiver: " + ignore.getLocalizedMessage());
             }
         });
     }
@@ -306,20 +306,19 @@ public class TCPSocketServiceProvider extends Service {
     private void classifyMessage(TCPMessenger messengerModel) {
         try {
             //Log.e(TAG, "LENGHT : " + messengerModel.getLength());
-            Timber.e(  "IMEI : " + messengerModel.getImei());
-            Timber.e(  "CMD : " + messengerModel.getCMD());
-            Timber.e(  "Data : " + messengerModel.getData());
+            Timber.e("IMEI : " + messengerModel.getImei());
+            Timber.e("CMD : " + messengerModel.getCMD());
+            Timber.e("Data : " + messengerModel.getData());
             //Log.e(TAG, "Sum : " + messengerModel.getSum());
 
             if (checkDataIsNotError(messengerModel.getData())) {
                 MetaDataNetwork network;
-                if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_EVENT_AND_SETTING_UPDATE)) {
-                    Timber.e( "TCPMessengerModel.CMD_EVENT_AND_LOCATION_UPDATE");
+                if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_SETTING_EVENT)) {
+                    Timber.e("WORK : " + CMDCode.CMD_SETTING_EVENT);
                     onConvertEventAndSetting(messengerModel.getData());
-
                 } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_CONTACT)) {
 
-                    Timber.e(  "TCPMessengerModel.CMD_CONTACT");
+                    Timber.e("TCPMessengerModel.CMD_CONTACT");
                     ContactCollection contact = new GsonBuilder().create().fromJson(messengerModel.getData(), ContactCollection.class);
                     network = new MetaDataNetwork(contact.getResCode(), contact.getResDesc());
                     if (onContactListener == null) return;
@@ -329,7 +328,7 @@ public class TCPSocketServiceProvider extends Service {
 
                 } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_INIT_DEVICE)) {
 
-                    Timber.e(  "TCPMessengerModel.CMD_INIT_DEVICE");
+                    Timber.e("TCPMessengerModel.CMD_INIT_DEVICE");
                     ResultGenerator<DeviceInfoModel> deviceInfoModel = new GsonBuilder().create().fromJson(messengerModel.getData(), new TypeToken<ResultGenerator<DeviceInfoModel>>() {
                     }.getType());
                     network = new MetaDataNetwork(deviceInfoModel.getResCode(), deviceInfoModel.getResDesc());
@@ -340,7 +339,7 @@ public class TCPSocketServiceProvider extends Service {
 
                 } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_PAIR_CODE)) {
 
-                    Timber.e(  "TCPMessengerModel.CMD_PAIR_CODE");
+                    Timber.e("TCPMessengerModel.CMD_PAIR_CODE");
                     ResultGenerator<PinCodeModel> pinCodeModel = new GsonBuilder().create().fromJson(messengerModel.getData(), new TypeToken<ResultGenerator<PinCodeModel>>() {
                     }.getType());
                     network = new MetaDataNetwork(pinCodeModel.getResCode(), pinCodeModel.getResDesc());
@@ -351,7 +350,7 @@ public class TCPSocketServiceProvider extends Service {
 
                 } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_QR_CODE)) {
 
-                    Timber.e( "TCPMessengerModel.CMD_QR_CODE");
+                    Timber.e("TCPMessengerModel.CMD_QR_CODE");
                     ResultGenerator<QRCodeModel> QRCodeModel = new GsonBuilder().create().fromJson(messengerModel.getData(), new TypeToken<ResultGenerator<QRCodeModel>>() {
                     }.getType());
                     network = new MetaDataNetwork(QRCodeModel.getResCode(), QRCodeModel.getResDesc());
@@ -361,11 +360,14 @@ public class TCPSocketServiceProvider extends Service {
                     else onQRCodeListener.onQRCodeFailure(network);
                 } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_PIN_CODE)) {
 
-                    Timber.e(  "TCPMessengerModel.CMD_PIN_CODE");
+                    Timber.e("TCPMessengerModel.CMD_PIN_CODE");
                     PinCodeModel pinCode = new GsonBuilder().create().fromJson(messengerModel.getData(), PinCodeModel.class);
                     Intent intent = new Intent(AppContextor.getInstance().getContext(), PinCodeActivity.class);
                     intent.putExtra(PinCodeActivity.EXTRA_PIN_CODE, pinCode.getCode());
                     AppContextor.getInstance().getContext().startActivity(intent);
+                } else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_EVENT_AND_LOCATION)) {
+                    Timber.e("WORK : " + CMDCode.CMD_EVENT_AND_LOCATION);
+                    new EventPrefManagerImpl(this).removeEvent();
                 }
             /* else if (messengerModel.getCMD().equalsIgnoreCase(CMDCode.CMD_LOCATION_UPDATE)) {
 
@@ -380,13 +382,13 @@ public class TCPSocketServiceProvider extends Service {
             } */
                 else {
 
-                    Timber.e( "Else TCPMessengerModel." + messengerModel.getCMD());
+                    Timber.e("Else TCPMessengerModel." + messengerModel.getCMD());
                     //new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(AppContextor.getInstance().getContext(), "Else TCPMessengerModel." + messengerModel.getCMD(), Toast.LENGTH_SHORT).show());
 
                 }
             }
         } catch (Exception ignore) {
-            Timber.e( "Error ClassifyMessage : " + ignore.getLocalizedMessage());
+            Timber.e("Error ClassifyMessage : " + ignore.getLocalizedMessage());
         }
     }
 
@@ -402,7 +404,7 @@ public class TCPSocketServiceProvider extends Service {
                 if (dataEvent != null) {
                     IEventPrefManager iEventPrefManager = new EventPrefManagerImpl(this);
                     EventPrefModel eventPrefModel = iEventPrefManager.getEvent();
-                    if (eventPrefModel != null) {
+                    if (eventPrefModel != null && dataEvent.getEventId() != 0) {
                         eventPrefModel.getListEvent().add(String.valueOf(dataEvent.getEventId()));
                         iEventPrefManager.addEvent(eventPrefModel);
                     }

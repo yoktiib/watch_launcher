@@ -42,7 +42,7 @@ public class LocationUpdateRequest{
     @SerializedName("eventList")
     @Expose
     private String eventList;
-    /*@SerializedName("wifiAccessPoints")
+    @SerializedName("wifiAccessPoints")
     @Expose
     private ArrayList<WifiAccessPoint> wifiAccessPoint;
     @SerializedName("cellTowers")
@@ -64,7 +64,6 @@ public class LocationUpdateRequest{
     public void setWifiAccessPoint(ArrayList<WifiAccessPoint> wifiAccessPoint) {
         this.wifiAccessPoint = wifiAccessPoint;
     }
-*/
     public LocationUpdateRequest() {
     }
 

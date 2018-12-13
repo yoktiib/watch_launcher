@@ -3,6 +3,7 @@ package com.pomohouse.library.networks;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pomohouse.library.WearerInfoUtils;
+import com.pomohouse.library.manager.AppContextor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -23,7 +24,7 @@ public class ServiceApiGenerator extends BaseServiceGenerator {
     private static ServiceApiGenerator instance = null;
     //private final String API = "staging-api.pomowaffle.com";
     //private final String API = "api.pomowaffle.com";
-    private static  String API_BASE_URL = "http://13.228.58.26:3000/v1.1/api/watch/";
+    private  String API_BASE_URL = "http://13.228.58.26:3000/v1.1/api/watch/";
     //private String API_BASE_URL = "https://" + API + "/v1.2/api/watch/";
     //private String API_BASE_URL = "http://api.igps-server.com/v1.2/api/watch/";
 
@@ -73,7 +74,7 @@ public class ServiceApiGenerator extends BaseServiceGenerator {
                     .addHeader("language", WearerInfoUtils.getInstance().getLanguage())
                     .addHeader("platform", WearerInfoUtils.getInstance().getPlatform())
                     .addHeader("version", WearerInfoUtils.getInstance().getPomoVersion())
-                    //.addHeader("imei", WearerInfoUtils.getInstance().getImei())
+                    .addHeader("imei", WearerInfoUtils.getInstance().getImei(AppContextor.getInstance().getContext()))
                     .method(original.method(), original.body()).build();
             return chain.proceed(request);
         });
