@@ -124,7 +124,7 @@ public class LocationBroadcast extends BroadcastReceiver {
             Timber.e("ignoring STEP_PERIOD until period has elapsed");
             if (locationInfo != null) {
                 locationInfo.setPower(getPowerLevel());
-                TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_LOCATION_UPDATE, new Gson().toJson(locationInfo));
+                TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_EVENT_AND_SETTING_UPDATE, new Gson().toJson(locationInfo));
                 mLastLocationTime = now;
             }
         } else {
@@ -135,7 +135,7 @@ public class LocationBroadcast extends BroadcastReceiver {
                     Timber.e("Get STEP_PERIOD");
                     locationInfo.setPower(getPowerLevel());
                     locationInfo.setStep(iFitnessPrefManager.getFitness().getStepForSync());
-                    TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_LOCATION_UPDATE, new Gson().toJson(locationInfo));
+                    TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_EVENT_AND_SETTING_UPDATE, new Gson().toJson(locationInfo));
                     mLastStepTime = now;
                     mLastLocationTime = now;
                 }
