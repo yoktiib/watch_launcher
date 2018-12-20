@@ -141,7 +141,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     public void startLocation() {
         //TODO Location Start
         Intent locationBroadcast = new Intent(getApplicationContext(), LocationBroadcast.class);
-        alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, locationBroadcast, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 101, locationBroadcast, PendingIntent.FLAG_UPDATE_CURRENT);
         long startTime = System.currentTimeMillis(); //alarm starts immediately
         AlarmManager backupAlarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
         if (backupAlarmMgr != null) {
@@ -150,16 +150,14 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     }
 
 
-    PendingIntent alarmIntent;
-
     @Override
     public void stopLocation() {
         //TODO Location End
-        if (alarmIntent != null) {
-            AlarmManager backupAlarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-            if (backupAlarmMgr != null) backupAlarmMgr.cancel(alarmIntent);
-            alarmIntent = null;
-        }
+
+        Intent myIntent = new Intent(getApplicationContext(), LocationBroadcast.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 101, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
     }
 
     @Override
@@ -469,6 +467,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
                 setting.setLang(deviceSetUp.getLang());
                 settingManager.addMiniSetting(setting);
             }
+            contactPresenter.requestContact();
             presenter.initDevice();
             super.configurationChanged();
         } catch (Exception ignore) {

@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class TimezoneUpdateRequest{
 
-    @SerializedName("timezone")
+    @SerializedName("timeZone")
     @Expose
     private String timeZone;
 
