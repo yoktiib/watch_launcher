@@ -1,8 +1,10 @@
 package com.pomohouse.launcher.lock_screen;
 
+import android.Manifest;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
@@ -12,6 +14,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.provider.CallLog;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
 import android.telecom.TelecomManager;
@@ -170,25 +173,20 @@ public class LockScreenService extends Service {
                     break;
                 case EventConstant.EventLocal.EVENT_BATTERY_CHARGING_CODE:
                     BatteryChargerEvent batteryStatusDao = new Gson().fromJson(eventDataInfo.getContent(), BatteryChargerEvent.class);
-                    if (batteryStatusDao.isCharger())
-                        sendBatteryCharge();
-                    else
-                        sendBatteryUnCharge();
+                    if (batteryStatusDao.isCharger()) sendBatteryCharge();
+                    else sendBatteryUnCharge();
                     break;
                 case EventConstant.EventLocal.EVENT_LOCK_SCREEN_NOTIFICATION_MESSAGE_CODE:
                     NotificationMainIconDao message = new Gson().fromJson(eventDataInfo.getContent(), NotificationMainIconDao.class);
-                    if (message != null)
-                        notificationMessage(message.isShow());
+                    if (message != null) notificationMessage(message.isShow());
                     break;
                 case EventConstant.EventLocal.EVENT_LOCK_SCREEN_NOTIFICATION_MUTE_CODE:
                     NotificationMainIconDao mute = new Gson().fromJson(eventDataInfo.getContent(), NotificationMainIconDao.class);
-                    if (mute != null)
-                        notificationVolumeMute(mute.isShow());
+                    if (mute != null) notificationVolumeMute(mute.isShow());
                     break;
                 case EventConstant.EventLocal.EVENT_LOCK_SCREEN_NOTIFICATION_CALL_CODE:
                     NotificationMainIconDao call = new Gson().fromJson(eventDataInfo.getContent(), NotificationMainIconDao.class);
-                    if (call != null)
-                        notificationCall(call.isShow());
+                    if (call != null) notificationCall(call.isShow());
                     break;
             }
         } catch (Exception ignore) {
@@ -259,11 +257,11 @@ public class LockScreenService extends Service {
                     } else {
                         if (mView != null) {
                             AppCompatImageView inClass = (AppCompatImageView) mView.findViewById(R.id.ivInClass);
-                            if (inClass != null)
-                                inClass.setVisibility(View.VISIBLE);
+                            if (inClass != null) inClass.setVisibility(View.VISIBLE);
+                            AppCompatImageView ivMute = (AppCompatImageView) mView.findViewById(R.id.ivMuteNotification);
+                            if (ivMute != null) ivMute.setVisibility(View.VISIBLE);
                             AppCompatImageView lock = (AppCompatImageView) mView.findViewById(R.id.lock);
-                            if (lock != null)
-                                lock.setVisibility(View.GONE);
+                            if (lock != null) lock.setVisibility(View.GONE);
                         }
                     }
                     break;
@@ -285,8 +283,7 @@ public class LockScreenService extends Service {
                     //onUnLockScreen();
                     if (mView != null) {
                         AppCompatImageView inClass = (AppCompatImageView) mView.findViewById(R.id.ivInClass);
-                        if (inClass != null)
-                            inClass.setVisibility(View.GONE);
+                        if (inClass != null) inClass.setVisibility(View.GONE);
                         AppCompatImageView lock = (AppCompatImageView) mView.findViewById(R.id.lock);
                         if (lock != null) {
                             mView.findViewById(R.id.lock).setVisibility(View.VISIBLE);
@@ -327,8 +324,7 @@ public class LockScreenService extends Service {
             int duration = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
             sb.append("Call Details :");
             String callDuration = "";
-            if (managedCursor.getCount() == 0)
-                return true;
+            if (managedCursor.getCount() == 0) return true;
             while (managedCursor.moveToNext()) {
                 // HashMap rowDataCall = new HashMap<String, String>();
                 String phNumber = managedCursor.getString(number);
@@ -343,11 +339,9 @@ public class LockScreenService extends Service {
                     case CallLog.Calls.OUTGOING_TYPE:
                         dir = "OUTGOING";
                         break;
-
                     case CallLog.Calls.INCOMING_TYPE:
                         dir = "INCOMING";
                         break;
-
                     case CallLog.Calls.MISSED_TYPE:
                         dir = "MISSED";
                         break;
@@ -355,8 +349,7 @@ public class LockScreenService extends Service {
                 sb.append("\nPhone Number:--- ").append(phNumber).append(" \nCall Type:--- ").append(dir).append(" \nCall Date:--- ").append(callDayTime).append(" \nCall duration in sec :--- ").append(callDuration);
                 sb.append("\n----------------------------------");
             }
-            if (callDuration.equalsIgnoreCase("0"))
-                return true;
+            if (callDuration.equalsIgnoreCase("0")) return true;
             managedCursor.close();
             System.out.println(sb);
         }
@@ -366,10 +359,8 @@ public class LockScreenService extends Service {
     ScreenOnListener screenOnListener = new ScreenOnListener() {
         @Override
         public void onScreenOn() {
-            if (!isLocked)
-                return;
-            if (notificationManager == null)
-                return;
+            if (!isLocked) return;
+            if (notificationManager == null) return;
             if (isWatchInCall() && !isAutoAnswerOn()) {
                 sendUnLockScreen();
             } else {
@@ -381,6 +372,16 @@ public class LockScreenService extends Service {
 
     private boolean isWatchInCall() {
         TelecomManager tm = (TelecomManager) this.getSystemService(Context.TELECOM_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return false;
+        }
         return tm.isInCall();
     }
 
@@ -394,12 +395,9 @@ public class LockScreenService extends Service {
             if (notification != null) {
                 if (notification.isHaveGroupChat() || notification.isHaveMessage())
                     notificationMessage(true);
-                else
-                    notificationMessage(false);
-                if (notification.isHaveMissCall())
-                    notificationCall(true);
-                else
-                    notificationCall(false);
+                else notificationMessage(false);
+                if (notification.isHaveMissCall()) notificationCall(true);
+                else notificationCall(false);
                 if (notification.isHaveMute() || notification.isHaveSilent())
                     notificationVolumeMute(true);
                 else notificationVolumeMute(false);
@@ -409,8 +407,7 @@ public class LockScreenService extends Service {
     }
 
     TimeTickChangedListener timeTickChangedListener = () -> {
-        if (isLocked)
-            updateTime();
+        if (isLocked) updateTime();
     };
 
     private void notificationVolumeMute(boolean isShow) {
@@ -419,8 +416,7 @@ public class LockScreenService extends Service {
                 if (mView != null) {
                     if (isShow)
                         mView.findViewById(R.id.ivMuteNotification).setVisibility(View.VISIBLE);
-                    else
-                        mView.findViewById(R.id.ivMuteNotification).setVisibility(View.INVISIBLE);
+                    else mView.findViewById(R.id.ivMuteNotification).setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -448,8 +444,7 @@ public class LockScreenService extends Service {
                 if (mView != null) {
                     if (isShow)
                         mView.findViewById(R.id.ivCallNotification).setVisibility(View.VISIBLE);
-                    else
-                        mView.findViewById(R.id.ivCallNotification).setVisibility(View.INVISIBLE);
+                    else mView.findViewById(R.id.ivCallNotification).setVisibility(View.INVISIBLE);
                 }
             }
         } catch (Exception ignore) {
@@ -483,8 +478,7 @@ public class LockScreenService extends Service {
             Timber.i(hour + " : " + minute);
             String hourStr = hour < 10 ? "0" + hour : String.valueOf(hour);
             String minuteStr = minute < 10 ? "0" + minute : String.valueOf(minute);
-            if (tvHour == null || tvHour2 == null || tvMinute == null || tvMinute2 == null)
-                return;
+            if (tvHour == null || tvHour2 == null || tvMinute == null || tvMinute2 == null) return;
             if (is24HourFormat) {
                 tvAmPm.setVisibility(View.GONE);
             } else {
@@ -503,10 +497,8 @@ public class LockScreenService extends Service {
     }
 
     protected void updateDate(int day, String month, String dayName) {
-        if (tvDay != null)
-            tvDay.setText(dayName.toUpperCase()+" ");
-        if (tvDate != null)
-            tvDate.setText(day + " " + month);
+        if (tvDay != null) tvDay.setText(dayName.toUpperCase() + " ");
+        if (tvDate != null) tvDate.setText(day + " " + month);
         if (tvAmPm != null) {
 
             if (is24HourFormat) {
@@ -537,14 +529,14 @@ public class LockScreenService extends Service {
         this.removeViewInWindowsManager();
         mView = View.inflate(getApplicationContext(), R.layout.lock_screen, null);
         mView.findViewById(R.id.ivInClass).setVisibility(View.VISIBLE);
+        mView.findViewById(R.id.ivMuteNotification).setVisibility(View.VISIBLE);
         mView.findViewById(R.id.lock).setVisibility(View.GONE);
         this.mappingViewLockScreen();
     }
 
     public void mappingViewLockScreen() {
         try {
-            if (mView == null)
-                return;
+            if (mView == null) return;
             custom_font = Typeface.createFromAsset(getAssets(), getString(R.string.font_style));
             tvHour = (AppCompatTextView) mView.findViewById(R.id.tvHour);
             tvHour2 = (AppCompatTextView) mView.findViewById(R.id.tvHour2);
@@ -553,14 +545,13 @@ public class LockScreenService extends Service {
             tvDate = (AppCompatTextView) mView.findViewById(R.id.tvDate);
             tvDay = (AppCompatTextView) mView.findViewById(R.id.tvDay);
             tvAmPm = (AppCompatTextView) mView.findViewById(R.id.tvAmPm);
-            AppCompatTextView tvPoral= (AppCompatTextView) mView.findViewById(R.id.tvPoral);
+            AppCompatTextView tvPoral = (AppCompatTextView) mView.findViewById(R.id.tvPoral);
             if (is24HourFormat) {
                 tvAmPm.setVisibility(View.GONE);
             } else {
                 tvAmPm.setVisibility(View.VISIBLE);
             }
-            if (tvHour == null || tvHour2 == null || tvMinute == null || tvMinute2 == null)
-                return;
+            if (tvHour == null || tvHour2 == null || tvMinute == null || tvMinute2 == null) return;
             tvPoral.setTypeface(custom_font);
             tvHour.setTypeface(custom_font);
             tvHour2.setTypeface(custom_font);
@@ -577,8 +568,7 @@ public class LockScreenService extends Service {
     private void onBatteryCharge() {
         try {
             if (lockScreenEnum != LockScreenEnum.NONE) {
-                if (mView == null)
-                    return;
+                if (mView == null) return;
                 contentBox = (FrameLayout) mView.findViewById(R.id.contentBox);
                 contentBox.removeAllViews();
                 contentBox.setVisibility(View.VISIBLE);
@@ -656,14 +646,12 @@ public class LockScreenService extends Service {
                 }
                 onSOSCalling();
             });
-            if (vibrateManager != null)
-                vibrateManager.sosVibration();
+            if (vibrateManager != null) vibrateManager.sosVibration();
 
             OutGoingCallReceiver.sosListener = () -> {
                 if (getLastCallDetails(getApplicationContext())) {
                     onSOSCalling();
-                } else
-                    OutGoingCallReceiver.isSOS = false;
+                } else OutGoingCallReceiver.isSOS = false;
             };
         } catch (IOException e) {
             e.printStackTrace();
@@ -702,10 +690,8 @@ public class LockScreenService extends Service {
 
     public void alarmView(AlarmModel alarmModel) {
         try {
-            if (soundPoolManager != null)
-                soundPoolManager.playAlarm();
-            if (vibrateManager != null)
-                vibrateManager.alarmVibration();
+            if (soundPoolManager != null) soundPoolManager.playAlarm();
+            if (vibrateManager != null) vibrateManager.alarmVibration();
             loopOfAlarm = 0;
             doubleBackToExitPressedOnce = false;
             if (lockScreenEnum != LockScreenEnum.NONE) {
@@ -733,8 +719,7 @@ public class LockScreenService extends Service {
                             loopOfAlarm++;
                             if (loopOfAlarm <= 3) {
                                 gifFromResource.reset();
-                            } else
-                                stopVibrateAndSound();
+                            } else stopVibrateAndSound();
                         });
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -761,8 +746,7 @@ public class LockScreenService extends Service {
                         loopOfAlarm++;
                         if (loopOfAlarm <= 3) {
                             gifFromResource.reset();
-                        } else
-                            stopVibrateAndSound();
+                        } else stopVibrateAndSound();
                     });
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -774,10 +758,8 @@ public class LockScreenService extends Service {
     }
 
     public void stopVibrateAndSound() {
-        if (soundPoolManager != null)
-            soundPoolManager.stopAlarm();
-        if (vibrateManager != null)
-            vibrateManager.release();
+        if (soundPoolManager != null) soundPoolManager.stopAlarm();
+        if (vibrateManager != null) vibrateManager.release();
     }
 
     public void onAlarmExit(FrameLayout box, boolean isLocked) {
@@ -785,10 +767,8 @@ public class LockScreenService extends Service {
             if (doubleBackToExitPressedOnce) {
                 isStop = true;
                 Timber.e("doubleBackToExitPressedOnce");
-                if (vibrateManager != null)
-                    vibrateManager.release();
-                if (soundPoolManager != null)
-                    soundPoolManager.stopAlarm();
+                if (vibrateManager != null) vibrateManager.release();
+                if (soundPoolManager != null) soundPoolManager.stopAlarm();
                 if (!isLocked) {
                     Timber.e("isLocked");
                     this.removeViewInWindowsManager();
@@ -813,8 +793,7 @@ public class LockScreenService extends Service {
         try {
             if (mWindowManager == null)
                 mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-            if (mView != null)
-                mWindowManager.removeView(mView);
+            if (mView != null) mWindowManager.removeView(mView);
             mView = null;
         } catch (IllegalArgumentException ignore) {
             mView = null;
@@ -823,17 +802,8 @@ public class LockScreenService extends Service {
 
     private void onCreateWindowsManagerService() {
         try {
-            if (mView == null || mWindowManager == null)
-                return;
-            final WindowManager.LayoutParams mLayoutParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT,
-                    WindowManager.LayoutParams.MATCH_PARENT,
-                    WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                            | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                            | WindowManager.LayoutParams.FLAG_FULLSCREEN
-                            | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH
-                            | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
-                    PixelFormat.TRANSLUCENT);
+            if (mView == null || mWindowManager == null) return;
+            final WindowManager.LayoutParams mLayoutParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.TYPE_SYSTEM_ALERT, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, PixelFormat.TRANSLUCENT);
             mView.setVisibility(View.VISIBLE);
             mWindowManager.addView(mView, mLayoutParams);
         } catch (Exception ignore) {
@@ -853,8 +823,7 @@ public class LockScreenService extends Service {
                 if (vibrateManager != null) {
                     vibrateManager.unlockScreen();
                 }
-            } else
-                Timber.e("Not Un Lock");
+            } else Timber.e("Not Un Lock");
             lockScreenEnum = LockScreenEnum.NONE;
             if (!isWatchInCall()) {  //yangyu add for fix bug
                 sendBroadcast(new Intent(SEND_EVENT_UNLOCK_DEFAULT_TO_LAUNCHER_INTENT));

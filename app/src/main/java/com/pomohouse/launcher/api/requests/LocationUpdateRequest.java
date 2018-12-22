@@ -47,13 +47,13 @@ public class LocationUpdateRequest{
     private ArrayList<WifiAccessPoint> wifiAccessPoint;
     @SerializedName("cellTowers")
     @Expose
-    private ArrayList<CellTowers> cellTower;
+    private ArrayList<CellTower> cellTower;
 
-    public ArrayList<CellTowers> getCellTower() {
+    public ArrayList<CellTower> getCellTower() {
         return cellTower;
     }
 
-    public void setCellTower(ArrayList<CellTowers> cellTower) {
+    public void setCellTower(ArrayList<CellTower> cellTower) {
         this.cellTower = cellTower;
     }
 

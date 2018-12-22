@@ -153,7 +153,6 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     @Override
     public void stopLocation() {
         //TODO Location End
-
         Intent myIntent = new Intent(getApplicationContext(), LocationBroadcast.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 101, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -629,10 +628,10 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
     @Override
     public void setUpInClassModeEnable() {
-        if (soundPoolManager != null) soundPoolManager.silentMode(this);
         Intent intent = new Intent(SEND_IN_CLASS_INTENT);
         intent.putExtra(EVENT_EXTRA, new Gson().toJson(new InClassDao().setInClass("Y")));
         sendBroadcast(intent);
+        if (soundPoolManager != null) soundPoolManager.silentMode(this);
         /**
          * Stop sound to silent
          */

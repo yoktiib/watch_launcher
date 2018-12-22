@@ -1,5 +1,6 @@
 package com.pomohouse.launcher.main;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,13 +11,23 @@ import android.hardware.SensorManager;
 import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.telephony.CellIdentityLte;
+import android.telephony.CellInfo;
+import android.telephony.CellInfoLte;
+import android.telephony.CellLocation;
+import android.telephony.CellSignalStrengthLte;
+import android.telephony.TelephonyManager;
+import android.telephony.cdma.CdmaCellLocation;
 import android.util.Log;
 
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.google.gson.Gson;
+import com.pomohouse.launcher.api.requests.CellTower;
 import com.pomohouse.launcher.api.requests.LocationUpdateRequest;
+import com.pomohouse.launcher.api.requests.WifiAccessPoint;
+import com.pomohouse.launcher.api.requests.WifiLoc;
 import com.pomohouse.launcher.manager.event.EventPrefManagerImpl;
 import com.pomohouse.launcher.manager.event.IEventPrefManager;
 import com.pomohouse.launcher.manager.fitness.FitnessPrefManagerImpl;
@@ -28,7 +39,10 @@ import com.pomohouse.launcher.tcp.CMDCode;
 import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 import com.pomohouse.library.manager.ActivityContextor;
 
+import java.net.NetworkInterface;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -42,11 +56,12 @@ public class LocationBroadcast extends BroadcastReceiver {
     private SensorManager mSensorManager;
     private ISettingManager iSettingManager;
     private final String TAG = LocationBroadcast.class.getName();
-
+    private  Context mContext;
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO Auto-generated method stub
         Log.d("Start", "LocationService");
+        this.mContext = context;
         iSettingManager = new SettingPrefManager(context);
         iFitnessPrefManager = new FitnessPrefManagerImpl(context);
         iEventPrefManager = new EventPrefManagerImpl(context);
@@ -130,8 +145,8 @@ public class LocationBroadcast extends BroadcastReceiver {
             return;*/
         if (iEventPrefManager != null)
             locationInfo.setEventList(new Gson().toJson(iEventPrefManager.getEvent().getListEvent()));
-        locationInfo.setCellTower(new ArrayList<>());
-        locationInfo.setWifiAccessPoint(new ArrayList<>());
+        locationInfo.setCellTower(getModemCell(mContext));
+        locationInfo.setWifiAccessPoint(getMacAddr());
         if (now - mLastStepTime < (iSettingManager.getSetting().getStepSyncTiming() * 1000)) {
 
             //wifiAccessPoints
@@ -193,5 +208,117 @@ public class LocationBroadcast extends BroadcastReceiver {
             }
         }
         return 0;
+    }
+
+    public static ArrayList<WifiAccessPoint> getMacAddr() {
+        ArrayList<WifiAccessPoint> wifiList= new ArrayList<>();
+        try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                WifiAccessPoint wifiAccessPoint = new WifiAccessPoint();
+                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+
+                byte[] macBytes = nif.getHardwareAddress();
+                if (macBytes == null) {
+                    return new ArrayList<>();
+                }
+
+                StringBuilder res1 = new StringBuilder();
+                for (byte b : macBytes) {
+                    //res1.append(Integer.toHexString(b & 0xFF) + ":");
+                    res1.append(String.format("%02X:", b));
+                }
+
+                if (res1.length() > 0) {
+                    res1.deleteCharAt(res1.length() - 1);
+                }
+                wifiAccessPoint.setMAC(res1.toString());
+            }
+        } catch (Exception ignored) {
+        }
+        return wifiList;
+    }
+
+    /*[{"radioType":"gsm","MCC":460,"MNC":0,"lac":9365,"cellid":5132,"Rxlev":204},{"radioType":"gsm","MCC":460,"MNC":0,"lac":9365,"cellid":3823,"Rxlev":188},{"radioType":"gsm","MCC":460,"MNC":0,"lac":9365,"cellid":3821,"Rxlev":187},{"radioType":"gsm","MCC":460,"MNC":0,"lac":9365,"cellid":3831,"Rxlev":179},{"radioType":"gsm","MCC":460,"MNC":0,"lac":9365,"cellid":5131,"Rxlev":171}],"wifiAccessPoints":[{"MAC":"f0:b4:29:d8:3d:47","rssi":-57},{"MAC":"d4:ee:07:2d:f9:ba","rssi":-58},{"MAC":"e4:6f:13:31:06:cc","rssi":-62},{"MAC":"a8:6b:ad:95:04:17","rssi":-65},{"MAC":"30:fc:68:9e:d8:59","rssi":-70}]}*/
+
+    public static ArrayList<CellTower> getModemCell(Context ctx) {
+        //      通过MNC判断
+
+        ArrayList<CellTower> towers = new ArrayList<>();
+        TelephonyManager telManager = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+
+// Type of the network
+        int phoneTypeInt = telManager.getPhoneType();
+        String phoneType = null;
+        phoneType = phoneTypeInt == TelephonyManager.PHONE_TYPE_GSM ? "gsm" : phoneType;
+        phoneType = phoneTypeInt == TelephonyManager.PHONE_TYPE_CDMA ? "cdma" : phoneType;
+        int mcc = 0;
+        int mnc = 0;
+        int lac = 0;
+        int cid = 0;
+
+        //电信2G
+        int sid = 0;
+        int nid = 0;
+        int bid = 0;
+
+        int Latitude = 0;
+        int Longitude = 0;
+        try {
+            @SuppressLint("MissingPermission") CellLocation cel = telManager.getCellLocation();
+            int nPhoneType = telManager.getPhoneType();
+            //电信   CdmaCellLocation
+            if (nPhoneType == 2 && cel instanceof CdmaCellLocation) {
+                Log.d("电信", "-----------------》电信---2G基站");
+                CdmaCellLocation cdmaCellLocation = (CdmaCellLocation) cel;
+                sid = cdmaCellLocation.getSystemId();
+                nid = cdmaCellLocation.getNetworkId();
+                bid = cdmaCellLocation.getBaseStationId();
+                Latitude = cdmaCellLocation.getBaseStationLatitude();
+                Longitude = cdmaCellLocation.getBaseStationLongitude();
+
+            }
+            Timber.e("2G基站一次来了-sid =" + sid + "\t nid =" + nid + "\t bid =" + bid + "\t Latitude =" + Latitude + "\t Longitude =" + Longitude);
+        } catch (Exception e) {
+            Timber.e("---Modem2Utils-----e=" + e);
+        }
+        // 获取所有基站信息
+        @SuppressLint("MissingPermission") List<CellInfo> infos = telManager.getAllCellInfo();
+        if (infos != null) {
+            Timber.e("附近基站个数是=" + infos.size());
+            //   Log.d(TAG, "附近基站信息是=" + infos);
+
+            for (CellInfo i : infos) { // 根据邻区总数进行循环
+                CellTower cellTower = new CellTower();
+                if (i instanceof CellInfoLte) {
+                    //        Log.d(TAG, "附近有效注册LTE基站信息是" + i.toString());
+                    CellInfoLte cellInfoLte = (CellInfoLte) i;
+
+                    CellIdentityLte cellIdentity = cellInfoLte.getCellIdentity();
+                    CellSignalStrengthLte cellrsp = cellInfoLte.getCellSignalStrength();
+                    int rsp = cellrsp.getDbm();
+
+
+                    boolean isUse = cellInfoLte.isRegistered();
+
+                    if (isUse) {
+                        Timber.e("Effective registration of LTE base station information is " + cellIdentity.toString());
+
+                        Timber.e("中国电信4G MCC = " + mcc + "\t MNC = " + mnc + "\t LAC = " + lac + "\t CID = " + cid + "\t DBM = " + rsp);
+                    }
+                    lac = cellIdentity.getTac();
+                    cid = cellIdentity.getPci();
+                    cellIdentity.getMobileNetworkOperator();
+                    cellTower.setMCC(cellIdentity.getMccString());
+                    cellTower.setMNC(cellIdentity.getMncString());
+                    cellTower.setLac(lac);
+                    cellTower.setCellid(cid);
+                    cellTower.setRadioType(phoneType);
+                    cellTower.setRxlev(rsp);
+                    towers.add(cellTower);
+                }
+            }
+        }
+        return towers;
     }
 }
