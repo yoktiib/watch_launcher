@@ -52,6 +52,7 @@ public class WearerInfoUtils {
     public String getImei(Context mContext) {
         if (imei == null || imei.isEmpty()) initWearerInfoUtils(mContext);
         return imei;
+        //return "869301030031654";
     }
 
     public String getPlatform() {

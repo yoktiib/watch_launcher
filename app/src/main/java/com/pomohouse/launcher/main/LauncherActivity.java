@@ -182,6 +182,17 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
 
+/*
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d("Launcher", "keycode: " + keyCode);
+        viewPager.onKeyDown( keyCode, event);
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+onK*/
     @Override
     public void requestGPSLocation() {
         Timber.e("requestGPSLocation");

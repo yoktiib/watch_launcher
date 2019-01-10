@@ -3,6 +3,7 @@ package com.pomohouse.launcher.main;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.KeyEvent;
 
 import com.pomohouse.launcher.fragment.contacts.ContactFragment;
 import com.pomohouse.launcher.fragment.main.MainFragment;
@@ -53,5 +54,8 @@ public class LauncherHorizontalPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return 3;
+    }
+
+    public void dispatchKeyEvent(KeyEvent event) {
     }
 }

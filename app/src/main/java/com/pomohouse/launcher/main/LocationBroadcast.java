@@ -4,10 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -56,7 +59,11 @@ public class LocationBroadcast extends BroadcastReceiver {
     private SensorManager mSensorManager;
     private ISettingManager iSettingManager;
     private final String TAG = LocationBroadcast.class.getName();
-    private  Context mContext;
+    private Context mContext;
+
+    WifiManager wifiManager;
+    WifiBroadcastReceiver wifiReceiver;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO Auto-generated method stub
@@ -66,6 +73,7 @@ public class LocationBroadcast extends BroadcastReceiver {
         iFitnessPrefManager = new FitnessPrefManagerImpl(context);
         iEventPrefManager = new EventPrefManagerImpl(context);
         initLocation(context);
+
         /*Intent serviceIntent = new Intent(context, LocationService.class);
         context.startService(serviceIntent);*/
     }
@@ -104,20 +112,29 @@ public class LocationBroadcast extends BroadcastReceiver {
      */
     AMapLocationListener locationListener = location -> {
         if (null != location) {
-            Log.e(TAG, "Location :: " + location.getLatitude() + " : " + location.getLongitude());
-            //   <PMHStart><147><K8><357450080116409><1.1><ILU><{"accuracy":25.0,"lat":19.039446,"lng":99.931521,"locationType":5,"power":45.0,"step":0}><234><PMHEnd>"
-            LocationUpdateRequest locationData = new LocationUpdateRequest();
-            locationData.setAccuracy(location.getAccuracy());
-            locationData.setLat(location.getLatitude());
-            locationData.setLng(location.getLongitude());
-            locationData.setLocationType(location.getLocationType());
-            requestEventInterval(locationData);
-            if (locationClient != null) {
-                locationClient.stopLocation();
-                locationClient.disableBackgroundLocation(true);
-                locationClient = null;
+            if (location.getLatitude() != 0.0 && location.getLongitude() != 0.0) {
+                Log.e(TAG, "Location :: " + location.getLatitude() + " : " + location.getLongitude());
+                //   <PMHStart><147><K8><357450080116409><1.1><ILU><{"accuracy":25.0,"lat":19.039446,"lng":99.931521,"locationType":5,"power":45.0,"step":0}><234><PMHEnd>"
+                LocationUpdateRequest locationData = new LocationUpdateRequest();
+                locationData.setAccuracy(location.getAccuracy());
+                locationData.setLat(location.getLatitude());
+                locationData.setLng(location.getLongitude());
+                locationData.setWifiAccessPoint(new ArrayList<>());
+                locationData.setLocationType(location.getLocationType());
+                requestEventInterval(locationData);
+                if (locationClient != null) {
+                    locationClient.stopLocation();
+                    locationClient.disableBackgroundLocation(true);
+                    locationClient = null;
+                }
+            } else {
+                //Instantiate broadcast receiver
+                wifiReceiver = new WifiBroadcastReceiver();
+                //Register the receiver
+                if (mContext != null)
+                    mContext.registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
             }
-            //     new Handler().postDelayed(this::initLocation, iSettingManager.getSetting().getPositionTiming() * 1000);
         }
     };
 
@@ -146,7 +163,6 @@ public class LocationBroadcast extends BroadcastReceiver {
         if (iEventPrefManager != null)
             locationInfo.setEventList(new Gson().toJson(iEventPrefManager.getEvent().getListEvent()));
         locationInfo.setCellTower(getModemCell(mContext));
-        locationInfo.setWifiAccessPoint(getMacAddr());
         if (now - mLastStepTime < (iSettingManager.getSetting().getStepSyncTiming() * 1000)) {
 
             //wifiAccessPoints
@@ -210,9 +226,40 @@ public class LocationBroadcast extends BroadcastReceiver {
         return 0;
     }
 
-    public static ArrayList<WifiAccessPoint> getMacAddr() {
-        ArrayList<WifiAccessPoint> wifiList= new ArrayList<>();
-        try {
+    //Define class to listen to broadcasts
+    class WifiBroadcastReceiver extends BroadcastReceiver {
+        public void onReceive(Context context, Intent intent) {
+            ArrayList<WifiAccessPoint> wifiList = new ArrayList<>();
+            Log.d(TAG, "onReceive()");
+            boolean ok = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false);
+            if (ok) {
+                Log.d(TAG, "scan OK");
+                List<ScanResult> results = wifiManager.getScanResults();
+                for (ScanResult wifi : results) {
+                    WifiAccessPoint accessPoint = new WifiAccessPoint();
+                    accessPoint.setMAC(wifi.BSSID);
+                    accessPoint.setRssi(wifi.level);
+                    wifiList.add(accessPoint);
+                }
+            } else Log.d(TAG, "scan not OK");
+            LocationUpdateRequest locationData = new LocationUpdateRequest();
+            locationData.setWifiAccessPoint(wifiList);
+            requestEventInterval(locationData);
+        }
+    }
+
+    public ArrayList<WifiAccessPoint> getMacAddress() {
+        WifiManager wifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
+        List<ScanResult> results = wifiManager.getScanResults();
+
+        ArrayList<WifiAccessPoint> wifiList = new ArrayList<>();
+        for (ScanResult wifi : results) {
+            WifiAccessPoint accessPoint = new WifiAccessPoint();
+            accessPoint.setMAC(wifi.BSSID);
+            accessPoint.setRssi(wifi.level);
+            wifiList.add(accessPoint);
+        }
+        /*try {
             List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
             for (NetworkInterface nif : all) {
                 WifiAccessPoint wifiAccessPoint = new WifiAccessPoint();
@@ -235,7 +282,7 @@ public class LocationBroadcast extends BroadcastReceiver {
                 wifiAccessPoint.setMAC(res1.toString());
             }
         } catch (Exception ignored) {
-        }
+        }*/
         return wifiList;
     }
 
@@ -249,20 +296,19 @@ public class LocationBroadcast extends BroadcastReceiver {
 
 // Type of the network
         int phoneTypeInt = telManager.getPhoneType();
-        String phoneType = null;
-        phoneType = phoneTypeInt == TelephonyManager.PHONE_TYPE_GSM ? "gsm" : phoneType;
+        String phoneType = phoneTypeInt == TelephonyManager.PHONE_TYPE_GSM ? "gsm" : "";
         phoneType = phoneTypeInt == TelephonyManager.PHONE_TYPE_CDMA ? "cdma" : phoneType;
         int mcc = 0;
         int mnc = 0;
         int lac = 0;
         int cid = 0;
-
+        /*
         //电信2G
         int sid = 0;
         int nid = 0;
         int bid = 0;
 
-        int Latitude = 0;
+         int Latitude = 0;
         int Longitude = 0;
         try {
             @SuppressLint("MissingPermission") CellLocation cel = telManager.getCellLocation();
@@ -276,12 +322,11 @@ public class LocationBroadcast extends BroadcastReceiver {
                 bid = cdmaCellLocation.getBaseStationId();
                 Latitude = cdmaCellLocation.getBaseStationLatitude();
                 Longitude = cdmaCellLocation.getBaseStationLongitude();
-
             }
             Timber.e("2G基站一次来了-sid =" + sid + "\t nid =" + nid + "\t bid =" + bid + "\t Latitude =" + Latitude + "\t Longitude =" + Longitude);
         } catch (Exception e) {
             Timber.e("---Modem2Utils-----e=" + e);
-        }
+        }*/
         // 获取所有基站信息
         @SuppressLint("MissingPermission") List<CellInfo> infos = telManager.getAllCellInfo();
         if (infos != null) {

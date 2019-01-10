@@ -74,7 +74,6 @@ public class VerticalViewPager extends ViewGroup {
      * If the app changes this when we don't expect it, we'll throw a big obnoxious exception.
      */
     private int mExpectedAdapterCount;
-
     static class ItemInfo {
         Object object;
         int position;

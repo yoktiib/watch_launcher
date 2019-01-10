@@ -2,14 +2,14 @@ package com.pomohouse.launcher.api.requests;
 
 public class WifiAccessPoint {
 
-    private String rssi;
+    private int rssi;
     private String MAC;
 
-    public String getRssi() {
+    public int getRssi() {
         return rssi;
     }
 
-    public void setRssi(String rssi) {
+    public void setRssi(int rssi) {
         this.rssi = rssi;
     }
 

@@ -25,6 +25,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 
 import com.google.gson.Gson;
@@ -273,5 +274,11 @@ public abstract class BaseLauncherActivity extends LocalizationActivity {
             if (CombineObjectConstance.getInstance().isAutoAnswer())
                 soundPoolManager.ringingMode(this, volume);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        return super.onKeyDown(keyCode, event);
     }
 }
