@@ -10,7 +10,7 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -19,7 +19,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae8147e5-22f7-4ecd-baa9-d87053bb8d09" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/KeyDownListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileContent/fileContent.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileContent/fileContent.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" afterDir="false" />
@@ -34,15 +33,8 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RxSocketClient/src/main/java/moe/codeest/rxsocketclient/SocketClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/RxSocketClient/src/main/java/moe/codeest/rxsocketclient/SocketClient.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/api/requests/WifiAccessPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/api/requests/WifiAccessPoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/base/BaseLauncherActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/base/BaseLauncherActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherHorizontalPagerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherHorizontalPagerAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/api/requests/CellTower.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/api/requests/CellTower.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LocationBroadcast.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LocationBroadcast.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/component/src/main/java/com/pomohouse/component/pager/HorizontalViewPager.java" beforeDir="false" afterPath="$PROJECT_DIR$/component/src/main/java/com/pomohouse/component/pager/HorizontalViewPager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/component/src/main/java/com/pomohouse/component/pager/VerticalViewPager.java" beforeDir="false" afterPath="$PROJECT_DIR$/component/src/main/java/com/pomohouse/component/pager/VerticalViewPager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library/src/main/java/com/pomohouse/library/WearerInfoUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/library/src/main/java/com/pomohouse/library/WearerInfoUtils.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -118,8 +110,17 @@
       <file leaf-file-name="LocationBroadcast.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LocationBroadcast.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="228" column="42" selection-start-line="228" selection-start-column="42" selection-end-line="228" selection-end-column="42" />
+            <state relative-caret-position="255">
+              <caret line="361" column="45" selection-start-line="361" selection-start-column="45" selection-end-line="361" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CellTower.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/api/requests/CellTower.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="30" column="26" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -127,8 +128,8 @@
       <file leaf-file-name="MenuFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/menu/MenuFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="34" column="14" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
+            <state relative-caret-position="240">
+              <caret line="32" selection-start-line="32" selection-end-line="32" />
             </state>
           </provider>
         </entry>
@@ -136,38 +137,8 @@
       <file leaf-file-name="LauncherActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="101" column="20" lean-forward="true" selection-start-line="101" selection-start-column="20" selection-end-line="101" selection-end-column="20" />
-              <folding>
-                <element signature="e#32149#32187#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="HorizontalViewPager.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/component/src/main/java/com/pomohouse/component/pager/HorizontalViewPager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="29" column="13" lean-forward="true" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BaseLauncherActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/base/BaseLauncherActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="67" column="38" selection-start-line="67" selection-start-column="38" selection-end-line="67" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LauncherHorizontalPagerAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherHorizontalPagerAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="37" column="19" lean-forward="true" selection-start-line="37" selection-start-column="19" selection-end-line="37" selection-end-column="19" />
+            <state relative-caret-position="254">
+              <caret line="147" column="130" selection-start-line="147" selection-start-column="130" selection-end-line="147" selection-end-column="130" />
             </state>
           </provider>
         </entry>
@@ -185,36 +156,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>runnable</find>
-      <find>UPDATE_CONTACT</find>
-      <find>syncContact</find>
-      <find>ivContactAvatar</find>
-      <find>boxAvatarIcon</find>
-      <find>URT</find>
-      <find>requestContact</find>
-      <find>Timezone :</find>
-      <find>time</find>
-      <find>auto</find>
-      <find>timezo</find>
-      <find>updateTimezone</find>
-      <find>EVENT_APP_TIMEZONE_CODE</find>
-      <find>requestInitialDevice</find>
-      <find>inclass</find>
-      <find>onSendFilterBroadcast</find>
-      <find>setUpInClassModeEnable</find>
-      <find>sendInClassModeLockScreen</find>
-      <find>EVENT_LOCK_IN_CLASS</find>
-      <find>SEND_EVENT_LOCK_IN_CLASS_INTENT</find>
-      <find>onEventReceived</find>
-      <find>LOCK_SCREEN_WITH_IN_CLASS_MODE</find>
-      <find>ivMuteNotification</find>
-      <find>lockScreenInClassModeView</find>
-      <find>ivInClass</find>
-      <find>phoneType</find>
-      <find>mBaseStationLatitude</find>
       <find>imei</find>
-      <find>requestEventInterval</find>
       <find>heart</find>
+      <find>initLocation</find>
+      <find>LocationBroadcast</find>
+      <find>Location</find>
+      <find>wifiReceiver</find>
+      <find>STEP_PERIOD</find>
+      <find>附近基站个数是</find>
+      <find>Effective</find>
+      <find>updateFitnessService</find>
+      <find>startLocation</find>
+      <find>LocationService</find>
+      <find>Lac</find>
+      <find>ignoring STEP_PERIOD until period has elapsed</find>
+      <find>wifiManager</find>
+      <find>getMacAddress()</find>
+      <find>onReceive()</find>
+      <find>locationData</find>
+      <find>getModemCell</find>
+      <find>LocationS</find>
+      <find>requestEventInterval</find>
+      <find>mMccStr</find>
+      <find>CellInfoLte</find>
+      <find>location</find>
+      <find>wifi</find>
+      <find>onReceive</find>
+      <find>locationSe</find>
+      <find>getMacAddress</find>
+      <find>receive</find>
+      <find>startLo</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -6931,21 +6902,21 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/presenter/LauncherPresenterImpl.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/api/requests/TimezoneUpdateRequest.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/api/requests/CellTowers.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/api/requests/CellTower.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/api/requests/WifiLoc.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/api/requests/WifiAccessPoint.java" />
         <option value="$PROJECT_DIR$/library/src/main/java/com/pomohouse/library/WearerInfoUtils.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LocationBroadcast.java" />
         <option value="$PROJECT_DIR$/RxSocketClient/src/main/java/moe/codeest/rxsocketclient/SocketClient.kt" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/menu/MenuFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/lock_screen/LockScreenService.java" />
         <option value="$PROJECT_DIR$/component/src/main/java/com/pomohouse/component/pager/VerticalViewPager.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherHorizontalPagerAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java" />
         <option value="$PROJECT_DIR$/component/src/main/java/com/pomohouse/component/pager/HorizontalViewPager.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/KeyDownListener.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/base/BaseLauncherActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/api/requests/CellTower.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LocationBroadcast.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java" />
       </list>
     </option>
   </component>
@@ -6959,6 +6930,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -7044,18 +7018,6 @@
               <item name="com" type="462c0819:PsiDirectoryNode" />
               <item name="pomohouse" type="462c0819:PsiDirectoryNode" />
               <item name="launcher" type="462c0819:PsiDirectoryNode" />
-              <item name="fragment" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pomo_watch_launcher" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pomo_watch_launcher" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="com" type="462c0819:PsiDirectoryNode" />
-              <item name="pomohouse" type="462c0819:PsiDirectoryNode" />
-              <item name="launcher" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -7107,9 +7069,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -7343,7 +7302,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="0" show_stripe_button="false" weight="0.32941177" />
       <window_info anchor="bottom" id="TODO" order="0" />
@@ -7351,7 +7309,7 @@
       <window_info id="Image Layers" order="0" />
       <window_info id="Build Variants" order="0" sideWeight="0.50153846" side_tool="true" weight="0.32956383" />
       <window_info anchor="right" id="Capture Analysis" order="0" />
-      <window_info anchor="bottom" id="Event Log" order="0" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="0" side_tool="true" weight="0.32941177" />
       <window_info anchor="bottom" id="Run" order="0" weight="0.32941177" />
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Terminal" order="0" weight="0.32941177" />
@@ -7359,8 +7317,8 @@
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" order="0" />
       <window_info id="Designer" order="0" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49846154" visible="true" weight="0.32956383" />
-      <window_info anchor="bottom" id="Build" order="0" visible="true" weight="0.32941177" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49846154" visible="true" weight="0.32956383" />
+      <window_info active="true" anchor="bottom" id="Build" order="0" visible="true" weight="0.32941177" />
       <window_info anchor="right" id="Gradle" order="0" sideWeight="0.4985294" weight="0.32956383" />
       <window_info id="Structure" order="0" sideWeight="0.50153846" side_tool="true" weight="0.32956383" />
       <window_info anchor="right" id="Fabric" order="1" sideWeight="0.4985294" weight="0.32956383" />
@@ -7380,7 +7338,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-field">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java</url>
-          <line>173</line>
+          <line>172</line>
           <properties field="alarmIntent" class="com.pomohouse.launcher.main.LauncherActivity" />
         </line-breakpoint>
       </breakpoints>
@@ -7388,20 +7346,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/ILauncherView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="44" column="24" selection-start-line="44" selection-start-column="9" selection-end-line="44" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/broadcast/receivers/EventReceiver.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-278">
-          <caret line="95" column="39" selection-start-line="95" selection-start-column="30" selection-end-line="95" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/manager/event/EventPrefModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
@@ -7560,24 +7504,10 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/api/requests/CellTower.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="28" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/api/requests/WifiLoc.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="20" column="5" lean-forward="true" selection-start-line="2" selection-start-column="22" selection-end-line="20" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/api/requests/LocationUpdateRequest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="63" column="60" selection-start-line="63" selection-start-column="45" selection-end-line="63" selection-end-column="60" />
         </state>
       </provider>
     </entry>
@@ -7690,20 +7620,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LocationBroadcast.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="228" column="42" selection-start-line="228" selection-start-column="42" selection-end-line="228" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherHorizontalPagerAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="37" column="19" lean-forward="true" selection-start-line="37" selection-start-column="19" selection-end-line="37" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/lock_screen/LockScreenService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -7713,8 +7629,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/fragment/menu/MenuFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="34" column="14" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
+        <state relative-caret-position="240">
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
         </state>
       </provider>
     </entry>
@@ -7727,25 +7643,64 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/component/src/main/java/com/pomohouse/component/pager/HorizontalViewPager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="29" column="13" lean-forward="true" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
+        <state relative-caret-position="285">
+          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/base/BaseLauncherActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="67" column="38" selection-start-line="67" selection-start-column="38" selection-end-line="67" selection-end-column="38" />
+        <state relative-caret-position="690">
+          <caret line="68" column="31" selection-start-line="68" selection-start-column="31" selection-end-line="68" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherHorizontalPagerAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="265">
+          <caret line="33" column="19" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/api/requests/LocationUpdateRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="55" column="16" selection-start-line="55" selection-start-column="16" selection-end-line="55" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/telephony/CellIdentityLte.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="189" column="68" selection-start-line="189" selection-start-column="61" selection-end-line="189" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/api/requests/CellTower.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="30" column="26" selection-start-line="30" selection-start-column="26" selection-end-line="30" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-28/android/telephony/CellIdentityGsm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="99">
+          <caret line="117" column="15" selection-start-line="117" selection-start-column="15" selection-end-line="117" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LocationBroadcast.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="361" column="45" selection-start-line="361" selection-start-column="45" selection-end-line="361" selection-end-column="45" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/pomohouse/launcher/main/LauncherActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="101" column="20" lean-forward="true" selection-start-line="101" selection-start-column="20" selection-end-line="101" selection-end-column="20" />
-          <folding>
-            <element signature="e#32149#32187#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="254">
+          <caret line="147" column="130" selection-start-line="147" selection-start-column="130" selection-end-line="147" selection-end-column="130" />
         </state>
       </provider>
     </entry>

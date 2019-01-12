@@ -2,8 +2,8 @@ package com.pomohouse.launcher.api.requests;
 
 public class CellTower {
     private String radioType;
-    private String MNC;
-    private String MCC;
+    private int MNC;
+    private int MCC;
     private int lac;
     private int Rxlev;
     private int cellid;
@@ -16,19 +16,19 @@ public class CellTower {
         this.radioType = radioType;
     }
 
-    public String getMNC() {
+    public int getMNC() {
         return MNC;
     }
 
-    public void setMNC(String MNC) {
+    public void setMNC(int MNC) {
         this.MNC = MNC;
     }
 
-    public String getMCC() {
+    public int getMCC() {
         return MCC;
     }
 
-    public void setMCC(String MCC) {
+    public void setMCC(int MCC) {
         this.MCC = MCC;
     }
 

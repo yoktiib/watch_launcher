@@ -12,13 +12,20 @@ import android.hardware.SensorManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.telephony.CellIdentityCdma;
+import android.telephony.CellIdentityGsm;
 import android.telephony.CellIdentityLte;
 import android.telephony.CellInfo;
+import android.telephony.CellInfoCdma;
+import android.telephony.CellInfoGsm;
 import android.telephony.CellInfoLte;
 import android.telephony.CellLocation;
+import android.telephony.CellSignalStrengthGsm;
 import android.telephony.CellSignalStrengthLte;
+import android.telephony.NeighboringCellInfo;
 import android.telephony.TelephonyManager;
 import android.telephony.cdma.CdmaCellLocation;
 import android.util.Log;
@@ -42,6 +49,9 @@ import com.pomohouse.launcher.tcp.CMDCode;
 import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 import com.pomohouse.library.manager.ActivityContextor;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,7 +71,6 @@ public class LocationBroadcast extends BroadcastReceiver {
     private final String TAG = LocationBroadcast.class.getName();
     private Context mContext;
 
-    WifiManager wifiManager;
     WifiBroadcastReceiver wifiReceiver;
 
     @Override
@@ -81,13 +90,21 @@ public class LocationBroadcast extends BroadcastReceiver {
     //public static boolean isLocationUpdate = true;
 
     private void initLocation(Context context) {
-        locationClient = new AMapLocationClient(context);
+        /*locationClient = new AMapLocationClient(context);
         locationOption = getDefaultOption();
         //设置定位参数
         locationClient.setLocationOption(locationOption);
         // 设置定位监听
         locationClient.setLocationListener(locationListener);
-        locationClient.startLocation();
+        locationClient.startLocation();*/
+        //Instantiate broadcast receiver
+        LocationUpdateRequest locationData = new LocationUpdateRequest();
+        //wifiReceiver = new WifiBroadcastReceiver();
+        //Register the receiver
+        /*if (mContext != null)
+            mContext.getApplicationContext().registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));*/
+        getMacAddress();
+        //requestEventInterval(locationData);
     }
 
 
@@ -132,7 +149,7 @@ public class LocationBroadcast extends BroadcastReceiver {
                 wifiReceiver = new WifiBroadcastReceiver();
                 //Register the receiver
                 if (mContext != null)
-                    mContext.registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+                    mContext.getApplicationContext().registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
             }
         }
@@ -162,7 +179,8 @@ public class LocationBroadcast extends BroadcastReceiver {
             return;*/
         if (iEventPrefManager != null)
             locationInfo.setEventList(new Gson().toJson(iEventPrefManager.getEvent().getListEvent()));
-        locationInfo.setCellTower(getModemCell(mContext));
+        getCellInfo(mContext);
+        locationInfo.setCellTower(getCellInfo(mContext));
         if (now - mLastStepTime < (iSettingManager.getSetting().getStepSyncTiming() * 1000)) {
 
             //wifiAccessPoints
@@ -231,34 +249,42 @@ public class LocationBroadcast extends BroadcastReceiver {
         public void onReceive(Context context, Intent intent) {
             ArrayList<WifiAccessPoint> wifiList = new ArrayList<>();
             Log.d(TAG, "onReceive()");
-            boolean ok = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false);
-            if (ok) {
-                Log.d(TAG, "scan OK");
-                List<ScanResult> results = wifiManager.getScanResults();
-                for (ScanResult wifi : results) {
-                    WifiAccessPoint accessPoint = new WifiAccessPoint();
-                    accessPoint.setMAC(wifi.BSSID);
-                    accessPoint.setRssi(wifi.level);
-                    wifiList.add(accessPoint);
-                }
-            } else Log.d(TAG, "scan not OK");
+            /*boolean ok = intent.getBooleanExtra(WifiManager.EXTRA_RESULTS_UPDATED, false);
+            if (ok) {*/
+            //Log.d(TAG, "scan OK");
+            WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            List<ScanResult> results = wifiManager.getScanResults();
             LocationUpdateRequest locationData = new LocationUpdateRequest();
+            for (ScanResult wifi : results) {
+                WifiAccessPoint accessPoint = new WifiAccessPoint();
+                accessPoint.setMAC(wifi.BSSID);
+                accessPoint.setRssi(wifi.level);
+                wifiList.add(accessPoint);
+                /*}*/
+                /*} else Log.d(TAG, "scan not OK");*/
+            }
             locationData.setWifiAccessPoint(wifiList);
             requestEventInterval(locationData);
         }
     }
 
     public ArrayList<WifiAccessPoint> getMacAddress() {
+        Log.d(TAG, "onReceive()");
         WifiManager wifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
         List<ScanResult> results = wifiManager.getScanResults();
 
         ArrayList<WifiAccessPoint> wifiList = new ArrayList<>();
+        LocationUpdateRequest locationData = new LocationUpdateRequest();
         for (ScanResult wifi : results) {
             WifiAccessPoint accessPoint = new WifiAccessPoint();
             accessPoint.setMAC(wifi.BSSID);
             accessPoint.setRssi(wifi.level);
             wifiList.add(accessPoint);
+            /*}*/
+            /*} else Log.d(TAG, "scan not OK");*/
         }
+        locationData.setWifiAccessPoint(wifiList);
+        requestEventInterval(locationData);
         /*try {
             List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
             for (NetworkInterface nif : all) {
@@ -287,6 +313,85 @@ public class LocationBroadcast extends BroadcastReceiver {
     }
 
     /*[{"radioType":"gsm","MCC":460,"MNC":0,"lac":9365,"cellid":5132,"Rxlev":204},{"radioType":"gsm","MCC":460,"MNC":0,"lac":9365,"cellid":3823,"Rxlev":188},{"radioType":"gsm","MCC":460,"MNC":0,"lac":9365,"cellid":3821,"Rxlev":187},{"radioType":"gsm","MCC":460,"MNC":0,"lac":9365,"cellid":3831,"Rxlev":179},{"radioType":"gsm","MCC":460,"MNC":0,"lac":9365,"cellid":5131,"Rxlev":171}],"wifiAccessPoints":[{"MAC":"f0:b4:29:d8:3d:47","rssi":-57},{"MAC":"d4:ee:07:2d:f9:ba","rssi":-58},{"MAC":"e4:6f:13:31:06:cc","rssi":-62},{"MAC":"a8:6b:ad:95:04:17","rssi":-65},{"MAC":"30:fc:68:9e:d8:59","rssi":-70}]}*/
+
+    public static ArrayList<CellTower> getCellInfo(Context ctx){
+        TelephonyManager tel = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
+
+        ArrayList<CellTower> towers = new ArrayList<>();
+
+// Type of the network
+        int phoneTypeInt = tel.getPhoneType();
+        String phoneType = null;
+        phoneType = phoneTypeInt == TelephonyManager.PHONE_TYPE_GSM ? "gsm" : phoneType;
+        phoneType = phoneTypeInt == TelephonyManager.PHONE_TYPE_CDMA ? "cdma" : phoneType;
+
+        //from Android M up must use getAllCellInfo
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            List<NeighboringCellInfo> neighCells = tel.getNeighboringCellInfo();
+            for (int i = 0; i < neighCells.size(); i++) {
+                try {
+                    NeighboringCellInfo thisCell = neighCells.get(i);
+                    CellTower cellTower = new CellTower();
+                    /*cellTower.setMCC(thisCell.getm());
+                    cellTower.setMNC(thisCell.getMncString());*/
+                    cellTower.setLac(thisCell.getLac());
+                    cellTower.setCellid(thisCell.getCid());
+                    cellTower.setRadioType(phoneType);
+                    cellTower.setRxlev(thisCell.getRssi());
+                    towers.add(cellTower);
+                    /*JSONObject cellObj = new JSONObject();
+                    cellObj.put("cellId", thisCell.getCid());
+                    cellObj.put("lac", thisCell.getLac());
+                    cellObj.put("rssi", thisCell.getRssi());
+                    cellList.put(cellObj);*/
+                } catch (Exception ignored) {
+                }
+            }
+        } else {
+            List<CellInfo> infos = tel.getAllCellInfo();
+            for (int i = 0; i<infos.size(); ++i) {
+
+                try {
+                    //JSONObject cellObj = new JSONObject();
+                    CellInfo info = infos.get(i);
+                    if (info instanceof CellInfoGsm){
+                        CellSignalStrengthGsm gsm = ((CellInfoGsm) info).getCellSignalStrength();
+                        CellIdentityGsm identityGsm = ((CellInfoGsm) info).getCellIdentity();
+                        /*cellObj.put("cellId", identityGsm.getCid());
+                        cellObj.put("lac", identityGsm.getLac());
+                        cellObj.put("dbm", gsm.getDbm());*/
+                        Timber.e("Log Cell CellInfoGsm");
+                        CellTower cellTower = new CellTower();
+                        cellTower.setMCC(identityGsm.getMcc());
+                        cellTower.setMNC(identityGsm.getMnc());
+                        cellTower.setLac(identityGsm.getLac());
+                        cellTower.setCellid(identityGsm.getCid());
+                        cellTower.setRadioType(phoneType);
+                        cellTower.setRxlev( gsm.getDbm());
+                        towers.add(cellTower);
+                    } else if (info instanceof CellInfoLte) {
+                        Timber.e("Log Cell CellInfoLte");
+                        CellTower cellTower = new CellTower();
+                        CellSignalStrengthLte lte = ((CellInfoLte) info).getCellSignalStrength();
+                        CellIdentityLte identityLte = ((CellInfoLte) info).getCellIdentity();
+
+                        /*cellTower.setMCC(identityLte.getMccString());
+                        cellTower.setMNC(identityLte.getMncString());*/
+                        cellTower.setLac(identityLte.getTac());
+                        cellTower.setCellid(identityLte.getCi());
+                        cellTower.setRadioType(phoneType);
+                        cellTower.setRxlev( lte.getDbm());
+                        towers.add(cellTower);
+                    }
+
+                } catch (Exception ex) {
+
+                }
+            }
+        }
+
+        return towers;
+    }
 
     public static ArrayList<CellTower> getModemCell(Context ctx) {
         //      通过MNC判断
@@ -335,6 +440,15 @@ public class LocationBroadcast extends BroadcastReceiver {
 
             for (CellInfo i : infos) { // 根据邻区总数进行循环
                 CellTower cellTower = new CellTower();
+                if (i instanceof CellInfoLte)
+                    Timber.e("CellInfoLte");
+
+                if (i instanceof CellInfoGsm)
+                    Timber.e("CellInfoGsm");
+
+                if (i instanceof CellInfoCdma)
+                    Timber.e("CellInfoCdma");
+
                 if (i instanceof CellInfoLte) {
                     //        Log.d(TAG, "附近有效注册LTE基站信息是" + i.toString());
                     CellInfoLte cellInfoLte = (CellInfoLte) i;
@@ -353,9 +467,11 @@ public class LocationBroadcast extends BroadcastReceiver {
                     }
                     lac = cellIdentity.getTac();
                     cid = cellIdentity.getPci();
+                    Timber.e("Lac " + cellIdentity.getTac());
+                    Timber.e("Cid " + cellIdentity.getPci());
                     cellIdentity.getMobileNetworkOperator();
-                    cellTower.setMCC(cellIdentity.getMccString());
-                    cellTower.setMNC(cellIdentity.getMncString());
+                    /*cellTower.setMCC(cellIdentity.getMccString());
+                    cellTower.setMNC(cellIdentity.getMncString());*/
                     cellTower.setLac(lac);
                     cellTower.setCellid(cid);
                     cellTower.setRadioType(phoneType);
