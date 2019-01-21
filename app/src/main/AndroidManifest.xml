@@ -126,9 +126,9 @@
 
         <receiver android:name=".main.LocationBroadcast" />
 
-        <meta-data
+        <!--<meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="465faab0eb9caa30daa27e31f05b0c59" />
+            android:value="465faab0eb9caa30daa27e31f05b0c59" />-->
 
     </application>
 

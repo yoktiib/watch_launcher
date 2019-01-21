@@ -30,9 +30,6 @@ import android.telephony.TelephonyManager;
 import android.telephony.cdma.CdmaCellLocation;
 import android.util.Log;
 
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
 import com.google.gson.Gson;
 import com.pomohouse.launcher.api.requests.CellTower;
 import com.pomohouse.launcher.api.requests.LocationUpdateRequest;
@@ -64,8 +61,7 @@ import static android.content.Context.SENSOR_SERVICE;
 
 public class LocationBroadcast extends BroadcastReceiver {
     public static final String REQUEST_LOCATION = "REQUEST_LOCATION";
-    private AMapLocationClient locationClient = null;
-    private AMapLocationClientOption locationOption = null;
+
     private SensorManager mSensorManager;
     private ISettingManager iSettingManager;
     private final String TAG = LocationBroadcast.class.getName();
@@ -90,72 +86,22 @@ public class LocationBroadcast extends BroadcastReceiver {
     //public static boolean isLocationUpdate = true;
 
     private void initLocation(Context context) {
-        locationClient = new AMapLocationClient(context);
+        /*locationClient = new AMapLocationClient(context);
         locationOption = getDefaultOption();
         //设置定位参数
         locationClient.setLocationOption(locationOption);
         // 设置定位监听
         locationClient.setLocationListener(locationListener);
-        locationClient.startLocation();
+        locationClient.startLocation();*/
         //Instantiate broadcast receiver
         //LocationUpdateRequest locationData = new LocationUpdateRequest();
         //wifiReceiver = new WifiBroadcastReceiver();
         //Register the receiver
         /*if (mContext != null)
             mContext.getApplicationContext().registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));*/
-        //getMacAddress();
+        getMacAddress();
         //requestEventInterval(locationData);
     }
-
-
-    private AMapLocationClientOption getDefaultOption() {
-
-        AMapLocationClientOption mOption = new AMapLocationClientOption();
-        mOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Battery_Saving);//可选，设置定位模式，可选的模式有高精度、仅设备、仅网络。默认为高精度模式
-        mOption.setGpsFirst(true);//可选，设置是否gps优先，只在高精度模式下有效。默认关闭
-        mOption.setHttpTimeOut(10000);//可选，设置网络请求超时时间。默认为30秒。在仅设备模式下无效
-        mOption.setNeedAddress(false);//可选，设置是否返回逆地理地址信息。默认是true
-        mOption.setOnceLocation(true);//可选，设置是否单次定位。默认是false
-        mOption.setOnceLocationLatest(true);//可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
-        AMapLocationClientOption.setLocationProtocol(AMapLocationClientOption.AMapLocationProtocol.HTTP);//可选， 设置网络请求的协议。可选HTTP或者HTTPS。默认为HTTP
-        mOption.setSensorEnable(false);//可选，设置是否使用传感器。默认是false
-        mOption.setWifiScan(true); //可选，设置是否开启wifi扫描。默认为true，如果设置为false会同时停止主动刷新，停止以后完全依赖于系统刷新，定位位置可能存在误差
-        mOption.setLocationCacheEnable(true); //可选，设置是否使用缓存定位，默认为true
-        return mOption;
-    }
-
-    /**
-     * 定位监听
-     */
-    AMapLocationListener locationListener = location -> {
-        if (null != location) {
-            //if (location.getLatitude() != 0.0 && location.getLongitude() != 0.0) {
-            Log.e(TAG, "Location :: " + location.getLatitude() + " : " + location.getLongitude());
-            //   <PMHStart><147><K8><357450080116409><1.1><ILU><{"accuracy":25.0,"lat":19.039446,"lng":99.931521,"locationType":5,"power":45.0,"step":0}><234><PMHEnd>"
-            LocationUpdateRequest locationData = new LocationUpdateRequest();
-            locationData.setAccuracy(location.getAccuracy());
-            locationData.setLat(location.getLatitude());
-            locationData.setLng(location.getLongitude());
-            locationData.setWifiAccessPoint(new ArrayList<>());
-            locationData.setLocationType(location.getLocationType());
-
-            //requestEventInterval(locationData);
-            if (locationClient != null) {
-                locationClient.stopLocation();
-                locationClient.disableBackgroundLocation(true);
-                locationClient = null;
-            }
-            getMacAddress();
-            /*} else {
-                //Instantiate broadcast receiver
-                wifiReceiver = new WifiBroadcastReceiver();
-                //Register the receiver
-                if (mContext != null)
-                    mContext.getApplicationContext().registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-
-            }*/
-        }
-    };
 
     /**
      * Start Of Event Function

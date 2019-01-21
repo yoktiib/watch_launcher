@@ -182,7 +182,6 @@
     <orderEntry type="library" name="Gradle: com.android.support:recyclerview-v7-28.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:cursoradapter-28.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:asynclayoutinflater-28.0.0" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:/Users/sirawit/pomo_watch_launcher/app/libs/AMap_Location_V4.3.0_20181016.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.daimajia.easing:library-1.0.1" level="project" />
     <orderEntry type="library" name="Gradle: com.nineoldandroids:library:2.4.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.core:common:1.1.1@jar" level="project" />
