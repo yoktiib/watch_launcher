@@ -1,6 +1,7 @@
 package com.pomohouse.launcher.fragment.contacts;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pomohouse.component.pager.VerticalViewPager;
+import com.pomohouse.launcher.POMOWatchApplication;
 import com.pomohouse.launcher.R;
 import com.pomohouse.launcher.api.requests.AllowCallingRequest;
 import com.pomohouse.launcher.base.BaseFragment;
@@ -23,6 +25,7 @@ import com.pomohouse.launcher.models.contacts.ContactModel;
 import com.pomohouse.launcher.models.events.CallContact;
 import com.pomohouse.launcher.utils.CombineObjectConstance;
 import com.pomohouse.library.WearerInfoUtils;
+import com.pomohouse.library.languages.LanguageSetting;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -91,8 +94,12 @@ public class ContactFragment extends BaseFragment {
     private boolean isCanCall = true;
     Runnable runnable = () -> isCanCall = true;
     OnContactItemClickListener contactItemClickListener = contactModel -> {
+
+        openApp("com.pomohouse.voip",contactModel);
+        /*
         try {
             Timber.e("callType : " + contactModel.getCallType() + " & ID : " + contactModel.getContactId() + " & Phone : " + contactModel.getPhone() + " isCall = " + isCanCall);
+
             if (isCanCall) {
                 isCanCall = false;
                 OutGoingCallReceiver.isSOS = false;
@@ -100,7 +107,7 @@ public class ContactFragment extends BaseFragment {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setData(Uri.parse("tel:" + contactModel.getPhone()));
                 getActivity().startActivity(intent);
-                /*
+                *//*
                 if (contactModel.getCallType().equalsIgnoreCase("C")) {
 
                 } else if (contactModel.getCallType().equalsIgnoreCase("V")) {
@@ -117,15 +124,15 @@ public class ContactFragment extends BaseFragment {
                         callContact.setIsAutoAnswer("N");
                         presenter.sendCalling(callContact);
                     }
-                }*/
-/*
+                }*//*
+*//*
                 if (runnable != null)
                     handler.removeCallbacks(runnable);
-                handler.postDelayed(runnable, 5000);*/
+                handler.postDelayed(runnable, 5000);*//*
             }
         } catch (Exception ignore) {
             Timber.e(ignore.getMessage());
-        }
+        }*/
     };
 
    /* public void openApp(ContactModel contactModel) {
@@ -139,6 +146,33 @@ public class ContactFragment extends BaseFragment {
         i.putExtra("LANG", LanguageSetting.getLanguage());
     }*/
 
+    public boolean openApp(String packageName,ContactModel contactModel) {
+        PackageManager manager = mContext.getPackageManager();
+        Intent i = manager.getLaunchIntentForPackage(packageName);
+        if (i == null) {
+            return false;
+        }
+        i.putExtra("ID", contactModel.getContactId());
+        i.putExtra("TYPE", "CALL");
+        i.putExtra("NAME", contactModel.getName());
+        i.putExtra("AVATAR", contactModel.getAvatar());
+        i.putExtra("AVATAR_TYPE", contactModel.getAvatarType());
+        i.putExtra("PHONE", contactModel.getPhone());
+        i.putExtra("LANG", LanguageSetting.getLanguage());
+
+        i.putExtra("LANGUAGE", LanguageSetting.getLanguage());
+        i.putExtra("IMEI", WearerInfoUtils.getInstance().getImei(mContext));
+        i.putExtra("POMO_VERSION", WearerInfoUtils.getInstance().getPomoVersion());
+        i.putExtra("PLATFORM", WearerInfoUtils.getInstance().getPlatform());
+        if (packageName.contains("takemehome") && POMOWatchApplication.mLocation!=null){
+            i.putExtra("LATITUDE", POMOWatchApplication.mLocation.getLatitude());
+            i.putExtra("LONGITUDE", POMOWatchApplication.mLocation.getLongitude());
+        }
+        i.addCategory(Intent.CATEGORY_LAUNCHER);
+        i.addCategory(Intent.ACTION_MAIN);
+        mContext.startActivity(i);
+        return true;
+    }
     public void notifyDataChangeMissCall() {
         Timber.e("notifyDataChangeMissCall()");
         if (contactCollection.getContactModelList() == null || contactCollection.getContactModelList().size() == 0)

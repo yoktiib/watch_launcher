@@ -182,17 +182,17 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
 
     protected static final int REQUEST_CHECK_SETTINGS = 0x1;
 
-/*
+    /*
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.d("Launcher", "keycode: " + keyCode);
-        viewPager.onKeyDown( keyCode, event);
+        @Override
+        public boolean onKeyDown(int keyCode, KeyEvent event) {
+            Log.d("Launcher", "keycode: " + keyCode);
+            viewPager.onKeyDown( keyCode, event);
 
-        return super.onKeyDown(keyCode, event);
-    }
+            return super.onKeyDown(keyCode, event);
+        }
 
-onK*/
+    onK*/
     @Override
     public void requestGPSLocation() {
         Timber.e("requestGPSLocation");
@@ -231,6 +231,14 @@ onK*/
         WearerInfoUtils.getInstance().initWearerInfoUtils(this);
         //startService(new Intent(this, TCPSocketServiceProvider.class));
         doBindService();
+
+        Intent heartBeat = new Intent(getApplicationContext(), HeartbeatBroadcast.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 112, heartBeat, PendingIntent.FLAG_UPDATE_CURRENT);
+        long startTime = System.currentTimeMillis(); //alarm starts immediately
+        AlarmManager backupAlarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        if (backupAlarmMgr != null) {
+            backupAlarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, startTime, 60 * 2 * 1000, alarmIntent); // alarm will repeat after every 15 minutes
+        }
 
         presenter.provideThemeManager(themeManager);
         presenter.provideEventManager(iEventPrefManager);

@@ -129,8 +129,8 @@ public final class InternetObservingSettings {
      */
     public final static class Builder {
         private int initialInterval = 0;
-        private int interval = 3 * 60 * 1000;
-        private String host = "http://clients3.google.com/generate_204";
+        private int interval = 2 * 60 * 1000;
+        private String host = "http://myjollywatch.com";
         private int port = 80;
         private int timeout = 2000;
         private int httpResponse = HttpURLConnection.HTTP_NO_CONTENT;

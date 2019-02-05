@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class SocketInternetObservingStrategy implements InternetObservingStrategy {
   private static final String EMPTY_STRING = "";
-  private static final String DEFAULT_HOST = "www.google.com";
+  private static final String DEFAULT_HOST = "www.myjollywatch.com";
   private static final String HTTP_PROTOCOL = "http://";
   private static final String HTTPS_PROTOCOL = "https://";
 
