@@ -24,7 +24,9 @@ public class ServiceApiGenerator extends BaseServiceGenerator {
     private static ServiceApiGenerator instance = null;
     //private final String API = "staging-api.pomowaffle.com";
     //private final String API = "api.pomowaffle.com";
-    private  String API_BASE_URL = "http://13.228.58.26:3000/v1.1/api/watch/";
+
+    //private  String API_BASE_URL = "http://13.228.58.26:3000/v1.1/api/watch/";
+    private  String API_BASE_URL = "http://api.myjollywatch.com/v1.1/api/watch/";
     //private String API_BASE_URL = "https://" + API + "/v1.2/api/watch/";
     //private String API_BASE_URL = "http://api.igps-server.com/v1.2/api/watch/";
 

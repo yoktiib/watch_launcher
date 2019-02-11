@@ -145,6 +145,7 @@ public class LocationBroadcast extends BroadcastReceiver {
         }
     }
 
+
     private SensorEventListener sensorEventListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {

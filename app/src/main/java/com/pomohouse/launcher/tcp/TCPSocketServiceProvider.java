@@ -64,7 +64,9 @@ public class TCPSocketServiceProvider extends Service {
     private static final long INTERVAL_INCREASE = 1000 * 2;
     private static final long INTERVAL_INITIAL_RETRY = 1000 * 8;
     private static final long INTERVAL_MAXIMUM_RETRY = 1000 * 40;
-    private static final String IP = "13.228.58.26";
+    private static final String IP = "api.myjollywatch.com";
+    //private static final String IP = "203.151.93.176";
+    //http://203.151.93.176:3000/v1.1/api/app/
     //private static final String IP = "178.128.27.215";
     //private static final String IP = "203.151.93.176";
     private static final int PORT = 4848;
