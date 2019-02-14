@@ -1,3 +1,4 @@
+/*
 package com.pomohouse.launcher.main;
 
 import android.content.BroadcastReceiver;
@@ -37,8 +38,11 @@ public class HeartbeatBroadcast extends BroadcastReceiver {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-        /*Intent serviceIntent = new Intent(context, LocationService.class);
-        context.startService(serviceIntent);*/
+        */
+/*Intent serviceIntent = new Intent(context, LocationService.class);
+        context.startService(serviceIntent);*//*
+
 
     }
 }
+*/

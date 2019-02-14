@@ -232,6 +232,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         //startService(new Intent(this, TCPSocketServiceProvider.class));
         doBindService();
 
+/*
         Intent heartBeat = new Intent(getApplicationContext(), HeartbeatBroadcast.class);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 112, heartBeat, PendingIntent.FLAG_UPDATE_CURRENT);
         long startTime = System.currentTimeMillis(); //alarm starts immediately
@@ -239,6 +240,7 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
         if (backupAlarmMgr != null) {
             backupAlarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, startTime, 60 * 2 * 1000, alarmIntent); // alarm will repeat after every 15 minutes
         }
+*/
 
         presenter.provideThemeManager(themeManager);
         presenter.provideEventManager(iEventPrefManager);

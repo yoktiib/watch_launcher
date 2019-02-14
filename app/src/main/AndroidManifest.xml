@@ -125,7 +125,7 @@
         <service android:name=".tcp.TCPSocketServiceProvider" />
 
         <receiver android:name=".main.LocationBroadcast" />
-        <receiver android:name=".main.HeartbeatBroadcast" />
+        <!--<receiver android:name=".main.HeartbeatBroadcast" />-->
 
         <!--<meta-data
             android:name="com.amap.api.v2.apikey"

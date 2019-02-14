@@ -43,6 +43,10 @@ import com.pomohouse.launcher.tcp.TCPSocketServiceProvider;
 import com.pomohouse.library.manager.ActivityContextor;
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,7 +134,7 @@ public class LocationBroadcast extends BroadcastReceiver {
             locationInfo.setPower(getPowerLevel());
             TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_EVENT_AND_LOCATION, new Gson().toJson(locationInfo));
             mLastLocationTime = now;
-
+            onK8ManageNet();
         } else {
             Timber.e("updateFitnessService");
             updateFitnessService();
@@ -141,7 +145,29 @@ public class LocationBroadcast extends BroadcastReceiver {
                 TCPSocketServiceProvider.getInstance().sendLocation(CMDCode.CMD_EVENT_AND_LOCATION, new Gson().toJson(locationInfo));
                 mLastStepTime = now;
                 mLastLocationTime = now;
+                onK8ManageNet();
             }, 5000);
+        }
+    }
+
+    public void onK8ManageNet(){
+
+        try {
+            java.lang.Process process = Runtime.getRuntime().exec("system/bin/qmi_ap2cp_cmd");
+            StringBuilder stringBuffer = new StringBuilder();
+            InputStream is = process.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                stringBuffer.append(line);
+            }
+            process.waitFor();
+            is.close();
+            reader.close();
+            process.destroy();
+            Log.i(LocationBroadcast.class.getName(), "" + stringBuffer.toString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
         }
     }
 

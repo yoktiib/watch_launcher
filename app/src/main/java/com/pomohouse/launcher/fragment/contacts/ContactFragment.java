@@ -30,6 +30,7 @@ import com.pomohouse.library.languages.LanguageSetting;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -95,8 +96,7 @@ public class ContactFragment extends BaseFragment {
     Runnable runnable = () -> isCanCall = true;
     OnContactItemClickListener contactItemClickListener = contactModel -> {
 
-        openApp("com.pomohouse.voip",contactModel);
-        /*
+        /*openApp("com.pomohouse.voip",contactModel);*/
         try {
             Timber.e("callType : " + contactModel.getCallType() + " & ID : " + contactModel.getContactId() + " & Phone : " + contactModel.getPhone() + " isCall = " + isCanCall);
 
@@ -106,9 +106,9 @@ public class ContactFragment extends BaseFragment {
                 Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setData(Uri.parse("tel:" + contactModel.getPhone()));
-                getActivity().startActivity(intent);
-                *//*
-                if (contactModel.getCallType().equalsIgnoreCase("C")) {
+                Objects.requireNonNull(getActivity()).startActivity(intent);
+
+                /*if (contactModel.getCallType().equalsIgnoreCase("C")) {
 
                 } else if (contactModel.getCallType().equalsIgnoreCase("V")) {
                     Timber.e("family : " + (!contactModel.getContactType().equalsIgnoreCase("family")));
@@ -124,15 +124,15 @@ public class ContactFragment extends BaseFragment {
                         callContact.setIsAutoAnswer("N");
                         presenter.sendCalling(callContact);
                     }
-                }*//*
-*//*
+                }*/
+
                 if (runnable != null)
                     handler.removeCallbacks(runnable);
-                handler.postDelayed(runnable, 5000);*//*
+                handler.postDelayed(runnable, 5000);
             }
         } catch (Exception ignore) {
             Timber.e(ignore.getMessage());
-        }*/
+        }
     };
 
    /* public void openApp(ContactModel contactModel) {

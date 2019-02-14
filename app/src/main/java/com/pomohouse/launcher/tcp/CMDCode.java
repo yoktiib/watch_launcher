@@ -18,7 +18,7 @@ public class CMDCode {
     public static final String CMD_LOCATION_UPDATE = "ILU";
     public static final String CMD_SETTING_EVENT = "UST";
     public static final String CMD_EVENT_AND_LOCATION = "ULT";
-    public static final String CMD_UPDATE_HEARTBEAT = "UTH";
+    //public static final String CMD_UPDATE_HEARTBEAT = "UTH";
 
    /* Here are the CMD for now.
             init device = QID
