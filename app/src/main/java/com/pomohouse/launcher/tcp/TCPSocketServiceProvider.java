@@ -221,8 +221,8 @@ public class TCPSocketServiceProvider extends Service {
     public void connectConnection() {
         Timber.e("create Connection");
         isConnecting = true;
-        final byte[] HEART_BEAT = ("<PMHStart><00109><K8><" + WearerInfoUtils.getInstance().getImei(this) + "><1.0><UTH><{}><168><PMHEnd>").getBytes();
-        mSocket = RxSocketClient.create(new SocketConfig.Builder().setIp(IP).setPort(PORT).setCharset(Charset.forName("UTF-8")).setThreadStrategy(ThreadStrategy.ASYNC).setTimeout(INTERVAL_TIME_OUT).setDelayTime(INTERVAL_INITIAL_RETRY).setMaxDelayTime(INTERVAL_MAXIMUM_RETRY).setIncreaseDelayTime(INTERVAL_INCREASE).build()).option(new SocketOption.Builder().setHeartBeat(HEART_BEAT, INTERVAL_KEEP_ALIVE)/*.setHead(HEAD).setTail(TAIL)*/.build());
+        //final byte[] HEART_BEAT = ("<PMHStart><00109><K8><" + WearerInfoUtils.getInstance().getImei(this) + "><1.0><UTH><{}><168><PMHEnd>").getBytes();
+        mSocket = RxSocketClient.create(new SocketConfig.Builder().setIp(IP).setPort(PORT).setCharset(Charset.forName("UTF-8")).setThreadStrategy(ThreadStrategy.ASYNC).setTimeout(INTERVAL_TIME_OUT).setDelayTime(INTERVAL_INITIAL_RETRY).setMaxDelayTime(INTERVAL_MAXIMUM_RETRY).setIncreaseDelayTime(INTERVAL_INCREASE).build()).option(new SocketOption.Builder()/*.setHeartBeat(HEART_BEAT, INTERVAL_KEEP_ALIVE).setHead(HEAD).setTail(TAIL)*/.build());
         if (ref != null && !ref.isDisposed()) ref.dispose();
         ref = mSocket.connect().observeOn(AndroidSchedulers.mainThread()).subscribe(new SocketSubscriber() {
 

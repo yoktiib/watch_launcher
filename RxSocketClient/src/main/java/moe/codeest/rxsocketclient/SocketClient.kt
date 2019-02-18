@@ -54,7 +54,7 @@ class SocketClient(val mConfig: SocketConfig) {
     fun connect(): Observable<DataWrapper> {
         mObservable = SocketObservable(mConfig, mSocket)
         mIPoster = if (mConfig.mThreadStrategy == ThreadStrategy.ASYNC) AsyncPoster(this, mExecutor) else SyncPoster(this, mExecutor)
-        initHeartBeat()
+        //initHeartBeat()
         return mObservable
     }
 
