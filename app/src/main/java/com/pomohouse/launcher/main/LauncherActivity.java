@@ -737,22 +737,22 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     }
 
     /**
-     * Start Silent Mode : Set mute all sound in the watch
+     * Start Silent Mode : Set silent all sound in the watch
      */
     @Override
     public void onEnableSilentMode() {
-        SettingPrefModel settingPrefModel = settingManager.getSetting();
+        /*SettingPrefModel settingPrefModel = settingManager.getSetting();
         settingPrefModel.setSilentMode(true);
         settingManager.addMiniSetting(settingPrefModel);
-        super.enableSilentMode();
+        super.enableSilentMode();*/
     }
 
     @Override
     public void onDisableSilentMode() {
-        SettingPrefModel settingPrefModel = settingManager.getSetting();
+        /*SettingPrefModel settingPrefModel = settingManager.getSetting();
         settingPrefModel.setSilentMode(false);
         settingManager.addMiniSetting(settingPrefModel);
-        super.disableSilentMode();
+        super.disableSilentMode();*/
     }
 
     @Override
@@ -768,22 +768,22 @@ public class LauncherActivity extends BaseLauncherActivity implements ILauncherV
     @Override
     public void enableAutoAnswer() {
         CombineObjectConstance.getInstance().setAutoAnswer(true);
-        Settings.System.putInt(this.getContentResolver(), "AUTO_ANSWER_ON", 1);
+        /*Settings.System.putInt(this.getContentResolver(), "AUTO_ANSWER_ON", 1);
         Intent intent = new Intent(SEND_AUTO_ANSWER_CALL_INTENT);
         intent.putExtra(EVENT_EXTRA, new Gson().toJson(new AutoAnswerDao().setAutoAnswer("Y")));
         sendBroadcast(intent);
-        modifyVolumeChanged(settingManager.getSetting());
+        modifyVolumeChanged(settingManager.getSetting());*/
     }
 
 
     @Override
     public void disableAutoAnswer() {
         CombineObjectConstance.getInstance().setAutoAnswer(false);
-        Settings.System.putInt(this.getContentResolver(), "AUTO_ANSWER_ON", 0);
+        /*Settings.System.putInt(this.getContentResolver(), "AUTO_ANSWER_ON", 0);
         Intent intent = new Intent(SEND_AUTO_ANSWER_CALL_INTENT);
         intent.putExtra(EVENT_EXTRA, new Gson().toJson(new AutoAnswerDao().setAutoAnswer("N")));
         sendBroadcast(intent);
-        modifyVolumeChanged(settingManager.getSetting());
+        modifyVolumeChanged(settingManager.getSetting());*/
     }
 
     /**
